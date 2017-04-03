@@ -1,0 +1,72 @@
+{
+  "name": "frontend",
+  "version": "0.0.0",
+  "dependencies": {
+    "angular-animate": "~1.5.8",
+    "angular-cookies": "~1.5.8",
+    "angular-touch": "~1.5.8",
+    "angular-sanitize": "~1.5.8",
+    "angular-messages": "~1.5.8",
+    "angular-aria": "~1.5.8",
+    "jquery": "~3.1.0",
+    "restangular": "~1.5.2",
+    "angular-ui-router": "~0.3.1",
+    "bootstrap": "^3.3.7",
+    "angular-bootstrap": "^2.0.0",
+    "moment": "~2.14.1",
+    "animate.css": "~3.5.2",
+    "angular": "~1.5.8",
+    "AngularJS-Toaster": "angularjs-toaster#^2.0.0",
+    "angular-slick-carousel": "^3.1.6",
+    "ui-select": "angular-ui-select#^0.16.1",
+    "font-awesome-less": "^0.1.0",
+    "lodash": "^4.14.0",
+    "angular-translate": "^2.11.1",
+    "angular-translate-loader-static-files": "^2.11.1",
+    "angular-translate-loader-url": "^2.11.1",
+    "angular-translate-storage-cookie": "^2.11.1",
+    "angular-dynamic-locale": "^0.1.32",
+    "angular-local-storage": "^0.2.7",
+    "angular-moment": "^0.10.3",
+    "angular-smart-table": "^2.1.8",
+    "textAngular": "^1.5.2",
+    "ng-file-upload": "~12.0.4",
+    "angular-jwt": "^0.1.7",
+    "angularjs-slider": "^5.4.1",
+    "angular-chart.js": "^0.10.2",
+    "angular-addthis": "^0.2.4",
+    "angular-stripe-checkout": "^5.1.0",
+    "auth0-lock": "^10.5.1",
+    "angular-lock": "^1.0.5",
+    "angular-bootstrap-lightbox": "^0.12.0"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.5.8"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/fonts/glyphicons-halflings-regular.eot",
+        "dist/fonts/glyphicons-halflings-regular.svg",
+        "dist/fonts/glyphicons-halflings-regular.ttf",
+        "dist/fonts/glyphicons-halflings-regular.woff",
+        "dist/fonts/glyphicons-halflings-regular.woff2"
+      ]
+    },
+    "slick-carousel": {
+      "main": [
+        "slick/slick.js",
+        "slick/slick.css",
+        "slick/slick-theme.css",
+        "slick/slick.less",
+        "slick/slick.scss"
+      ]
+    }
+  },
+  "resolutions": {
+    "jquery": "~3.1.0",
+    "angular": "~1.5.8",
+    "moment": "~2.14.1"
+  }
+}

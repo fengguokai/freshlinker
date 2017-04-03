@@ -1,0 +1,112 @@
+<div class="container">
+    <form action="">
+        <div class="row accountHead">
+            <div class="col-xs-12">
+                <h3 class="title">
+                    {{'account.bill' | translate}}
+                </h3>
+                <p class="content">FreshLinker {{'message.credit_card_each_account_ensure_absolute_security' | translate}}。</p>
+
+            </div>
+            <!--/.col-->
+        </div>
+        <div class="account row">
+            <div class="accountLeft col-md-3 col-sm-12 col-xs-12">
+                <div class="content">
+                    <div class="button">
+                        <a href="" class="btn btn-success accountSub" ui-sref="enterprise-auth.company.company-dashboard({companyId: consumeCtrl.companyId})">
+                            {{ 'enterprise.dashboard' | translate }}
+                        </a>
+
+                        <a href="" type="button" class="btn btn-default" ng-show="false">
+                            {{'global.download' | translate}}
+                        </a>
+                    </div>
+                    <ul class="editList list-unstyled">
+                        <li class="list">
+                            <a href="" ui-sref="enterprise-auth.company.account({companyId: consumeCtrl.companyId})">{{'account.recharge_record' | translate}}</a>
+                        </li>
+                        <li class="list active">
+                            <a href="" ui-sref="enterprise-auth.company.consume({companyId: consumeCtrl.companyId})">{{'account.expenses_record' | translate}}</a>
+                        </li>
+                    </ul>
+                    <div class="searchForm">
+                        <h5>{{'search.dashboard_search_position' | translate}}</h5>
+                        <div class="form-group">
+                            <input type="date" placeholder="{{'account.account_started_time' | translate}}" ng-required="true" ng-model="consumeCtrl.filter.startedDate">
+                        </div>
+                        <div class="form-group">
+                            <input type="date" placeholder="{{'account.account_ended_time' | translate}}" ng-required="true" ng-model="consumeCtrl.filter.endedDate">
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn" ng-click="consumeCtrl.searchConsume()">{{'button.determine' | translate}}</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--/.col-->
+            <div class="accountRight col-md-9 col-sm-12 col-xs-12">
+                <div ng-if="!consumeCtrl.changeTabLoading">
+                    <div class="loading text-center" ng-show="consumeCtrl.loading && consumeCtrl.consumeLoading">
+                        <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                    </div>
+                    <div ng-show="!consumeCtrl.loading">
+                        <ul class="list-unstyled accountRightUl" ng-show="!consumeCtrl.consumeLoading && consumeCtrl.consumes.length > 0">
+                            <li class="row list title text-center">
+                                <div class="col-md-3 col-sm-3 col-xs-6">
+                                    {{'account.created_time' | translate}}
+                                </div>
+                                <!--/.col-->
+                                <div class="col-md-4 col-sm-4 col-xs-6">
+                                    {{'account.bill_num' | translate}}
+                                </div>
+                                <!--/.col-->
+                                <div class="col-md-3 col-sm-3 col-xs-6">
+                                    {{'account.bill_price' | translate}}
+                                </div>
+                                <!--/.col-->
+                                <div class="col-md-2 col-sm-2 col-xs-6">
+                                    {{'account.buy_plan_package_num' | translate}}
+                                </div>
+                                <!--/.col-->
+                            </li>
+                            <div st-table="consumeCtrl.consumes" st-safe-src="consumeCtrl.consumes" st-pipe="consumeCtrl.callServer">
+                                <li class="row list text-center" ng-repeat="item in consumeCtrl.consumes">
+                                    <div class="col-md-3 col-sm-3 col-xs-6">
+                                        {{item.billedAt | date: 'yyyy-MM-dd'}}
+                                    </div>
+                                    <!--/.col-->
+                                    <div class="col-md-4 col-sm-4 col-xs-6">
+                                        {{item.description}}
+                                    </div>
+                                    <!--/.col-->
+                                    <div class="col-md-3 col-sm-3 col-xs-6">
+                                        {{item.currency}}
+                                    </div>
+                                    <!--/.col-->
+                                    <div class="col-md-2 col-sm-2 col-xs-6">
+                                        {{item.amount}}
+                                    </div>
+                                    <!--/.col-->
+                                </li>
+                                <!-- page -->
+                                <div class="page text-center" st-current-page="consumeCtrl.filter.page"
+                                     st-template="app/shared/override/smart-table/pagination.html"
+                                     st-next-prev-pagination=""
+                                     st-pagination-action="consumeCtrl.paginationAction"
+                                     st-items-by-page="consumeCtrl.itemsByPage">
+                                </div>
+                            </div>
+                        </ul>
+                        <div class="noAccount text-center" ng-show="!consumeCtrl.consumeLoading && consumeCtrl.consumes.length === 0">
+                            {{'message.credit_card_no_recharge_account' | translate}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/.col-->
+        </div>
+    </form>
+</div>
+

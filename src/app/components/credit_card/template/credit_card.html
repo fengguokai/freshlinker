@@ -1,0 +1,87 @@
+<div class="container">
+    <form class="form-horizontal">
+        <div class="row credit">
+            <div class="head">
+                <h3 class="title">
+                    {{'credit.credit_card_anagement' | translate}}
+                </h3>
+                <p class="content">
+                    FreshLinker {{'message.credit_card_each_account_ensure_absolute_security' | translate}}
+                    <a href="" ui-sref="main.contact">{{'message.credit_card_contact_us' | translate}}</a>
+                </p>
+            </div>
+            <div class="creditLeft col-md-7 col-sm-12 col-xs-12">
+                <h4 class="title">{{'credit.now_credit_card' | translate}}</h4>
+                <p class="subTitle">
+                    {{'message.credit_card_set_default_card' | translate}}
+                </p>
+                <div class="loading text-center" ng-show="creditCtrl.loading">
+                    <i class="fa fa-3x fa-spinner fa-spin"></i>
+                </div>
+
+                <ul class="creditLeftList list-unstyled" ng-show="!creditCtrl.loading">
+                    <li class="row list" ng-repeat="credit in creditCtrl.credits">
+                        <div class="img col-md-2 col-sm-2 col-xs-3">
+                            <img src="../../assets/img/Credit_Card.png" alt="" class="img-responsive">
+                        </div>
+                        <!--/.col-->
+                        <div class="text col-md-6 col-sm-6 col-xs-9">
+                            <strong>{{credit.name}}</strong>
+                            <div class="time">{{credit.country}} Express ending in {{credit.exp_month}}/{{credit.exp_year}}</div>
+                        </div>
+                        <!--/.col-->
+                        <div class="button col-md-3 col-sm-3 col-xs-6 text-right">
+                            <a href="" class="btn" ng-class="{'btn-success': !credit.default_source, 'btn-default': credit.default_source}" type="button" ng-click="creditCtrl.setDefaultCredit(credit.id)">{{'credit.set_default' | translate}}</a>
+                        </div>
+                        <!--/.col-->
+                        <div class="closed col-md-1 col-sm-1 col-xs-2">
+                            <a href="" class="btn" type="button" ng-click="creditCtrl.destory(credit.id)">
+                                <i class="fa fa-close"></i>
+                            </a>
+                        </div>
+                        <!--/.col-->
+                    </li>
+                    <li class="button text-right">
+                        <a href="" ui-sref="enterprise-auth.company.company-dashboard({companyId: creditCtrl.companyId})" type="button" class="btn btn-default">{{'button.return' | translate}}</a>
+                        <a href="" ui-sref="enterprise-auth.company.recharge({companyId: creditCtrl.companyId})" type="button" class="btn btn-success">{{'credit.go_recharge' | translate}}</a>
+                    </li>
+                </ul>
+
+            </div>
+            <!--/.col-->
+            <div class="col-md-5 col-sm-12 col-xs-12 creditRight">
+                <div class="creditRightContent">
+                    <h4 class="title">{{'credit.add_credit_card' | translate}}</h4>
+                    <p class="subTitle">
+                        {{'message.credit_card_will_not_be_charged' | translate}}
+                    </p>
+                    <div class="form-group row item">
+                        <div class="col-xs-12 button text-center">
+                            <button type="submit" class="btn btn-success"
+                                    stripe-checkout="creditCtrl.submit()"
+                                    data-key="pk_test_kJKIXsNywYXIM7XDfgwRmV6q"
+                                    data-image="/assets/img/logo128x128.png"
+                                    data-name="FreshLinker"
+                                    data-panel-label="Update Card Details"
+                                    data-label="Update Card Details"
+                                    data-allow-remember-me=false
+                                    data-locale="auto"
+                            >
+                                <span ng-show="!creditCtrl.addLoading">
+                                    {{'button.add' | translate}}
+                                </span>
+                                <span ng-show="creditCtrl.addLoading">
+                                    <i class="fa fa-spinner fa-spin"></i>
+                                </span>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <!--/.col-->
+        </div>
+    </form>
+</div>

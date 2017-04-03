@@ -1,0 +1,462 @@
+section.hotPosition, section.hotDiscuss, section.hotActive {
+  div.header {
+    padding-top: 20px;
+  }
+}
+
+
+.slick-dots li.slick-active button:before, .slick-dots li:hover button:before, .slick-dots li:focus button:before {
+  opacity: .75;
+  color: @brand-success;
+}
+
+.slick-dots li button:before, .slick-dots li:visited button:before {
+  color: @brand-danger;
+  opacity: .75;
+}
+
+.slick-dots li button {
+  background-color: #ccc;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+}
+
+.slick-dots li button:before,
+.slick-dots li:visited button:before  {
+  color: transparent;
+  width: 15px;
+  height: 15px;
+}
+
+.slick-dots li.slick-active button:before,
+.slick-dots li:hover button:before,
+.slick-dots li:focus button:before {
+  color: transparent;
+  background-color: @brand-success;
+  border-radius: 50%;
+}
+
+
+
+.carousel {
+  .slick-slider {
+    margin-bottom: 0;
+  }
+
+  .slick-dots {
+    bottom: 20px;
+    li {
+      margin-right: 20px;
+      button:before {
+        font-size: 10px;
+      }
+    }
+  }
+
+  .slick-dots li button {
+    background-color: #ccc;
+    border-radius: 50%;
+    width: 17px;
+    height: 17px;
+  }
+
+  .slick-dots li button:before,
+  .slick-dots li:visited button:before  {
+    color: transparent;
+    width: 17px;
+    height: 17px;
+  }
+
+  .slick-dots li.slick-active button:before,
+  .slick-dots li:hover button:before,
+  .slick-dots li:focus button:before {
+    color: transparent;
+    background-color: @brand-success;
+    border-radius: 50%;
+  }
+
+}
+
+@media (min-width: @screen-lg-min) {}
+
+
+@media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+}
+
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {}
+
+@media (max-width: @screen-xs-max) {
+  .carousel-indicators li {
+    display: none;
+  }
+}
+
+
+// loading
+div.loading {
+  padding: 50px 0;
+  color: @brand-danger;
+}
+
+
+// hotPosition
+
+section.hotPosition {
+  padding-top: 20px;
+  div.noPosition {
+    font-size: @font-size-h4;
+    padding: 80px;
+    background-color: @gray-lighter;
+  }
+  div.hotPositionContent {
+    padding-top: 20px;
+    .row {
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .slick-dots {
+      bottom: -20px;
+    }
+    .List {
+      padding: 10px;
+      border-right: 1px solid @gray-lighter;
+      div.top {
+        height: 30px;
+        line-height: 30px;
+        i {
+          color: @brand-primary;
+          font-size: @font-size-h3;
+          padding-right: 10px;
+        }
+        span {
+          color: @brand-danger;
+        }
+      }
+      fieldset {
+        padding: 5px 0;
+        img {
+          display:  block;
+          margin: 0 auto;
+        }
+      }
+      h5.title {
+        font-weight: normal;
+        font-size: 15px;
+        .text-overflow();
+        a {
+          color: @gray-dark;
+        }
+      }
+      p.position {
+        .text-overflow();
+        span {
+          a {
+            color: @brand-info;
+            font-size: 15px;
+          }
+        }
+      }
+    }
+    .List:last-child {
+      border-right: 0;
+    }
+  }
+}
+
+
+
+// /.carousel
+
+// .hotDiscuss
+
+.hotDiscuss {
+  div.noPosition {
+    font-size: @font-size-h4;
+    padding: 80px;
+    background-color: @gray-lighter;
+  }
+  .content {
+    padding-top: 20px;
+  }
+    div.hotDiscussContent {
+      margin: 0;
+    }
+    div.hotDiscussLeft {
+      div.hotDiscussLeftList,
+      div.hotDiscussLeftTop {
+        position: relative;
+        p.title {
+          width: 100%;
+          padding: 0 10px;
+          .text-overflow();
+          color: @body-bg;
+          position: absolute;
+          bottom: 0;
+          height: 38px;
+          line-height: 38px;
+          margin: 0;
+          background-color: rgba(30, 81, 128, 0.7);
+          .text-overflow();
+          a {
+            color: @body-bg;
+          }
+        }
+      }
+
+      div.hotDiscussLeftTop,div.hotDiscussLeftList {
+        margin-bottom: 10px;
+      }
+
+      div.hotDiscussLeftTop {
+        div.img {
+          img {
+            display: block;
+            margin: 0 auto;
+            max-height: 425px;
+          }
+        }
+      }
+
+      div.hotDiscussLeftList {
+        div.img {
+          img {
+            display: block;
+            margin: 0 auto;
+            max-height: 160px;
+          }
+        }
+      }
+
+
+    }
+
+
+ 
+div.hotDiscussRight{
+  div.hotDiscussRightList{
+    border: 1px solid @gray-light-2x;
+    margin: 0;
+    margin-bottom: 20px;
+  }
+  div.hotDiscussRightList{
+    div.hotDiscussRightListImg {
+        padding-left: 0;
+        padding-right: 0;
+      a {
+        img {
+           max-height: 160px;
+          display: block;
+          margin: 0 auto;
+        }
+      }
+    }
+    div.hotDiscussRightListContent{
+      h4.title {
+        color: @brand-info;
+        .text-overflow();
+        font-size: @font-size-base;
+      }
+      a{
+        color: @brand-info;
+      }
+      ul.tags {
+        li.tag {
+          span{
+            padding: 1px 8px;
+            font-size: 12px;
+            display: block;
+            text-align: center;
+            border-radius: 3px;
+            margin-bottom: 10px;
+            font-weight: bolder;
+            max-width: 64px;
+            .text-overflow();
+          }
+        }
+      }
+      
+    }
+    
+  }
+}
+
+
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max){
+  div.hotDiscussRight{
+    div.hotDiscussRightList{
+      div.hotDiscussRightListImg {
+          text-align: center;
+      }
+    }
+  }
+}
+  }
+
+  @media (max-width: @screen-xs-max) {
+    div.hotDiscussItem {
+      div.other {
+        ul.keyList {
+          text-align: left;
+        }
+      }
+    }
+  }
+  @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+    div.hotDiscussItem {
+      div.other {
+        ul.keyList {
+          text-align: left;
+        }
+      }
+    }
+
+  }
+  @media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+
+  }
+  @media (min-width: @screen-lg-min) {
+
+  }
+
+
+
+
+// /.hotDiscuss
+
+// .hotActive
+
+.hotActive {
+  padding: 30px 0;
+  article.hotActiveContent {
+    padding: 10px 18px;
+    .hotActiveList {
+      width: 100%;
+      border: 1px solid @gray-light-2x;
+      margin: 0 10px 10px 0;
+      .img {
+        display: block;
+        margin: 0 auto;
+      }
+      h5.title {
+        border-bottom: 4px solid @gray-light-2x;
+        height: 38px;
+        line-height: 38px;
+        margin: 0;
+        padding: 0 10px;
+        .text-overflow();
+        a {
+          color: @gray;
+        }
+        a:hover {
+          color: @brand-info;
+        }
+      }
+
+      div.content {
+        padding: 10px;
+        time {
+          color: @gray-light;
+        }
+
+        div.text {
+          line-height: 1.6;
+          padding: 10px 0;
+          color: @gray-light;
+        }
+
+      }
+
+    }
+
+  }
+  @media (max-width: @screen-xs-max) {
+  }
+  @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+    article.hotActiveContent {
+      div.li {
+        div.contentText {
+          p.text {
+            height: 60px;
+          }
+        }
+      }
+
+    }
+
+  }
+  @media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+
+  }
+  @media (min-width: @screen-lg-min) {
+
+  }
+}
+
+  // /.hotActive
+
+  // .keyWords
+
+  section.keyWords {
+    padding-bottom: 30px;
+    h4 {
+      color: @gray-light;
+      height: 40px;
+      line-height: 40px;
+    }
+  }
+
+// /.keyWords
+
+
+// .cooperation
+div.cooperation{
+  div.cooperationTitle{
+    border-top: 1px solid @gray-lighter;
+    padding-top: 40px;
+    margin-top: 60px;
+    span{
+      font-size: 32px;
+      margin-right: 35px;
+      color: @brand-danger;
+      padding-bottom: 30px;
+    }
+
+    span.active {
+      color: @gray-base;
+      position: relative;
+      i.left{
+        display: block;
+        width: 65px;
+        height: 4px;
+        background: #000;
+        position: absolute;
+        left: 50%;
+        margin-left: -32px;
+      }
+    }
+  }
+
+  ul {
+    li {
+      padding-bottom: 30px;
+      img {
+        margin: 0 auto;
+      }
+    }
+  }
+
+  .nav-tabs{
+    border: 0;
+  }
+
+  .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
+    border: 0;
+  }
+}
+// /.cooperation
+
+
+
+
+

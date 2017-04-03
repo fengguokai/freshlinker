@@ -1,0 +1,363 @@
+<div class="container">
+  <div ng-include="'app/components/dashboard_tabs/template/dashboard.tabs.html'"></div>
+  <form action="">
+    <div class="companyPositionList row">
+        <div class="col-md-3 col-sm-12 col-xs-12 companyPositionListLeft">
+          <div class="content">
+            <div class="button">
+              <a href="" class="btn btn-success sub" ui-sref="enterprise-auth.company.company_positions_create({companyId: listCtrl.companyId})">
+                {{ 'company.publish_position' | translate }}
+              </a>
+            </div>
+            <ul class="editList list-unstyled">
+              <li class="list" ng-repeat="item in listCtrl.positionStatus" ng-class="{'active': item.id === listCtrl.positionIndex}">
+                <a href="" ng-click="listCtrl.positionTab(item.id)">{{item.name | translate}}</a>
+              </li>
+            </ul>
+            <div class="searchForm">
+              <h5>{{'search.dashboard_search_position' | translate}}</h5>
+
+                <div class="form-group">
+                  <input type="text" placeholder="{{'message.position_name_input' | translate}}" ng-required="true" ng-model="listCtrl.filter.search">
+                </div>
+                <div class="form-group">
+                  <button type="button" class="btn" ng-click="listCtrl.searchPosition()">{{'button.determine' | translate}}</button>
+                </div>
+
+            </div>
+
+          </div>
+          <!--/.companyPositionListLeft-->
+        </div>
+        <div class="col-md-9 col-sm-12 col-xs-12 companyPositionListRight">
+            <div class="text-center loading" ng-show="listCtrl.changeTabLoading">
+              <i class="fa fa-spinner fa-pulse fa-3x"></i>
+            </div>
+              <div ng-if="!listCtrl.changeTabLoading">
+                <div class="text-center loading" ng-show="listCtrl.tableLoading && listCtrl.positionLoading">
+                  <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                </div>
+                <div ng-show="!listCtrl.tableLoading">
+                  <div ng-show="listCtrl.positions.length === 0 && !listCtrl.positionLoading" class="noPosition row">
+                    <div class="col-md-3 col-sm-3 col-xs-12 col-sm-offset-2">
+                      <img src="../../assets/img/no_position_message.png" alt="" class="img-responsive">
+                    </div>
+                    <!--/.col-->
+                    <div class="col-md-5 col-sm-5 col-xs-12 text">
+                      <p>
+                        {{'message.no_position_message' | translate}}
+                        <br>
+                        {{'message.no_position_tips_message' | translate}}
+                        <br>
+                        <span>{{'global.go_ahead' | translate}}</span>
+                        <a href="" ui-sref="enterprise-auth.company.company_positions_create({companyId: listCtrl.companyId})">
+                          {{ 'company.publish_position' | translate }}
+                        </a>
+                      </p>
+                    </div>
+                    <!--/.col-->
+                  </div>
+                  <div st-table="listCtrl.positions" st-safe-src="listCtrl.positions"
+                       st-pipe="listCtrl.callServer" ng-show="listCtrl.positions.length > 0 && !listCtrl.positionLoading">
+                    <div class="itemList" ng-repeat="row in listCtrl.positions">
+                      <div class="row item">
+                        <div class="list col-sm-2 col-xs-4">
+                          <p class="positionName">
+                            <a ui-sref="main.show-position({id: row.id})">{{row.name}}</a>
+                          </p>
+                          <p class="time">{{row.createdAt | date: 'yyyy-MM-dd'}}</p>
+                        </div>
+                        <!--/.col-->
+                        <div class="list col-sm-2 col-xs-4">
+                          <p class="salary">
+                              <span class="positionSalary" ng-show="row.minSalary === 0 && row.maxSalary === 0">
+                              {{'position.negotiation' | translate}}
+                              </span>
+                              <span class="positionSalary" ng-show="row.minSalary > 0 && row.maxSalary > 0">
+                              {{row.minSalary}}-{{row.maxSalary}}
+                              </span>
+                          </p>
+                          <p class="tips">
+                            {{row.salaryType}} ({{'global.money' | translate}})
+                          </p>
+                        </div>
+                        <!--/.col-->
+                        <div class="list col-sm-2 col-xs-4">
+                          <p class="expiredDate">
+                            {{row.expiredDate}}
+                          </p>
+                          <p class="tips">
+                            {{'position.expiredDate' | translate}}
+                          </p>
+                        </div>
+                        <!--/.col-->
+
+                        <div class="btn-user checkList col-sm-2 col-xs-4" uib-dropdown>
+                          <div class="btn-group" uib-dropdown is-open="status.isopen">
+                            <button id="" type="button" class="btn btn-sucess submit" uib-dropdown-toggle
+                                    ng-disabled="disabled">
+                              <i class="fa fa-edit"></i>
+                            </button>
+                            <ul class="dropdown-menu" uib-dropdown-menu role="menu"
+                                aria-labelledby="education-button" ng-show="listCtrl.filter.active === true">
+                              <li role="menuitem">
+                                <a ui-sref="enterprise-auth.company.company_positions_edit({companyId: row.companyId, positionId: row.id})" nodrag>
+                                  <i class="fa fa-pencil">{{'button.edit' | translate}}</i>
+                                </a>
+                              </li>
+                              <li class="divider"></li>
+                              <li role="menuitem">
+                                <a ng-really-message="Are you sure?" ng-click="listCtrl.downlinePosition(row.id)" href=""
+                                   nodrag>
+                                  {{'global.offline' | translate}}
+                                </a>
+                              </li>
+                              <li class="divider"></li>
+                              <li role="menuitem">
+                                <a ng-really-message="Are you sure?" nodrag ng-click="listCtrl.deletePosition(row.id)"
+                                   href="">
+                                  <i class="fa fa-times"></i>
+                                  {{ 'button.remove' | translate }}
+                                </a>
+                              </li>
+                            </ul>
+                            <ul class="dropdown-menu" uib-dropdown-menu role="menu"
+                                aria-labelledby="education-button" ng-show="listCtrl.filter.active === false">
+                              <li role="menuitem">
+                                <a ng-really-message="Are you sure?" nodrag ng-click="listCtrl.backOnlinePosition(row.id, 'offline')" href="">
+                                  <i class="fa fa-times"></i>
+                                  {{ 'position.back_online_position' | translate }}
+                                </a>
+                              </li>
+                              <li class="divider"></li>
+                              <li role="menuitem">
+                                <a ng-really-message="Are you sure?" nodrag ng-click="listCtrl.deletePosition(row.id)"
+                                   href="">
+                                  <i class="fa fa-times"></i>
+                                  {{ 'button.remove' | translate }}
+                                </a>
+                              </li>
+
+                            </ul>
+                            <ul class="dropdown-menu" uib-dropdown-menu role="menu"
+                                aria-labelledby="education-button" ng-show="listCtrl.currentDate > row.expiredDate">
+                              <li role="menuitem">
+                                <a ng-really-message="Are you sure?" nodrag ng-click="listCtrl.backOnlinePosition(row.id, 'expired')" href="">
+                                  <i class="fa fa-times"></i>
+                                  {{ 'position.back_online_position' | translate }}
+                                </a>
+                              </li>
+                              <li class="divider"></li>
+                              <li role="menuitem">
+                                <a ng-really-message="Are you sure?" nodrag ng-click="listCtrl.deletePosition(row.id)"
+                                   href="">
+                                  <i class="fa fa-times"></i>
+                                  {{ 'button.remove' | translate }}
+                                </a>
+                              </li>
+
+                            </ul>
+                          </div>
+                          <p class="text text-center">
+                            {{'button.edit' | translate}}
+                          </p>
+                        </div>
+                        <!--/.col-->
+                        <div class="boost col-sm-2 col-xs-4 checkList">
+                          <a ui-sref="enterprise-auth.company.job_offer({companyId: row.companyId})">
+                            <p class="boost">
+                              <span></span>
+                            </p>
+                            <p class="text text-center">
+                              Boost it
+                            </p>
+                          </a>
+                        </div>
+                        <!--/.col-->
+                        <div class="checkList last col-md-2 col-sm-2 col-xs-4">
+                          <a ui-sref="main.show-position({id: row.id})">
+                            <p class="icon">
+                              <span></span>
+                            </p>
+                            <p class="text text-center">
+                              {{'global.check' | translate}}
+                            </p>
+                          </a>
+                          <a class="checkList listDown text-center" ng-click="listCtrl.showChart($index)">
+                            <p class="icon">
+                              <i class="fa fa-angle-down" ng-show="!row.selected"></i>
+                              <i class="fa fa-angle-up" ng-show="row.selected"></i>
+                            </p>
+                          </a>
+                        </div>
+                        <!--/.col-->
+                      </div>
+
+                      <div ng-show="row.selected">
+                        <div class="text-center chartLoading col-xs-12" ng-show="listCtrl.chartLoading ">
+                          <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                        </div>
+                        <div ng-show="row.candidateNum === 0 && !listCtrl.chartLoading" class="noCandidate row">
+                          <div class=" col-md-2 col-sm-3 col-xs-5 col-md-offset-3 col-sm-offset-2 col-xs-offset-1">
+                            <img src="../../assets/img/no_position_message.png" alt="" class="img-responsive">
+                          </div>
+                          <!--/.col-->
+                          <div class="col-md-4 col-sm-5 col-xs-5 text">
+                            <p>
+                              {{'message.no_candidate_message' | translate}}
+                              <br>
+                              {{'message.no_candidate_tips_message' | translate}}
+                              <br>
+                              <span>{{'global.go_ahead' | translate}}</span>
+                              <a href="" ui-sref="enterprise-auth.company.company_positions_create({companyId: listCtrl.companyId})">
+                                {{ 'company.publish_position' | translate }}
+                              </a>
+                            </p>
+                          </div>
+                          <!--/.col-->
+                        </div>
+                        <div ng-show="row.candidateNum > 0 && !listCtrl.chartLoading">
+                          <slick settings="listCtrl.chartSlick" ng-if="row.experienceChartData.length > 0">
+                          <div class="row positionChart">
+                            <div class="col-md-7 col-lg-7 col-sm-10">
+                              <div class="chart-pie">
+                                <p class="text-center title">
+                                  {{'user.profile.experience' | translate}}
+                                </p>
+                                <p class="text-center hidden-xs hidden-sm">
+                                  <span><strong>{{row.candidateNum}}</strong><i>{{'global.people_num' | translate}}</i></span>
+                                </p>
+                                <canvas id="pie_experience" class="chart chart-pie"
+                                        chart-data="row.experienceChartData" chart-labels="row.experienceChartLabels" chart-legend="true" >
+
+                                </canvas>
+
+                              </div>
+                            </div>
+                            <!--/.col-->
+                          </div>
+
+                          <div class="row positionChart">
+                            <div class="text-center chartLoading col-xs-12" ng-show="listCtrl.chartLoading ">
+                              <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                            </div>
+                            <div class="col-md-7 col-lg-7 col-sm-10" ng-show="!listCtrl.chartLoading">
+                              <div class="chart-pie">
+                                <p class="text-center title">
+                                  {{'user.profile.education' | translate}}
+                                </p>
+                                <p class="text-center hidden-xs hidden-sm">
+                                  <span><strong>{{row.candidateNum}}</strong><i>{{'global.people_num' | translate}}</i></span>
+                                </p>
+                                <canvas id="pie_education" class="chart chart-pie"
+                                        chart-data="row.educationChartData" chart-labels="row.educationChartLabels" chart-legend="true" >
+
+                                </canvas>
+
+                              </div>
+                            </div>
+                            <!--/.col-->
+                          </div>
+
+                          <div class="row positionChart">
+                            <div class="text-center chartLoading col-xs-12" ng-show="listCtrl.chartLoading ">
+                              <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                            </div>
+                            <div ng-show="!listCtrl.chartLoading">
+                              <div class="noChart text-center col-xs-12" ng-show="!listCtrl.isSkill">
+                                {{'message.company_no_accept_skill' | translate}}
+                              </div>
+                              <div class="col-md-7 col-lg-7 col-sm-10"  ng-show="listCtrl.isSkill">
+                                <div class="chart-pie">
+                                  <p class="text-center title">
+                                    {{'user.profile.skill' | translate}}
+                                  </p>
+                                  <p class="text-center hidden-xs hidden-sm">
+                                    <span><strong>{{row.candidateNum}}</strong><i>{{'global.people_num' | translate}}</i></span>
+                                  </p>
+                                  <canvas id="pie_skill" class="chart chart-pie"
+                                          chart-data="row.skillChartData" chart-labels="row.skillChartLabels" chart-legend="true" >
+
+                                  </canvas>
+
+                                </div>
+                              </div>
+                              <!--/.col-->
+                            </div>
+                          </div>
+
+                          <div class="row positionChart">
+                            <div class="text-center chartLoading col-xs-12" ng-show="listCtrl.chartLoading ">
+                              <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                            </div>
+                            <div ng-show="!listCtrl.chartLoading">
+                              <div class="noChart text-center" ng-show="!listCtrl.isSchool">
+                                {{'message.company_no_accept_school' | translate}}
+                              </div>
+                              <div class="col-md-7 col-lg-7 col-sm-10"  ng-show="listCtrl.isSchool">
+                                <div class="chart-pie" id="pie_school_content">
+                                  <p class="text-center title">
+                                    {{'user.profile.school' | translate}}
+                                  </p>
+                                  <p class="text-center hidden-xs hidden-sm">
+                                    <span><strong>{{row.candidateNum}}</strong><i>{{'global.people_num' | translate}}</i></span>
+                                  </p>
+                                  <canvas id="pie_school" class="chart chart-pie"
+                                          chart-data="row.schoolChartData" chart-labels="row.schoolChartLabels" chart-legend="true" >
+
+                                  </canvas>
+
+                                </div>
+                              </div>
+                              <!--/.col-->
+                            </div>
+                          </div>
+
+                          <div class="row positionChart">
+                            <div class="text-center chartLoading col-xs-12" ng-show="listCtrl.chartLoading ">
+                              <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                            </div>
+                            <div ng-show="!listCtrl.chartLoading">
+                              <div class="noChart text-center col-xs-12" ng-show="!listCtrl.isSubject">
+                                {{'message.company_no_accept_subject' | translate}}
+                              </div>
+                              <div class="col-md-7 col-lg-7 col-sm-10" ng-show="listCtrl.isSubject">
+                                <div class="chart-pie">
+                                  <p class="text-center title">
+                                    {{'user.profile.subject' | translate}}
+                                  </p>
+                                  <p class="text-center hidden-xs hidden-sm">
+                                    <span><strong>{{row.candidateNum}}</strong><i>{{'global.people_num' | translate}}</i></span>
+                                  </p>
+                                  <canvas id="pie_subject" class="chart chart-pie"
+                                          chart-data="row.subjectChartData" chart-labels="row.subjectChartLabels" chart-legend="true" >
+
+                                  </canvas>
+
+                                </div>
+                              </div>
+                              <!--/.col-->
+                            </div>
+                          </div>
+
+                        </slick>
+                        </div>
+                      </div>
+                    </div>
+                    <!--/.col-->
+                    <!-- page -->
+                    <div class="page text-center" st-current-page="listCtrl.filter.page"
+                         st-template="app/shared/override/smart-table/pagination.html"
+                         st-next-prev-pagination=""
+                         st-pagination-action="listCtrl.paginationAction"
+                         st-items-by-page="listCtrl.itemsByPage">
+                    </div>
+                  </div>
+                </div>
+                <!--/.positionManage-->
+              </div>
+        </div>
+      <!--/.companyPositionListRight-->
+    </div>
+  </div>
+</form>

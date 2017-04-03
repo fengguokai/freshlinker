@@ -1,0 +1,45 @@
+<div class="dialog">
+    <form class="form-horizontal education" name="Form" ng-submit="selectCtrl.selectRoleplan()">
+        <div class="modal-header">
+            <button type="button" class="close" aria-label="Close" ng-click="selectCtrl.cancel()"><span
+                    aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title"><i class="fa fa-pencil-square-o"></i>{{'user.profile.select_role_plan' | translate}}</h4>
+        </div>
+        <!-- /.model-header -->
+        <div class="modal-body roleUser">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group input text-center">
+                        <label>
+                            <input type="radio" name="company" value="lite" ng-model="selectCtrl.post" ng-checked="selectCtrl.post === 'lite'"> {{'company_type.lite' | translate}}
+                        </label>
+                        <label>
+                            <input type="radio" name="company" value="premium" ng-model="selectCtrl.post" ng-checked="selectCtrl.post === 'premium'"> {{'company_type.premium' | translate}}
+                        </label>
+                        <label>
+                            <input type="radio" name="company" value="profession" ng-model="selectCtrl.post" ng-checked="selectCtrl.post === 'profession'"> {{'company_type.profession' | translate}}
+                        </label>
+                        <label>
+                            <input type="radio" name="company" value="standard" ng-model="selectCtrl.post" ng-checked="selectCtrl.post === 'standard'"> {{'company_type.standard' | translate}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.model-body -->
+
+        <div class="modal-footer">
+            <button type="submit" ng-click="selectCtrl.selectRoleplan()"
+                    class="btn btn-success">
+                <span><i class="fa fa-check"></i> {{ 'button.yes' | translate }}</span>
+            </button>
+            <button type="button" class="btn btn-default" ng-click="selectCtrl.cancel()"><i
+                    class="fa fa-close"></i>
+                {{ 'button.no' | translate }}
+            </button>
+        </div>
+        <!-- /.model-footer -->
+    </form>
+</div>

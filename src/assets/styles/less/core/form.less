@@ -1,0 +1,28 @@
+//Form
+form .ng-dirty.ng-invalid {
+  border-color: @brand-danger;
+  color: @brand-danger;
+}
+form .no-validate {
+  border: 1px solid @gray-darker !important;
+  color: @gray-dark !important;
+}
+
+//form .ng-dirty.ng-valid {
+//  border-color: @brand-success;
+//  color: @brand-success;
+//}
+
+*[ng-messages] {
+  color: @brand-danger;
+}
+
+.form-control-focus(@color: @input-border-focus) {
+  @color-rgba: rgba(red(@color), green(@color), blue(@color), 0);
+  &:focus {
+    border-color: @body-bg;
+    outline: 0;
+    .box-shadow(~"inset 0 1px 1px rgba(0,0,0,0), 0 0 8px @{color-rgba}");
+  }
+}
+

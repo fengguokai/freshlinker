@@ -1,0 +1,17 @@
+<div class="row" ng-controller="UserTabsController as userTabsCtrl">
+    <div class="col-xs-12 text-center">
+        <ul class="profileTabs list-inline">
+
+            <li class="list"><a ng-class="{'active': userTabsCtrl.user === 'dashboard'}" ui-sref="main-auth.userDashboard">{{'navbar.user_person' | translate}}</a></li>
+
+            <li class="list"><a ng-class="{'active': userTabsCtrl.user === 'profile'}" ui-sref="main-auth.profile">{{'user.profile.my_profile' | translate}}</a></li>
+            <li class="list"><a ng-class="{'active': userTabsCtrl.user === 'position'}" ui-sref="main-auth.positions">{{'enterprise.position_management' | translate}}</a>
+            </li>
+            <li class="list"><a ng-class="{'active': userTabsCtrl.user === 'resume'}" ui-sref="main-auth.user-resume">{{'user.profile.preview_resume' | translate}}</a>
+            </li>
+            <li class="list"><a ng-class="{'active': userTabsCtrl.user === 'job_invite'}" ui-sref="main-auth.job-invite">{{'enterprise.position_offer' | translate}}</a></li>
+            <li class="list"><a ng-class="{'active': userTabsCtrl.user === 'article'}" ui-sref="main-auth.article-list">{{'enterprise.article' | translate}}</a></li>
+        </ul>
+    </div>
+    <!--/.col-->
+</div>

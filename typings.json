@@ -1,0 +1,13 @@
+{
+  "name": "frontend",
+  "dependencies": {},
+  "globalDependencies": {
+    "angular": "registry:dt/angular#1.5.0+20160619025852",
+    "angular-translate": "registry:dt/angular-translate#2.4.0+20160619081544",
+    "angular-ui-router": "registry:dt/angular-ui-router#1.1.5+20160521151413",
+    "jquery": "registry:dt/jquery#1.10.0+20160620094458",
+    "lodash": "registry:dt/lodash#3.10.0+20160619033623",
+    "moment": "registry:dt/moment#2.8.0+20160316155526",
+    "restangular": "registry:dt/restangular#1.5.0+20160514142658"
+  }
+}

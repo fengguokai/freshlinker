@@ -1,0 +1,122 @@
+<hr class="userHr">
+<div class="container">
+    <div ng-include="'app/components/user/template/user_tabs.html'"></div>
+    <form action="">
+        <div class="row userJobOffer">
+        <div class="col-md-3 col-sm-12 col-xs-12 userJobOfferLeft">
+            <div class="content">
+                <ul class="editList list-unstyled">
+                    <li class="list" ng-repeat="item in inviteCtrl.inviteStatus" ng-class="{'active': item.id === inviteCtrl.inviteIndex}">
+                        <a href="" ng-click="inviteCtrl.inviteTab(item.id)">{{item.name | translate}}</a>
+                    </li>
+                </ul>
+
+                <div class="searchForm">
+                    <h5>{{'search.dashboard_search_position' | translate}}</h5>
+                    <div class="form-group">
+                        <input type="text" placeholder="{{'message.position_name_input' | translate}}" ng-required="true" ng-model="inviteCtrl.fliter.search">
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn" ng-click="inviteCtrl.searchPosition()">{{'button.determine' | translate}}</button>
+                    </div>
+                </div>
+
+                <div class="other">
+                    {{'button.press' | translate}} <span class="btn">{{'position.accept_job_interview' | translate}}</span> {{'message.we_send_resume_information_mailbox' | translate}}
+                </div>
+
+            </div>
+        </div>
+        <!--/.col-->
+        <div class="col-md-9 col-sm-12 col-xs-12 userJobOfferRight">
+            <div ng-if="!inviteCtrl.changeTabLoading">
+                <div ng-if="inviteCtrl.tableLoading && inviteCtrl.positionLoading" class="text-center loading">
+                    <i class="fa fa-3x fa-spinner fa-spin"></i>
+                </div>
+                <div ng-show="!inviteCtrl.tableLoading">
+                    <div class="noPosition row" ng-show="inviteCtrl.positions.length === 0 && !inviteCtrl.positionLoading ">
+                        <div class="col-md-2 col-sm-3 col-xs-12 col-sm-offset-3">
+                            <img src="../../assets/img/no_position_message.png" alt="" class="img-responsive">
+                        </div>
+                        <!--/.col-->
+                        <div class="col-md-5 col-sm-5 col-xs-12 text">
+                            <p>
+                                {{'message.no_job_offer_message' | translate}}
+                                <br>
+                                {{'message.perfect_cv_message' | translate}}
+                                <br>
+                                <span>{{'global.go_ahead' | translate}}</span>
+                                <a ui-sref="main-auth.profile">
+                                    {{'user.profile.my_profile' | translate}}
+                                </a>
+                            </p>
+                        </div>
+                        <!--/.col-->
+                    </div>
+                    <div st-table="inviteCtrl.positions" st-safe-src="inviteCtrl.positions"
+                             st-pipe="inviteCtrl.callPositionServer" ng-show="inviteCtrl.positions.length > 0 && !inviteCtrl.positionLoading">
+                            <div class="item row" ng-repeat="position in inviteCtrl.positions">
+                                <div class="img col-md-2 col-sm-3 col-xs-3">
+                                    <a href="" ui-sref="main.show-position({id: position.id})">
+                                        <img src="http://placehold.it/100x100" alt="" class="img-responsive" ng-show="position.company.icon === null">
+                                        <img ng-src="{{position.company.icon.url['100']}}" alt="" class="img-responsive" ng-show="position.company.icon !== null">
+                                    </a>
+                                </div>
+                                <!--/.col-->
+                                <div class="content col-md-3 col-sm-3 col-xs-5">
+                                    <p class="position">
+                                        <a href="" ui-sref="main.show-position({id: position.position.id})">
+                                            {{position.position.name}}
+                                        </a>
+                                    </p>
+                                    <p class="company">
+                                        <a href="" ui-sref="main.company({companyId: position.company.id})">
+                                            {{position.company.name}}
+                                        </a>
+                                    </p>
+                                </div>
+                                <!--/.col-->
+                                <div class="address col-md-2 hidden-sm hidden-xs">
+                                    <i class="fa fa-map-marker"></i>
+                                    {{position.company.address}}
+                                </div>
+                                <!--/.col-->
+                                <div class="list applier col-md-2 col-sm-3 col-xs-4 hidden-xs text-center">
+                                    <p class="num">
+                                        {{position.candidateNum}}
+                                    </p>
+                                    <p class="text">
+                                        {{'position.have_applier' | translate}}
+                                    </p>
+                                </div>
+                                <!--/.col-->
+                                <div class="list button col-md-3 col-sm-3 col-xs-4 text-center"  ng-class="{'reject': position.status === 'rejected' || position.status === 'accepted'}">
+                                    <button type="button" class="btn" ng-click="inviteCtrl.setCandidate(position.position.id, position.id)" ng-class="{'btn-success': position.status === 'pending'}" ng-show="position.status === 'pending'">{{'position.accept_job_interview' | translate}}</button>
+                                    <button type="button" class="btn"  ng-show="position.status === 'accepted'" ng-class="{'accepted': position.status === 'accepted'}">{{'position.posted_job_invite' | translate}}</button>
+                                    <p class="text-center" ng-show="position.status === 'pending' ">
+                                        <a href="" ng-click="inviteCtrl.rejectPositionInvite(position.id)">{{'position.reject_job_interview' | translate}}</a>
+                                    </p>
+                                    <p class="text-center" ng-show="position.status === 'rejected'">
+                                        <button  class="btn btn-default">{{'position.rejected' | translate}}</button>
+                                    </p>
+
+                                </div>
+                                <!--/.col-->
+                            </div>
+                            <div class="page text-center" st-current-page="inviteCtrl.filter.page"
+                                 st-template="app/shared/override/smart-table/pagination.html"
+                                 st-next-prev-pagination=""
+                                 st-pagination-action="inviteCtrl.paginationAction"
+                                 st-items-by-page="inviteCtrl.itemsByPage">
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <!--/.col-->
+
+
+    </div>
+    </form>
+</div>
+

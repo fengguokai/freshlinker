@@ -1,0 +1,55 @@
+<hr class="userHr">
+<div class="container">
+    <div ng-include="'app/components/user/template/user_tabs.html'"></div>
+    <div class="loading text-center" ng-show="articleCtrl.loading">
+        <i class="fa fa-spinner fa-pulse fa-3x"></i>
+    </div>
+    <div class="row articleShow articlePreview" ng-show="!articleCtrl.loading">
+        <div class="col-md-3 col-sm-12 col-xs-12 articlePreviewLeft">
+            <div class="content">
+                <div class="button">
+                    <a ui-sref="main-auth.article-edit({articleId: articleCtrl.article.id})" class="btn btn-success sub articleSub">
+                        {{ 'button.modify' | translate}}
+                    </a>
+                    <a ui-sref="main-auth.article-list" class="btn btn-default sub">
+                        {{ 'button.return' | translate}}
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        <!--/.col-->
+
+        <div class="col-md-9 col-sm-12 col-xs-12 articlePreviewRight">
+            <h4 class="title">
+                {{articleCtrl.article.title}}
+                <span class="text text-center" ng-show="articleCtrl.article.isApproved && articleCtrl.article.active" ng-class="{'isApproved': articleCtrl.article.isApproved}">
+                    {{'enterprise.article_isApproved' | translate}}
+                </span>
+                <span class="text text-center" ng-show="!articleCtrl.article.isApproved && articleCtrl.article.active" ng-class="{'unApproved': !articleCtrl.article.isApproved}">
+                    {{'enterprise.article_unApproved' | translate}}
+                </span>
+                <span class="text text-center" ng-show="!articleCtrl.article.active" ng-class="{'offline': !articleCtrl.article.active}">
+                    {{'enterprise.article_offline' | translate}}
+                </span>
+            </h4>
+            <div class="about">
+                <span class="writer">
+                    {{'article.author' | translate}}: {{articleCtrl.article.userName}}
+                </span>
+                <span class="time">{{articleCtrl.article.createdAt | date: 'yyyy-MM-dd'}}</span>
+                <span class="click">{{articleCtrl.article.view}} {{'global.people_num' | translate}} {{'button.preview' | translate}}</span>
+            </div>
+            <ul class="keyList list-inline">
+                <li class="List" ng-repeat="list in articleCtrl.article.tags">
+                    <a >{{list.name}}</a>
+                </li>
+            </ul>
+
+            <div ta-bind ng-model="articleCtrl.article.content" class="articlePreviewContent"></div>
+
+        </div>
+        <!--/.col-->
+
+    </div>
+</div>

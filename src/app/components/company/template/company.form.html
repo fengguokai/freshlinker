@@ -1,0 +1,287 @@
+<div class="container">
+    <div class="editCompanyHead">
+        <i class="fa fa-edit"></i>
+        <span>{{'company.edit_company' | translate}}</span>
+    </div>
+    <form name="companyEditForm" ng-submit="formCtrl.save()" class="form-horizontal">
+      <div class="row editCompany">
+          <div class="loading text-center" ng-show="formCtrl.loading">
+              <i class="fa fa-3x fa-spinner fa-spin"></i>
+          </div>
+          <div ng-show="!formCtrl.loading">
+              <div class="col-md-3 col-sm-3 col-xs-12 editCompanyLeft">
+                  <div class="content">
+                      <div class="button">
+                          <button type="submit" class="btn btn-success sub companySub">
+                              <span ng-if="formCtrl.saveLoading"><i class="fa fa-spin fa-spinner"></i></span>
+                              <span ng-if="!formCtrl.saveLoading">{{ 'button.add' | translate }}</span>
+                          </button>
+                          <a href="" ng-click="formCtrl.return()" type="button" class="btn btn-default canel" >
+                              {{ 'button.return' | translate }}
+                          </a>
+
+                      </div>
+                  </div>
+              </div>
+              <!--/.col-->
+              <div class="col-md-9 col-sm-9 col-xs-12 editCompanyRight">
+                  <div class="companyContent">
+                      <div class="baseInformation">
+                          <h4>
+                              {{'global.base_infomartion' | translate}}
+                          </h4>
+                          <div class="form-group">
+                              <div class="col-sm-6 col-xs-12 content">
+                                  <label for="name" class="col-sm-12 col-xs-12 control-label">{{ 'company.name' | translate
+                                      }}</label>
+
+                                  <div class="col-sm-12 col-xs-12">
+                                      <input type="text" class="form-control" id="name" name="name" ng-required="true"
+                                             ng-model="formCtrl.company.name">
+                                  </div>
+                                  <!--/.col-->
+                                  <div class="tips col-sm-12 col-xs-12">
+                                      {{'global.tips' | translate}}: {{'message.company_name_input_message' | translate}}
+                                  </div>
+                              </div>
+                              <!--/.col-->
+
+                              <div class="col-sm-6 col-xs-12 content">
+                                  <label for="foundingTime" class="col-sm-12 col-xs-12 control-label">{{ 'company.founding_time' | translate}}</label>
+
+                                  <div class="col-sm-12 col-xs-12">
+                                      <select name="foundingTime" id="foundingTime" class="form-control"
+                                              ng-model="formCtrl.company.foundingTime" ng-options="year as year for year in formCtrl.years">
+                                          <option value="">{{'message.company_foundingTime_select_message' | translate}}</option>
+
+                                      </select>
+                                  </div>
+                                  <!--/.col-->
+                              </div>
+                              <!--/.col-->
+                          </div>
+                          <!-- /.form-group -->
+                          <div class="form-group">
+                              <div class="col-sm-6 col-xs-12 content">
+                                  <label for="url" class="col-sm-12 col-xs-12 control-label">{{ 'company.url' | translate
+                                      }}</label>
+
+                                  <div class="col-sm-12 col-xs-12">
+                                      <input type="text" class="form-control" id="url" name="url" ng-required="false" ng-model="formCtrl.company.url">
+                                  </div>
+                                  <!--/.col-->
+                              </div>
+                              <!--/.col-->
+                          </div>
+
+                          <div class="form-group">
+                              <div class="col-sm-4 col-xs-12 content">
+                                  <label for="file" class=" col-sm-12 col-xs-12 control-label">{{'company.company_icon' | translate}}</label>
+                                  <!--/.col-->
+                                  <div class="col-sm-12 col-xs-12 ">
+                                      <div ng-app="fileUpload" class="text-left file" >
+                                          <div  ngf-select="formCtrl.uploadFile($files)" ng-model="formCtrl.upload.file" id="file"
+                                                class="ng-file-upload-drop-box"
+                                                ngf-drag-over-class="'ng-file-upload-drag-over'" ngf-multiple="false"
+                                                ngf-allow-dir="true"
+                                                accept="image/*" ngf-max-size="2MB" required  ngf-pattern="'image/*'">
+                                                <span class="text-muted">
+                                                    <i class="fa fa-cloud-upload fa-5x" ng-show="formCtrl.company.icon === null && formCtrl.files === undefined"></i>
+                                                    <i ng-show="companyEditForm.file.$error.maxSize">{{'file.File_too_large' | translate}}
+                                                    {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+                                                    <img ng-show="companyEditForm.file.$valid" ngf-thumbnail="formCtrl.upload.file" class="thumb" width="200", height="200">
+                                                    <img class="thumb" ng-show="(formCtrl.company.icon !== null) && (formCtrl.files === undefined)" ng-src="{{formCtrl.company.icon.url['200']}}" >
+                                                    <br>
+                                                    <h4>{{'file.Drop_here_to_upload_(or click)' | translate}}</h4>
+                                                </span>
+                                          </div>
+                                          <div ngf-no-file-drop>{{'file.File_Drag/Drop_is_not_supported_for_this_browser' | translate}}</div>
+                                      </div>
+                                      <div class="error text-left" ng-show="formCtrl.isIconError">
+                                          <i class="fa fa-times-circle"></i>
+                                          {{formCtrl.iconError}}
+                                      </div>
+                                      <div class="text-left">
+                                          {{'global.tips' | translate}}: {{'message.company_icon_input_message' | translate}}
+                                      </div>
+                                  </div>
+                                  <!--/.col-->
+                              </div>
+                              <!--/.col-->
+
+                              <div class="col-sm-8 col-xs-12 content">
+                                  <label for="file" class=" col-sm-12 col-xs-12 control-label">{{'company.cover' | translate}}</label>
+                                  <!--/.col-->
+                                  <div class="col-sm-12 col-xs-12 ">
+                                      <div ng-app="fileUpload" class="text-left file" >
+                                          <div  ngf-select="formCtrl.uploadCover($files)" ng-model="formCtrl.uploadCovers.file" id="cover"
+                                                class="ng-file-upload-drop-box"
+                                                ngf-drag-over-class="'ng-file-upload-drag-over'" ngf-multiple="false"
+                                                ngf-allow-dir="true"
+                                                accept="image/*" ngf-max-size="2MB" required  ngf-pattern="'image/*'">
+                                              <span class="text-muted">
+                                                <i class="fa fa-cloud-upload fa-5x" ng-show="formCtrl.company.cover === null && formCtrl.covers === undefined"></i>
+                                                <i ng-show="companyEditForm.file.$error.maxSize">{{'file.File_too_large' | translate}}
+                                                    {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+                                                 <img ng-show="companyEditForm.file.$valid" ngf-thumbnail="formCtrl.uploadCovers.file" class="thumb img-responsive">
+                                                 <img class="thumb img-responsive" ng-show="(formCtrl.company.cover !== null) && (formCtrl.covers === undefined)" ng-src="{{formCtrl.company.cover.url['480']}}">
+                                                <br>
+                                                <h4>{{'file.Drop_here_to_upload_(or click)' | translate}}</h4>
+                                              </span>
+                                          </div>
+                                          <div ngf-no-file-drop>{{'file.File_Drag/Drop_is_not_supported_for_this_browser' | translate}}</div>
+                                      </div>
+
+                                      <div class="error text-left" ng-show="formCtrl.isCoverError">
+                                          <i class="fa fa-times-circle"></i>
+                                          {{formCtrl.coverError}}
+                                      </div>
+                                      <div class="text-left">
+                                          {{'global.tips' | translate}}: {{'message.company_cover_input_message' | translate}}
+                                      </div>
+                                  </div>
+                                  <!--/.col-->
+                              </div>
+                              <!--/.col-->
+                          </div>
+
+                      </div>
+                      <!--/.baseInformation-->
+
+                      <div class="location">
+                          <h4>
+                              {{'global.company_location' | translate}}
+                          </h4>
+                          <div class="form-group">
+                              <div class="col-sm-6 col-xs-12 content">
+                                  <label class="col-sm-12 col-xs-12 control-label">
+                                      {{ 'company.countryId' | translate }}
+                                  </label>
+                                  <!--/.col-->
+                                  <div class="col-sm-12 col-xs-12 countryContent clearfix">
+                                      <select class="form-control" name="country" id="country" ng-options="country.id as country.name for country in formCtrl.countries" ng-model="formCtrl.company.countryId">
+                                          <option value="">{{'message.select_country' | translate}}</option>
+                                      </select>
+                                  </div>
+                                  <!--/.col-->
+                              </div>
+                              <!--/.col-->
+                              <div class="col-sm-6 col-xs-12 content">
+                                  <label for="address" class="col-sm-12 col-xs-12 control-label">{{ 'company.address' | translate
+                                      }}</label>
+                                  <!--/.col-->
+                                  <div class="col-sm-12 col-xs-12">
+                                      <input id="address" name="address" ng-required="false" type="text" class="form-control"
+                                             ng-model="formCtrl.company.address">
+                                  </div>
+                                  <!--/.col-->
+                                  <div class="col-sm-12 col-xs-12 tips">
+                                      {{'global.tips' | translate}}: {{'message.company_address_input_message' | translate}}
+                                  </div>
+                              </div>
+                              <!--/.col-->
+
+                          </div>
+                      </div>
+
+                      <div class="detail">
+                          <h4>{{'global.information' | translate}}</h4>
+                          <div class="form-group">
+                              <div class="col-sm-6 col-xs-12 content">
+                                  <label for="scale" class="col-sm-12 col-xs-12 control-label">{{ 'company.scale' | translate}}</label>
+                                  <!--/.col-->
+
+                                  <div class="col-sm-12 col-xs-12">
+                                      <select class="form-control" name="scale" id="scale" ng-options="scale.value as scale.name for scale in formCtrl.scales" ng-model="formCtrl.company.scale">
+                                          <option value="">{{'message.company_scale_select_message' | translate}}</option>
+                                      </select>
+                                      <div class="tips">
+                                          {{'global.tips' | translate}}: {{'message.company_scale_tips' | translate}}
+                                      </div>
+                                  </div>
+                                  <!--/.col-->
+
+                              </div>
+                              <!--/.col-->
+
+                              <div class="col-sm-6 col-xs-12 content">
+                                  <label  class="col-sm-12 col-xs-12 control-label">
+                                      {{ 'company.company_stage' | translate }}
+                                  </label>
+                                  <!--/.col-->
+                                  <div class="col-sm-12 col-xs-12">
+                                      <select class="form-control" name="stage" ng-options="stage.value as stage.value for stage in formCtrl.stages" ng-model="formCtrl.company.stage">
+                                          <option value="">{{'message.company_stage_select_message' | translate}}</option>
+                                      </select>
+                                      <div class="tips">{{'global.tips' | translate}}: {{'message.company_stage_tips' | translate}}</div>
+                                  </div>
+                                  <!--/.col-->
+                              </div>
+                              <!--/.col-->
+                          </div>
+
+                          <!--/.form-group-->
+                          <div class="form-group">
+                              <div class="col-sm-6 col-xs-12 content">
+                                  <label for="field" class="col-sm-12 col-xs-12 control-label">
+                                      {{ 'company.field' | translate }}
+                                  </label>
+                                  <!--/.col-->
+
+                                  <div class="col-sm-12 col-xs-12">
+                                      <input id="field" name="field" ng-required="false" type="text" class="form-control"
+                                             ng-model="formCtrl.company.field" placeholder="{{'company.apply_for_company_field' | translate}}">
+                                  </div>
+                                  <!--/.col-->
+                              </div>
+                              <!--/.col-->
+                          </div>
+
+                      </div>
+
+                      <div class="about">
+                          <h4>{{'global.about' | translate}}</h4>
+                          <div class="form-group">
+                              <div class="col-sm-12 col-xs-12 content">
+                                  <label for="description" class="col-sm-12 col-xs-12 control-label">{{ 'company.description' |
+                                      translate }}</label>
+                                  <!--/.col-->
+                                  <div class="col-sm-12 col-xs-12">
+                        <textarea id="description" name="description" ng-required="false" class="form-control"
+                                  ng-model="formCtrl.company.description" cols="15" rows="5" maxlength="255">
+                          </textarea>
+                                  </div>
+                                  <!--/.col-->
+                                  <div class="tips col-xs-12 text-right">
+                                      {{'message.text_input_255_words_message' | translate}}
+                                  </div>
+                                  <!--/.col-->
+                              </div>
+                              <!--/.col-->
+                              <div class="col-sm-12 col-xs-12 content">
+                                  <label for="background" class="col-sm-12 col-xs-12 control-label">{{ 'company.background' |
+                                      translate }}</label>
+                                  <!--/.col-->
+                                  <div class="col-sm-12 col-xs-12">
+                        <textarea id="background" name="background" ng-required="false" class="form-control"
+                                  ng-model="formCtrl.company.background" cols="15" rows="5" maxlength="255">
+                        </textarea>
+                                  </div>
+                                  <!--/.col-->
+                                  <div class="tips col-xs-12 text-right">
+                                      {{'message.text_input_255_words_message' | translate}}
+                                  </div>
+                                  <!--/.col-->
+                              </div>
+                              <!--/.col-->
+
+
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!--/.col-->
+          </div>
+      </div>
+    </form>
+</div>

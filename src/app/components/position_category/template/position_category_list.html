@@ -1,0 +1,583 @@
+<div ng-include="'app/components/search/template/search.html'"></div>
+<div class="container">
+    <div ng-include="'app/components/breadcrumb/template/breadcrumb.html'"></div>
+    <div class="row position">
+        <div class="loading text-center" ng-show="positionListCtrl.tableLoading">
+            <i class="fa fa-2x fa-spinner fa-spin"></i>
+        </div>
+        <div ng-show="positionListCtrl.positions.length === 0 && !positionListCtrl.tableLoading">
+            <div class="noPosition col-xs-12" >
+                <div class="text-center">
+                    <p>
+                        <i class="fa fa-warning fa-2x"></i>
+                        {{'message.no_publish_position' | translate}}
+                    </p>
+                </div>
+            </div>
+            <!--/.col-->
+        </div>
+        <div ng-show="positionListCtrl.positions.length > 0 && !positionListCtrl.tableLoading">
+            <div class="col-md-4 col-sm-12 col-xs-12 positionLeft">
+                <ul class="list-unstyled positionLeftList">
+                    <li class="list row" ng-repeat="position in positionListCtrl.positions"
+                        ng-class="{'active': position.id == positionListCtrl.firstPosition.id}" ng-click="positionListCtrl.changePosition($index)">
+                        <div class="col-sm-3 col-xs-12 img">
+                            <img ng-src="{{position.company.icon.url['100']}}" class="img-responsive" ng-show="position.company.icon !== null">
+                            <img ng-src="http://placehold.it/200x200" class="img-responsive" ng-show="position.company.icon === null">
+                        </div>
+                        <!--/.col-->
+                        <div class="col-md-7 col-sm-7 col-xs-12 content">
+                            <h4 class="jobName">
+                                {{position.name}}
+                            </h4>
+                            <h4 class="companyName" >
+                                {{position.company.name}}
+                            </h4>
+                            <address>
+                                {{position.address}}
+                            </address>
+                        </div>
+                        <!--/.col-->
+                        <div class="col-md-2 col-sm-2 col-xs-12 text-center other" ng-show="position.id == positionListCtrl.firstPosition.id">
+                            <a ng-show="position.bookmarkStatus === true" ng-click="positionListCtrl.removeCollectPosition(positionListCtrl.firstPosition.id)">
+                                <i class="fa fa-star fa-2x"></i>
+                            </a>
+                            <a href="" ng-show="position.bookmarkStatus === false" ng-click="positionListCtrl.collectPosition(positionListCtrl.firstPosition.id)">
+                                <i class="fa fa-star-o"></i>
+                            </a>
+                            <time>{{position.updatedAt | date: 'MM-dd'}}</time>
+                        </div>
+                        <!--/.col-->
+                    </li>
+                </ul>
+                <p class="linkMore text-center" ng-show="positionListCtrl.positionMore"><a ng-click="positionListCtrl.positionShowMore()">{{'global.show_more' | translate}}</a></p>
+            </div>
+            <!--/.col-->
+            <div class="col-md-8 col-sm-12 col-xs-12 positionRight">
+                <div class="row breadList">
+                    <div class="col-md-9 col-sm-12 col-xs-12">
+                        <ul class="list-inline breadLeft">
+                            <li class="breadlist">
+                                <a ng-show="positionListCtrl.firstPosition.bookmarkStatus === true" ng-click="positionListCtrl.removeCollectPosition(positionListCtrl.firstPosition.id)">
+                                    <i class="fa fa-star"></i>
+                                    {{'global.saved' | translate}}
+                                </a>
+                                <a href="" ng-show="positionListCtrl.firstPosition.bookmarkStatus === false" ng-click="positionListCtrl.collectPosition(positionListCtrl.firstPosition.id)">
+                                    <i class="fa fa-star-o" ></i>
+                                    {{'global.save' | translate}}
+                                </a>
+
+                            </li>
+                            <li class="breadlist">
+                                <a href="">
+                                    {{'position.share' | translate}}
+                                </a>
+                                <sn-addthis-toolbox data-url="http://www.my-domain.com" data-title="Freshlinker" data-description="positionListCtrl.firstPosition.name">
+                                    <a href class="addthis_button_facebook"><i class="fa fa-facebook-square"></i>Facebook</a>
+                                    <a href class="addthis_button_twitter"> <i class="fa fa-twitter-square"></i>Twitter</a>
+                                </sn-addthis-toolbox>
+                            </li>
+                            <li class="breadlist">
+                                <a href="">
+                                    <i class="fa fa-print"></i>
+                                    {{'position.print' | translate}}
+                                </a>
+                            </li>
+                            <li class="breadlist click">
+                                <i class="fa fa-eye"></i>
+                                {{'position.position_click_text_left' | translate}} <strong>{{positionListCtrl.firstPosition.view}}</strong> {{'position.position_click_text_right' | translate}}
+                            </li>
+                        </ul>
+                    </div>
+                    <!--/.col-->
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <ul class="breadRight list-inline">
+                            <li class="breadlist">
+                                {{'position.posted' | translate}}:{{positionListCtrl.firstPosition.createdAt | date: 'yyyy-MM-dd'}}
+                            </li>
+                            <li class="breadlist" ng-show="false">
+                                Employer Ref.MAP2016
+                            </li>
+                        </ul>
+                    </div>
+                    <!--/.col-->
+                </div>
+                <div class="backgroundImg">
+                    <img src="../../assets/img/bg.jpg" alt="" class="img-responsive">
+                </div>
+                <div class="positionTitle row">
+                    <div class="col-md-3 col-sm-3 col-xs-6">
+                        <fieldset class="positionTitleImg">
+                            <a ui-sref="main.company({id: positionListCtrl.firstPosition.company.id})">
+                                <img ng-src="{{positionListCtrl.firstPosition.company.icon.url['160']}}" class="img-responsive">
+                                <img ng-src="http://placehold.it/200x200" class="img-responsive" ng-show="positionListCtrl.firstPosition.company.icon === null">
+                            </a>
+                        </fieldset>
+                    </div>
+                    <!--/.col-->
+                    <div class="col-md-6 col-sm-4 col-xs-6">
+                        <ul class="positionTitleList list-inline">
+                            <li ng-repeat="nav in positionListCtrl.positionTab" ng-class="{'active': positionListCtrl.positionIndex === nav.id}" ng-click="positionListCtrl.changeTab(nav.id)">
+                                <a href="">{{nav.name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--/.col-->
+
+
+                    <div class="col-md-2  col-sm-12 col-xs-12 apply">
+                        <button class="btn" ng-class="{'btn-success': positionListCtrl.isApplied === false,'btn-default': positionListCtrl.isApplied === true}" ng-disabled="positionListCtrl.isApplied"
+                                ng-click="positionListCtrl.setCandidate(positionListCtrl.firstPosition.id)">
+                            {{ (positionListCtrl.isApplied ? 'global.applied_position' : 'global.apply') | translate}}
+                        </button>
+                    </div>
+                    <!--/.col-->
+
+                </div>
+                    <!--/.col-->
+                <div class="row positionContent">
+                    <div class="col-xs-12">
+                        <h5 class="companyName clearfix">
+                            <span class="name pull-left">
+                              <a ui-sref="main.company({companyId: positionListCtrl.firstPosition.company.id})">
+                                  {{positionListCtrl.firstPosition.company.name}}
+                              </a>
+                            </span>
+                        </h5>
+                        <article class="positionKeyList">
+                            <p>{{'position.tags' | translate}}:</p>
+                            <ul CLASS="list-inline keyList">
+                                <li class="List" ng-repeat="tag in positionListCtrl.firstPosition.tags">
+                                    {{tag.name}}
+                                </li>
+                            </ul>
+                        </article>
+                        <!--/.positionKeyList-->
+                        <uib-tabset active="positionListCtrl.positionIndex">
+                            <uib-tab index="1" ng-if="!positionListCtrl.Loading">
+                                <h4 class="positionName">
+                                    {{positionListCtrl.firstPosition.name}}
+                                </h4>
+                                <article class="positionAbout">
+                                    <h4>{{'position.job_requirements' | translate}}</h4>
+                                    <p class="content" ta-bind ng-model="positionListCtrl.firstPosition.description"></p>
+                                </article>
+
+                                <article class="positionSkills" ng-show="false">
+                                    <h4>Skills</h4>
+                                    <p class="content">
+                                        AVA后台系统的框架、公共组件、公共模块的实现；
+                                        2、对新技术、新方案进行预演和评估；
+                                        3、负责JAVA后台系统的问题定位和排查；
+                                        4、进行技术难点的攻关；
+                                    </p>
+                                </article>
+
+                                <article class="positionDetail">
+                                    <ul class="positionDetailOne list-inline">
+                                        <div class="row">
+
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <li class="list">
+                                                    <dl class="category">
+                                                        <div class="row">
+                                                            <div class="col-sm-3 col-xs-12">
+                                                                <dt>
+                                                                    {{'position.category' | translate}}
+                                                                </dt>
+                                                            </div>
+                                                            <!--/.col-->
+                                                            <div class="col-sm-9 col-xs-12">
+                                                                <dd ng-repeat="category in positionListCtrl.firstPosition.categories">
+                                                                    <a>{{category.name}}</a>
+                                                                </dd>
+                                                            </div>
+                                                            <!--/.col-->
+                                                        </div>
+                                                    </dl>
+
+                                                    <dl class="experience">
+                                                        <div class="row">
+                                                            <div class="col-sm-3 col-xs-12">
+                                                                <dt>
+                                                                    {{'user.profile.experience' | translate}}
+                                                                </dt>
+                                                            </div>
+                                                            <!--/.col-->
+                                                            <div class="col-sm-9 col-xs-12">
+                                                                <dd>{{positionListCtrl.firstPosition.experience}}</dd>
+                                                            </div>
+                                                            <!--/.col-->
+                                                        </div>
+                                                    </dl>
+
+
+                                                    <dl class="pay">
+                                                        <div class="row">
+                                                            <div class="col-sm-3 col-xs-12">
+                                                                <dt>
+                                                                    {{'user.profile.education' | translate}}
+                                                                </dt>
+                                                            </div>
+                                                            <!--/.col-->
+                                                            <div class="col-sm-9 col-xs-12">
+                                                                <dd>{{positionListCtrl.firstPosition.educationLevel.name}}</dd>
+                                                            </div>
+                                                            <!--/.col-->
+                                                        </div>
+                                                    </dl>
+
+                                                    <dl class="money">
+                                                        <div class="row">
+                                                            <div class="col-sm-3 col-s-12">
+                                                                <dt>
+                                                                    {{'position.jobNature' | translate}}
+                                                                </dt>
+                                                            </div>
+                                                            <!--/.col-->
+                                                            <div class="col-sm-9 col-xs-12">
+                                                                <dd ng-if="positionListCtrl.firstPosition.jobNatures !== null">
+                                                                    {{positionListCtrl.firstPosition.jobNatures.name}}
+                                                                </dd>
+                                                            </div>
+                                                            <!--/.col-->
+                                                        </div>
+                                                    </dl>
+
+                                                </li>
+                                            </div>
+                                            <!--/.col-->
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <li class="list">
+                                                    <dl class="address">
+                                                        <div class="row">
+                                                            <div class="col-sm-3 col-xs-12">
+                                                                <dt>
+                                                                    工作地点
+                                                                </dt>
+                                                            </div>
+                                                            <!--/.col-->
+                                                            <div class="col-sm-9 col-xs-12">
+                                                                <dd>{{positionListCtrl.firstPosition.address}}</dd>
+                                                            </div>
+                                                            <!--/.col-->
+                                                        </div>
+                                                    </dl>
+                                                    <dl class="pay">
+                                                        <div class="row">
+                                                            <div class="col-sm-3 col-xs-12">
+                                                                <dt>
+                                                                    {{'position.pay_type' | translate}}
+                                                                </dt>
+                                                            </div>
+                                                            <!--/.col-->
+                                                            <div class="col-sm-9 col-xs-12">
+                                                                <dd ng-if="positionListCtrl.firstPosition.type === 'full-time'">{{'position.full-time' |
+                                                                    translate}}
+                                                                </dd>
+                                                                <dd ng-if="positionListCtrl.firstPosition.type === 'part-time'">{{'position.part-time' |
+                                                                    translate}}
+                                                                </dd>
+                                                                <dd ng-if="positionListCtrl.firstPosition.type === 'other'">{{'position.other' |
+                                                                    translate}}
+                                                                </dd>
+                                                            </div>
+                                                            <!--/.col-->
+                                                        </div>
+                                                    </dl>
+                                                    <dl class="money">
+                                                        <div class="row">
+                                                            <div class="col-sm-3 col-s-12">
+                                                                <dt>
+                                                                    {{'position.salary' | translate}}
+                                                                </dt>
+                                                            </div>
+                                                            <!--/.col-->
+                                                            <div class="col-sm-9 col-xs-12">
+                                                                <dd
+                                                                        ng-if="positionListCtrl.firstPosition.minSalary === 0 && positionListCtrl.firstPosition.maxSalary === 0">
+                                                                    {{'position.negotiation' | translate}}
+                                                                </dd>
+                                                                <dd
+                                                                        ng-if="positionListCtrl.firstPosition.minSalary !== 0 && positionListCtrl.firstPosition.maxSalary !== 0">
+                                                                    {{positionListCtrl.firstPosition.minSalary}}-{{positionListCtrl.firstPosition.maxSalary}}{{'global.money'
+                                                                    |
+                                                                    translate}}/{{positionListCtrl.firstPosition.salaryType}}
+                                                                </dd>
+
+                                                            </div>
+                                                            <!--/.col-->
+                                                        </div>
+                                                    </dl>
+                                                    <dl class="other" ng-show="false">
+                                                        <div class="row">
+                                                            <div class="col-sm-3 col-xs-12">
+                                                                <dt>
+                                                                    {{'position.treatment' | translate}}
+                                                                </dt>
+                                                            </div>
+                                                            <!--/.col-->
+                                                            <div class="col-sm-9 col-xs-12">
+                                                                <dd>
+                                                                    <i>5</i>5天工作日
+                                                                </dd>
+                                                                <dd>
+                                                                    <i>13</i>十三个月薪酬
+                                                                </dd>
+                                                                <dd>
+                                                                    <i>$</i>弹性花红
+                                                                </dd>
+                                                                <dd>
+                                                                    <i>+</i>医疗计划
+                                                                </dd>
+                                                            </div>
+                                                            <!--/.col-->
+                                                        </div>
+                                                    </dl>
+                                                </li>
+                                            </div>
+                                            <!--/.col-->
+                                        </div>
+
+                                    </ul>
+                                </article>
+
+                                <article class="skills" ng-show="positionListCtrl.firstPosition.skills.length > 0 && positionListCtrl.isLogin">
+                                    <p class="title">
+                                        {{'position.skillCompare' | translate}} <span>{{'position.skillMatch' | translate}}:</span>
+                                    </p>
+
+                                    <ul class="keyList list-inline">
+                                        <li class="list" ng-repeat="skill in positionListCtrl.firstPosition.skills" ng-class="{'active': skill.match}">
+                                            {{skill.name}}
+                                        </li>
+                                    </ul>
+                                </article>
+
+                                <article class="morePosition" ng-show="positionListCtrl.otherPosition.length > 0">
+                                    <div class="row">
+                                        <div class="col-sm-10 col-xs-12">
+                                            <h4>
+                                                {{'global.more_position' | translate}}
+                                            </h4>
+                                        </div>
+                                        <!--/.col-->
+                                        <div class="col-sm-2 col-xs-12">
+                                            <a ui-sref="main.company-position-list({companyId: positionListCtrl.firstPosition.companyId})">{{'global.show_more' | translate}}</a>
+                                        </div>
+                                        <!--/.col-->
+                                    </div>
+                                    <ul class="list-inline">
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-6 col-xs-12" ng-repeat="position in positionListCtrl.otherPosition  | limitTo : 4">
+                                                <li class="List">
+                                                    <p class="title">
+                                                        <a ng-click="positionListCtrl.changePosition($index)">
+                                                            {{position.name}}[{{position.address}}]
+                                                        </a>
+                                                    </p>
+                                                    <p>
+                        <span class="salary" ng-show="position.minSalary > 0 && position.maxSalary > 0">
+                          {{position.minSalary}} - {{position.maxSalary}} {{'global.money' | translate}}
+                        </span>
+                                                        <span>{{position.experience}}{{'global.year' | translate}}</span> /
+                                                        <span>{{position.educationLevel.name}}</span> /
+                                                        <span>{{position.type}}</span>
+                                                    </p>
+
+                                                </li>
+
+                                            </div>
+                                            <!--/.col-->
+
+                                        </div>
+                                    </ul>
+                                </article>
+
+                                <article class="positionChart">
+                                    <div class="loading text-center" ng-if="positionListCtrl.chartLoading">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                                            </div>
+                                            <!--/.col-->
+                                        </div>
+                                    </div>
+                                    <div ng-if="!positionListCtrl.chartLoading">
+                                        <div class="row">
+                                            <div class="col-sm-4 col-xs-12">
+                                                <h4 class="positionChartTitle">
+                                                    {{'position.apply_position_text_left' | translate}} <span>{{positionListCtrl.candidateNum}}</span>{{'position.apply_position_text_right' | translate}}
+                                                </h4>
+                                            </div>
+                                            <!--/.col-->
+                                        </div>
+                                        <div class="popup" ng-show="!positionListCtrl.isLogin">
+                                            {{'message.position_chart_message' | translate}}
+                                        </div>
+                                        <div class="popup" ng-show="positionListCtrl.isLogin && positionListCtrl.isShow">
+                                            {{'message.position_chart_candidate_num_message' | translate}}
+                                        </div>
+                                        <div class="row" ng-class="{'box-shadow': positionListCtrl.isShow}">
+                                            <div class="col-sm-12">
+                                                <div class="positionChartContent" >
+                                                    <div class="row">
+                                                        <div class="col-sm-4 col-xs-12">
+                                                            <h5 class="text-left positionChartSubTitle">{{'position.apply_position_num_other' | translate}}<span>{{'user.profile.education' | translate}}</span> {{'position.is' | translate}}:</h5>
+                                                        </div>
+                                                        <!--/.col-->
+                                                    </div>
+
+
+                                                    <div class="row">
+                                                        <div class="col-sm-2 col-md-2 col-xs-12">
+                                                            <div class="positionChartContentLeft text-center">
+                                                                <strong>{{positionListCtrl.candidateNum}}</strong>{{'position.apply_position_num' | translate }}
+                                                            </div>
+                                                        </div>
+                                                        <!--/.col-->
+                                                        <div class="col-sm-7 col-xs-8">
+                                                            <div class="chart-pie">
+                                                                <canvas id="pie_education" class="chart chart-pie"
+                                                                        chart-data="positionListCtrl.educationChartData" chart-labels="positionListCtrl.educationChartLabels" chart-legend="true" >
+
+                                                                </canvas>
+
+                                                            </div>
+
+
+                                                        </div>
+                                                        <!--/.col-->
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="positionChartContent" >
+                                                    <div class="row">
+                                                        <div class="col-sm-4 col-xs-12">
+                                                            <h5 class="text-left positionChartSubTitle">{{'position.apply_position_num_other' | translate}}<span>{{'user.profile.experience' | translate}}</span> {{'position.is' | translate}}:</h5>
+                                                        </div>
+                                                        <!--/.col-->
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-sm-2 col-md-2 col-xs-12">
+                                                            <div class="positionChartContentLeft text-center">
+                                                                <strong>{{positionListCtrl.candidateNum}}</strong>{{'position.apply_position_num' | translate }}
+                                                            </div>
+                                                        </div>
+                                                        <!--/.col-->
+                                                        <div class="col-sm-7 col-xs-8">
+                                                            <div class="chart-pie">
+                                                                <canvas id="pie_experience" class="chart chart-pie"
+                                                                        chart-data="positionListCtrl.experienceChartData" chart-labels="positionListCtrl.experienceChartLabels" chart-legend="true" >
+
+                                                                </canvas>
+
+                                                            </div>
+
+
+                                                        </div>
+                                                        <!--/.col-->
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                            </uib-tab>
+                            <uib-tab index="2" ng-if="!positionListCtrl.Loading">
+                                <div class="article">
+                                    <div class="loading text-center" ng-show="positionListCtrl.relatedLoading">
+                                        <i class="fa fa-3x fa-spinner fa-spin"></i>
+                                    </div>
+                                    <div ng-show="!positionListCtrl.relatedLoading">
+                                        <div class="noPosition text-center" ng-show="positionListCtrl.relatedArticles.length === 0">
+                                            {{'message.no_related_article_msg' | translate}}
+                                        </div>
+                                        <div class="item clearfix" ng-show="positionListCtrl.relatedArticles.length > 0" ng-repeat="article in positionListCtrl.relatedArticles">
+                                            <a href="" ui-sref="main.articles-show({articleId: article.id})" class="pull-left">
+                                                <img src="http://placehold.it/100x100" alt="" class="img-responsive" ng-show="article.cover === null">
+                                                <img ng-src="{{article.cover.url['100']}}" alt="" class="img-responsive " ng-show="article.cover !== null">
+                                            </a>
+                                            <div class="pull-left content">
+                                                <h4>
+                                                    <a href="" ui-sref="main.articles-show({articleId: article.id})">
+                                                        {{article.title}}
+                                                    </a>
+                                                </h4>
+                                                <ul class="list list-inline">
+                                                    <li ng-repeat="tag in article.tags" class="tag">
+                                                        <span>{{tag.name}}</span>
+                                                    </li>
+                                                    <li class="time">
+                                                        {{article.createdAt | date: 'yyyy-MM-dd'}}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <article class="otherCompanyPosition" ng-show="positionListCtrl.otherCompanyPosition.length > 0">
+                                    <div class="row">
+                                        <div class="col-sm-4 col-xs-12">
+                                            <h4>
+                                                {{'position.other_company_position' | translate}}
+                                            </h4>
+                                        </div>
+                                        <!--/.col-->
+                                    </div>
+                                    <ul class="list-inline">
+                                        <div class="loading text-center" ng-show="positionListCtrl.otherCompanyPositionLoading">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                                                </div>
+                                                <!--/.col-->
+                                            </div>
+                                        </div>
+                                        <div class="row" ng-show="!positionListCtrl.otherCompanyPositionLoading">
+                                            <div class="col-md-6 col-sm-6 col-xs-6" ng-repeat="item in positionListCtrl.otherCompanyPosition | limitTo : 6">
+                                                <li class="List clearfix row">
+                                                    <fieldset class="col-sm-5">
+                                                        <a ui-sref="main.show-position({id: item.id})">
+                                                            <img src="http://placehold.it/100x100" class="img-responsive img-rounded" ng-show="item.company.pictures.length === 0">
+                                                            <img ng-src="{{item.company.pictures[0].url['100']}}" class="img-responsive img-rounded" ng-show="item.company.pictures.length > 0">
+                                                        </a>
+                                                    </fieldset>
+                                                    <div class="content pull-left col-sm-7">
+                                                        <p class="title">
+                                                            <a ui-sref="main.show-position({id: item.id})">
+                                                                {{item.name}}
+                                                            </a>
+                                                        </p>
+
+                                                        <div class="salary" ng-show="item.maxSalary > 0 && item.minSalary > 0">
+                                                            {{item.minSalary}}-{{item.maxSalary}} <span>{{'global.money' | translate}}</span>
+                                                        </div>
+                                                        <div class="salary" ng-show="item.maxSalary <= 0 && item.minSalary <= 0">
+                                                            {{'position.negotiation' | translate}}
+                                                        </div>
+                                                        <address>{{item.address}}</address>
+                                                    </div>
+
+                                                </li>
+                                            </div>
+                                            <!--/.col-->
+                                        </div>
+                                    </ul>
+                                </article>
+                            </uib-tab>
+
+                        </uib-tabset>
+
+                    </div>
+                    <!--/.col-->
+                </div>
+            </div>
+            <!--/.col-->
+        </div>
+    </div>
+</div>

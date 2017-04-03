@@ -1,0 +1,88 @@
+<div class="dialog">
+  <form class="form-horizontal experience" name="Form" ng-submit="experienceCtrl.save()">
+    <div class="modal-header">
+      <button type="button" class="close" aria-label="Close" ng-click="experienceCtrl.cancel()"><span
+        aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="modal-title"><i class="fa fa-pencil-square-o"></i>{{ 'user.profile.experience' | translate }}</h4>
+    </div>
+  <!-- /.model-header -->
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="companyName" class="col-sm-3 col-xs-12 control-label">*{{'user.profile.experience_company_name' | translate}}:</label>
+            <!--/.col-->
+            <div class="col-sm-9 col-xs-12">
+              <input type="text" class="form-control" ng-required="true"
+                     name="companyName" id="companyName" ng-model="experienceCtrl.experience.companyName" placeholder="{{'user.profile.experience_company_name_input' | translate}}">
+            </div>
+            <!--/.col-->
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label for="experienceTitle" class="col-sm-3 col-xs-12 control-label">*{{'position.positions' | translate}}:</label>
+            <!--/.col-->
+            <div class="col-sm-9 col-xs-12">
+              <input type="text" id="experienceTitle" name="experienceTitle" ng-required="true" class="form-control"
+                     ng-model="experienceCtrl.experience.title" ng-required="true" placeholder="{{'message.position_name_input' | translate}}">
+            </div>
+            <!--/.col-->
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label for="startedDate" class="col-sm-3 col-xs-12 control-label">{{'user.profile.experience_time' | translate}}:</label>
+
+            <div class="col-sm-9 col-xs-12">
+              <input type="date" name="startedDate" id="startedDate" ng-model="experienceCtrl.experience.startedDate" />
+                <span class="line"></span>
+              <input type="date" name="endedDate" id="endedDate" ng-model="experienceCtrl.experience.endedDate "/>
+
+            </div>
+              <!--/.col-->
+            <div class="tips col-xs-12 col-sm-9 col-sm-offset-3">
+              {{'global.tips' | translate}}: {{'position.date' | translate}}
+            </div>
+          </div>
+          <!--/.col-->
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label for="experienceText" class="col-sm-3 col-xs-12 control-label">*{{'user.profile.experience_description' | translate}}:</label>
+            <!--/.col-->
+            <div class="col-sm-9 col-xs-12">
+              <textarea name="experienceText" class="form-control" id="experienceText"
+                        cols="15" rows="5" placeholder="{{'user.profile.experience_description_input' | translate}}" ng-model="experienceCtrl.experience.description"
+                        ng-required="true" maxlength="255"></textarea>
+            </div>
+            <div class="tips col-xs-12 text-right">
+                {{'message.text_input_255_words_message' | translate}}
+            </div>
+            <!--/.col-->
+          </div>
+          <!-- /.form-group -->
+
+
+
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.model-body -->
+
+    <div class="modal-footer">
+      <button type="submit" ng-disabled="experienceCtrl.saveLoading || salaryForm.$invalid"
+              class="btn btn-success">
+        <span ng-if="experienceCtrl.saveLoading"><i class="fa fa-spin fa-spinner"></i></span>
+        <span ng-if="!experienceCtrl.saveLoading">{{ 'button.save' | translate }}</span>
+      </button>
+      <button type="button" class="btn btn-default" ng-click="experienceCtrl.cancel()">
+        {{ 'button.close' | translate }}
+      </button>
+    </div>
+    <!-- /.model-footer -->
+  </form>
+</div>

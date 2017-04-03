@@ -1,0 +1,152 @@
+<section class="profileLeft" ng-controller="ProfileLeftController as profileCtrl">
+  <div class="row" ng-show="!profileCtrl.tableLoading">
+    <div class="col-md-12 col-sm-4 col-xs-12">
+      <fieldset class="img">
+        <a ng-click="profileCtrl.openEditIconDialog(profileCtrl.user.icon)">
+          <div ng-if="profileCtrl.user.icon.url !== undefined">
+            <img ng-src="{{profileCtrl.user.icon.url['200']}}" class="img-responsive img-circle">
+          </div>
+          <div ng-if="profileCtrl.user.icon.url === undefined">
+            <img ng-src="http://placehold.it/200x200" class="img-responsive img-circle">
+          </div>
+        </a>
+      </fieldset>
+      <!--/.img-->
+    </div>
+    <!--/.col-->
+    <div class="col-md-12 col-sm-4 col-xs-12">
+      <article class="personInformation">
+        <h4 class="name">
+          <div class="row">
+            <div class="col-sm-12 col-xs-12 text-center">
+              <span class="padding">{{profileCtrl.user.lastName}}</span>
+              <span>{{profileCtrl.user.firstName}}</span>
+            </div>
+            <!--/.col-->
+          </div>
+
+        </h4>
+        <p class="link" ng-show="false"><a ui-sref="fullscreen.home">www.freshlinker.com</a></p>
+        <address ng-show="false">
+          <i class="fa fa-map-marker" aria-hidden="true"></i>
+          油塘
+        </address>
+      </article>
+      <!--/.information-->
+    </div>
+    <!--/.col-->
+    <div class="col-md-12 col-sm-4 col-xs-12">
+      <article class="profileInformation">
+        <ul class="careerList list-unstyled">
+          <li class="list">
+            <div class="row">
+              <div class="col-xs-5">
+                <span>{{'user.profile.position' | translate}}</span>
+              </div>
+              <!--/.col-->
+              <div class="col-xs-7">
+                <strong>
+                  {{profileCtrl.user.experiences[profileCtrl.user.experiences.length - 1].title}}
+                </strong>
+              </div>
+              <!--/.col-->
+            </div>
+          </li>
+          <li class="list">
+            <div class="row">
+              <div class="col-xs-5">
+                <span>{{'user.profile.school_name' | translate}}</span>
+              </div>
+              <!--/.col-->
+              <div class="col-xs-7">
+                <strong>
+                  {{profileCtrl.user.educations[profileCtrl.user.educations.length - 1].school.name}}
+                </strong>
+              </div>
+              <!--/.col-->
+            </div>
+          </li>
+          <li class="list">
+            <div class="row">
+              <div class="col-xs-5">
+                <span>{{'user.profile.education' | translate}}</span>
+              </div>
+              <!--/.col-->
+              <div class="col-xs-7">
+                <strong>
+                  {{profileCtrl.user.educations[profileCtrl.user.educations.length - 1].educationLevel.name}}
+                </strong>
+              </div>
+              <!--/.col-->
+            </div>
+          </li>
+        </ul>
+        <!--/.careerList-->
+        <div class="row" ng-show="false">
+          <div class="col-md-6 col-sm-6 col-xs-4">
+            <button class="btn btn-default submit" type="submit">
+              传送讯息
+            </button>
+          </div>
+          <!--/.col-->
+          <div class="col-md-6 col-sm-6 col-xs-4">
+            <button class="btn btn-default submit btn-md" type="submit">
+
+            </button>
+          </div>
+          <!--/.col-->
+        </div>
+      </article>
+      <!--profileInformation-->
+    </div>
+    <!--/.col-->
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <article class="contact">
+        <h4>
+          {{'user.profile.phone' | translate}}
+        </h4>
+        <p>
+          {{profileCtrl.user.phone}}
+        </p>
+      </article>
+      <!--/.other-->
+    </div>
+    <!--/.col-->
+
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <article class="other">
+        <h4>
+          {{'user.profile.expect_job' | translate}}
+        </h4>
+        <div class="row">
+          <div class="col-xs-12">
+            <ul class="list-inline keyList">
+              <li class="List" ng-repeat="item in profileCtrl.user.expectJobs">
+                <a href="">{{item.expectPosition.name}}</a>
+              </li>
+            </ul>
+          </div>
+          <!--/.col-->
+        </div>
+
+      </article>
+      <!--/.other-->
+    </div>
+    <!--/.col-->
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <article class="aboutMe">
+        <h4>
+          {{'user.profile.self_description' | translate}}
+        </h4>
+        <p ng-show="profileCtrl.user.selfDescription !== null">
+          {{profileCtrl.user.selfDescription | escapeHtml}}
+        </p>
+      </article>
+    </div>
+    <!--/.col-->
+  </div>
+  <div ng-show="profileCtrl.tableLoading" class="text-center tableLoading">
+    <i class="fa fa-2x fa-spinner fa-spin"></i>
+  </div>
+</section>
+<!--/.profileLeft-->

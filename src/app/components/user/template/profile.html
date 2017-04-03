@@ -1,0 +1,544 @@
+<hr class="userHr">
+<div class="container">
+    <div ng-include="'app/components/user/template/user_tabs.html'"></div>
+    <div class="row profile userProfile">
+        <div class="col-md-3 col-sm-12 col-xs-12 profileLeft" ng-show="false">
+            <div class="content">
+                <ul class="list-unstyled">
+                    <li class="list active">
+                        <a href="#baseInformation" scroll-on-click>{{'user.profile.base_information' | translate}}</a>
+                    </li>
+                    <li class="list">
+                        <a href="#expectPosition" scroll-on-click>{{'user.profile.expectPosition' | translate}}</a>
+                    </li>
+                    <li class="list">
+                        <a href="#education" scroll-on-click>{{'user.profile.education' | translate}}</a>
+                    </li>
+                    <li class="list">
+                        <a href="#experience" scroll-on-click>{{'user.profile.experience' | translate}}</a>
+                    </li>
+                    <li class="list">
+                        <a href="#skill" scroll-on-click>{{'user.profile.skill' | translate}}</a>
+                    </li>
+                    <li class="list">
+                        <a href="#language" scroll-on-click>{{'user.profile.language' | translate}}</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <!--/.col-->
+
+        <div class="col-xs-12 profileRight">
+            <div ng-show="profileCtrl.loading" class="text-center loading profileLoading">
+                <i class="fa fa-3x fa-spinner fa-spin"></i>
+            </div>
+            <div ng-show="!profileCtrl.loading">
+                <div class="baseInformation" id="#baseInformation">
+                    <div class="row head">
+                        <div class="col-sm-11 col-xs-10 img clearfix">
+                            <i></i>
+                            <span class="text">{{'user.profile.base_information' | translate}}</span>
+                        </div>
+                        <div class="icon col-sm-1 col-xs-2 text-left">
+                            <a ui-sref="main-auth.user">
+                                <i class="fa fa-edit fa-2x"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="content">
+                        <div ng-if="profileCtrl.user.icon.url !== undefined" class="text-center img">
+                            <img ng-src="{{profileCtrl.user.icon.url['200']}}" class="img-responsive img-circle">
+                        </div>
+                        <div ng-if="profileCtrl.user.icon.url === undefined" class="text-center img">
+                            <img ng-src="http://placehold.it/200x200" class="img-responsive img-circle">
+                        </div>
+                        <p class="userName text-center" ng-show="profileCtrl.user.firstName !== null">
+                            {{profileCtrl.name}}
+                        </p>
+                        <ul class="list-inline text-center list">
+                            <li ng-show="profileCtrl.user.gender !== null">{{profileCtrl.user.gender | translate}}</li>
+                            <li ng-show="profileCtrl.user.yearOfExperience !== null">|</li>
+                            <li ng-show="profileCtrl.user.yearOfExperience !== null">{{profileCtrl.user.yearOfExperience}} {{'global.year' | translate}}</li>
+                        </ul>
+                        <ul class="list-inline text-center list contact">
+                            <li ng-show="profileCtrl.user.phone !== null">{{profileCtrl.user.phone}}</li>
+                            <li ng-show="profileCtrl.user.phone !== null">|</li>
+                            <li>{{profileCtrl.user.email}}</li>
+                        </ul>
+                        <div class="about row" ng-show="profileCtrl.user.selfDescription !== null">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <div class="row">
+                                    <div class="col-sm-2 title">
+                                        {{'user.profile.self_description' | translate}}
+                                    </div>
+                                    <div class="col-sm-9 col-sm-offset-1 content">
+                                        {{profileCtrl.user.selfDescription | escapeHtml | limitTo: 80}}
+                                        <span ng-show="!profileCtrl.descriptionShow && profileCtrl.user.selfDescription.length > 80">...</span>
+                                        <span>
+                                            <a href="" ng-click="profileCtrl.descriptionShow = !profileCtrl.descriptionShow" ng-show="!profileCtrl.descriptionShow && profileCtrl.user.selfDescription.length > 80">
+                                                {{'global.expand' | translate}}
+                                            </a>
+                                        </span>
+                                        <span ng-show="profileCtrl.descriptionShow">
+                                            {{profileCtrl.user.selfDescription | escapeHtml | limitTo: 255 : 81}}
+                                            <a href="" ng-click="profileCtrl.descriptionShow = !profileCtrl.descriptionShow" ng-show="profileCtrl.descriptionShow">{{'global.put_away' | translate}}</a>
+                                      </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--/.col-->
+
+                        </div>
+                    </div>
+                </div>
+                <hr class="line">
+                <div class="expectJobs" id="expectPosition">
+                    <div class="row head">
+                        <div class="col-sm-11 col-xs-10 img clearfix">
+                            <i></i>
+                            <span class="text">{{'user.profile.expectPosition' | translate}}</span>
+                        </div>
+                        <div class="icon col-sm-1 col-xs-2 text-left">
+                            <div class="btn-group profileBtn" uib-dropdown>
+                                <button type="button" class="btn submit" uib-dropdown-toggle ng-disabled="disabled" id="expect">
+                                    <i class="fa fa-edit fa-2x expectJobsBtn"></i>
+                                </button>
+                                <ul class="dropdown-menu" uib-dropdown-menu role="menu"
+                                    aria-labelledby="expect">
+                                    <li role="menuitem">
+                                        <a href="" ng-click="profileCtrl.openEditExpectJobsDialog(profileCtrl.user.expectJobs[0].id)">
+                                            {{'button.edit'| translate}}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <div class="profileContent row" ng-repeat="expect in profileCtrl.user.expectJobs">
+                                <div class="col-sm-1 circle">
+                                    <i class="fa fa-circle-o circle"></i>
+                                </div>
+                                <!--/.col-->
+
+                                <div class="col-md-10 col-sm-10 col-xs-10 ">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="List expectJobsContent">
+                                                <div class="row content">
+                                                    <div class="col-md-3 col-sm-5 name">
+                                                        {{'user.profile.expectPosition' | translate}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                    <div class="col-md-9 col-sm-7 text">
+                                                        {{ expect.expectPosition.name}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                </div>
+
+
+
+                                                <div class="row content">
+                                                    <div class="col-md-3 col-sm-5 name">
+                                                        {{'user.profile.expect_location' | translate}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                    <div class="col-md-9 col-sm-7 text">
+                                                        {{ expect.location.name}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                </div>
+
+
+                                                <div class="row content">
+                                                    <div class="col-md-3 col-sm-5 name">
+                                                        {{'user.profile.expect_salary' | translate}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                    <div class="col-md-9 col-sm-7 text">
+                                                        <span class="salaryType">{{expect.salaryType | translate}}</span>
+                                                        <span ng-show="expect.minSalary === 0 && expect.maxSalary === 0">
+                                                            {{'position.negotiation' | translate}}
+                                                        </span>
+                                                        <span ng-show="expect.minSalary !== 0 && expect.maxSalary !== 0">
+                                                            {{expect.minSalary}} - {{expect.maxSalary}}
+                                                        </span>
+                                                        <span class="type">/{{expect.type | translate}}</span>
+                                                    </div>
+                                                    <!--/.col-->
+                                                </div>
+
+
+                                                <div class="row content">
+                                                    <div class="col-md-3 col-sm-5 name">
+                                                        {{'position.description' | translate}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                    <div class="col-md-9 col-sm-7 text">
+                                                        {{expect.content}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!--/.col-->
+                                    </div>
+                                </div>
+                                <!--/.col-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/.expectJobs-->
+                <hr class="line">
+
+                <div class="education" id="education">
+                    <div class="row head">
+                        <div class="col-sm-11 col-xs-10 img clearfix">
+                            <i></i>
+                            <span class="text">{{'user.profile.education' | translate}}</span>
+                        </div>
+                        <div class="icon col-sm-1 col-xs-2">
+                            <a ng-click="profileCtrl.openEditEducationDialog()">
+                                <i class="fa fa-plus-square  fa-2x"></i>
+                            </a>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <div class="profileContent row" ng-repeat="education in profileCtrl.user.educations">
+                                <div class="col-sm-1 circle">
+                                    <i class="fa fa-circle-o circle"></i>
+                                </div>
+                                <!--/.col-->
+
+                                <div class="col-md-10 col-sm-10 col-xs-10 ">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="List">
+                                                <div class="row content">
+                                                    <div class="col-md-3 col-sm-5 name">
+                                                        {{'user.profile.school' | translate}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                    <div class="col-md-9 col-sm-7 text">
+                                                        {{ education.school.name}}
+                                                        <div class="btn-group profileBtn" uib-dropdown>
+                                                            <button type="button" class="btn submit" uib-dropdown-toggle ng-disabled="disabled" id="education">
+                                                                <i class="fa fa-pencil"></i>
+                                                            </button>
+                                                            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="education">
+                                                                <li role="menuitem">
+                                                                    <a href="" ng-click="profileCtrl.openEditEducationDialog($index)">
+                                                                        {{'button.edit'| translate}}
+                                                                    </a>
+                                                                </li>
+                                                                <li class="divider"></li>
+                                                                <li role="menuitem">
+                                                                    <a href="" ng-click="profileCtrl.removeEducation(education.id)">
+                                                                        {{'button.delete'| translate}}
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <!--/.col-->
+                                                </div>
+
+                                                <div class="row content">
+                                                    <div class="col-md-3 col-sm-5 name">
+                                                        {{'global.time' | translate}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                    <div class="col-md-9 col-sm-7 text">
+                                                        {{education.graduationYear}} {{'global.year' | translate}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                </div>
+
+
+                                                <div class="row content">
+                                                    <div class="col-md-3 col-sm-5 name">
+                                                        {{'user.profile.educationLevel' | translate}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                    <div class="col-md-9 col-sm-7 text">
+                                                        {{education.educationLevel.name}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                </div>
+
+                                                <div class="row content">
+                                                    <div class="col-md-3 col-sm-5 name">
+                                                        GPA
+                                                    </div>
+                                                    <!--/.col-->
+                                                    <div class="col-md-9 col-sm-7 text">
+                                                        {{education.gpa}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                </div>
+
+                                                <div class="row content">
+                                                    <div class="col-md-3 col-sm-5 name">
+                                                        {{'user.profile.subject' | translate}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                    <div class="col-md-9 col-sm-7 text">
+                                                        {{education.subject}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                </div>
+
+
+                                                <div class="row content">
+                                                    <div class="col-md-3 col-sm-5 name" ng-show="education.remark !== null">
+                                                        {{'user.profile.remark' | translate}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                    <div class="col-md-9 col-sm-7 text" ng-show="education.remark !== null">
+                                                        {{education.remark}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/.col-->
+                                    </div>
+                                </div>
+                                <!--/.col-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/.education-->
+                <hr class="line">
+
+                <div class="experience" id="experience">
+                    <div class="row head">
+                        <div class="col-sm-11 col-xs-10 img clearfix">
+                            <i></i>
+                            <span class="text">{{'user.profile.experience' | translate}}</span>
+                        </div>
+                        <div class="icon col-sm-1 col-xs-2">
+                            <a ng-click="profileCtrl.openEditExperienceDialog()">
+                                <i class="fa fa-plus-square  fa-2x"></i>
+                            </a>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <div class="profileContent row" ng-repeat="experience in profileCtrl.user.experiences">
+                                <div class="col-sm-1 circle">
+                                    <i class="fa fa-circle-o circle"></i>
+                                </div>
+                                <!--/.col-->
+
+                                <div class="col-md-10 col-sm-10 col-xs-10 ">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="List">
+                                                <div class="row content">
+                                                    <div class="col-md-3 col-sm-5 name">
+                                                        {{'user.profile.experience_company_name' | translate}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                    <div class="col-md-9 col-sm-7 text">
+                                                        {{ experience.companyName}}
+                                                        <div class="btn-group profileBtn" uib-dropdown>
+                                                            <button type="button" class="btn submit" uib-dropdown-toggle ng-disabled="disabled" id="experience">
+                                                                <i class="fa fa-pencil"></i>
+                                                            </button>
+                                                            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="experience">
+                                                                <li role="menuitem">
+                                                                    <a href="" ng-click="profileCtrl.openEditExperienceDialog($index)">
+                                                                        {{'button.edit'| translate}}
+                                                                    </a>
+                                                                </li>
+                                                                <li class="divider"></li>
+                                                                <li role="menuitem">
+                                                                    <a href="" ng-click="profileCtrl.removeExperience(experience.id)">
+                                                                        {{'button.delete'| translate}}
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <!--/.col-->
+                                                </div>
+
+                                                <div class="row content">
+                                                    <div class="col-md-3 col-sm-5 name">
+                                                        {{'global.time' | translate}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                    <div class="col-md-9 col-sm-7 text">
+                                                        {{experience.startedDate | date: 'yyyy-MM-dd'}} - {{experience.endedDate | date: 'yyyy-MM-dd'}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                </div>
+
+                                                <div class="row content">
+                                                    <div class="col-md-3 col-sm-5 name">
+                                                        {{'user.profile.experience_position' | translate}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                    <div class="col-md-9 col-sm-7 text">
+                                                        {{experience.title}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                </div>
+
+                                                <div class="row content">
+                                                    <div class="col-md-3 col-sm-5 name">
+                                                        {{'user.profile.experience_description' | translate}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                    <div class="col-md-9 col-sm-7 text">
+                                                        {{experience.description}}
+                                                    </div>
+                                                    <!--/.col-->
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!--/.col-->
+                                    </div>
+                                </div>
+                                <!--/.col-->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/.experience-->
+                <hr class="line">
+
+                <div class="skill" id="skill">
+                    <div class="row head">
+                        <div class="col-sm-11 col-xs-10 img clearfix">
+                            <i></i>
+                            <span class="text">{{'user.profile.skill' | translate}}</span>
+                        </div>
+                        <div class="icon col-sm-1 col-xs-2">
+                            <a ng-click="profileCtrl.skillShow = !profileCtrl.skillShow">
+                                <i class="fa fa-plus-square  fa-2x"></i>
+                            </a>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <div class="profileContent row" >
+
+                                <div class="col-md-12 col-sm-12 col-xs-12 col-sm-offset-1">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="List row" >
+                                                <ul class="keyList list-inline">
+                                                    <li class="List clearfix profileSpecial"
+                                                        ng-repeat="skill in profileCtrl.user.skills">
+                                                        <a href="">{{ skill.name }}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!--/.col-->
+
+                                        <div class="skillShow row" ng-show="profileCtrl.skillShow">
+                                            <div class="col-md-9 col-sm-8 col-xs-12  skillInput">
+
+                                                <ui-select multiple tagging tagging-label ng-model="profileCtrl.skills" theme="bootstrap" title="{{'user.profile.skill_name' | translate}}" id="skill" >
+                                                    <ui-select-match placeholder="{{'user.profile.skill_name_input' | translate}}">{{$item}}</ui-select-match>
+                                                    <ui-select-choices repeat="skill in profileCtrl.defaultSkills  | filter:$select.search track by $index">{{skill}}
+                                                    </ui-select-choices>
+                                                </ui-select>
+
+                                            </div>
+                                            <!--/.col-->
+                                            <div class="col-md-3 col-sm-4 col-xs-12 skillBtn">
+                                                <button class="btn btn-success" ng-click="profileCtrl.addSkill(profileCtrl.skills)">{{'button.save' | translate}}</button>
+                                                <button class="btn btn-default" ng-click="profileCtrl.skillShow = !profileCtrl.skillShow">{{'button.cancel' | translate}}</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/.col-->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/.skill-->
+                <hr class="line">
+
+                <div class="language" id="language">
+                    <div class="row head">
+                        <div class="col-sm-11 col-xs-10 img clearfix">
+                            <i></i>
+                            <span class="text">{{'user.profile.language' | translate}}</span>
+                        </div>
+                        <div class="icon col-sm-1 col-xs-2">
+                            <a ng-click="profileCtrl.openEditLanguageDialog()">
+                                <i class="fa fa-plus-square  fa-2x"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-11">
+                            <div class="profileContent row" ng-repeat="language in profileCtrl.user.languages">
+                                <div class="col-md-10 col-sm-10 col-xs-12 col-sm-offset-1">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12 text">
+                                            <div class="List" >
+                                                {{language.name}} <span class="level">{{language.UserLanguage.level | translate}}</span>
+                                                <div class="btn-group profileBtn" uib-dropdown>
+                                                    <button type="button" class="btn submit" uib-dropdown-toggle ng-disabled="disabled" id="language{{language.id}}">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu"
+                                                        aria-labelledby="language{{language.id}}">
+                                                        <li role="menuitem">
+                                                            <a href="" ng-click="profileCtrl.openEditLanguageDialog($index)">
+                                                                {{'button.edit'| translate}}
+                                                            </a>
+                                                        </li>
+                                                        <li class="divider"></li>
+                                                        <li role="menuitem">
+                                                            <a href="" ng-click="profileCtrl.removeLanguage(language.id,language.UserLanguage.id)">
+                                                                {{'button.remove' | translate}}
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/.col-->
+                                    </div>
+                                </div>
+                                <!--/.col-->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/.language-->
+            </div>
+        </div>
+        <!--/.col-->
+    </div>
+</div>

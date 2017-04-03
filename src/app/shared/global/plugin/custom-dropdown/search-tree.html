@@ -1,0 +1,18 @@
+<a href="" ng-class="{'active': item.isShowChildren}"  ng-show="item.children.length > 0" ng-click="toggleItem(item)">
+    {{item.name}}
+    <i class="fa fa-angle-right pull-right" ng-show="item.isShowChildren"></i>
+</a>
+
+<div ng-show="item.children.length === 0">
+    <div ng-click="addSelectedItem(item)" class="category">
+        <input type="checkbox" value="{{item.name}}"   ng-model="item.selected" ng-disabled="selectedItems.length === 5 && !item.selected">
+        <span >{{item.name}}</span>
+    </div>
+</div>
+
+<div ng-if="item.isShowChildren">
+    <ul class="searchPositionCategoryContentRight list-unstyled" ng-if="item.children.length > 0">
+        <li ng-repeat="item in item.children" ng-include="'app/shared/global/plugin/custom-dropdown/search-tree.html'" class="searchPositionCategoryList"></li>
+
+    </ul>
+</div>

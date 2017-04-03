@@ -1,0 +1,45 @@
+<div class="row" ng-controller="DashboardTabsController as dashboardTabsCtrl">
+    <div class="col-xs-12">
+        <ul class="list-inline dashboardTabs">
+            <li class="list" ui-sref="enterprise-auth.company.company-dashboard({companyId: dashboardTabsCtrl.companyId})"><a href="" ng-class="{'active': dashboardTabsCtrl.dashboard === 'dashboard'}">{{ 'enterprise.dashboard' | translate }}</a>
+            </li>
+            <!--<li class="list" ui-sref="enterprise.company-select"><a href="" ng-class="{'active': dashboardTabsCtrl.dashboard === 'company-select'}">{{ 'company.company-select' | translate }}</a>-->
+            <!--</li>-->
+            <!--<li class="list" ui-sref="enterprise.apply_for_companies">-->
+                <!--<a href="" ng-class="{'active': dashboardTabsCtrl.dashboard === 'company'}">-->
+                    <!--{{'company.apply_for_company_message' | translate}}</a>-->
+            <!--</li>-->
+
+            <!--<li class="list" ui-sref="enterprise.company_positions_create({id: dashboardTabsCtrl.companyId})">-->
+                <!--<a href="" ng-class="{'active': dashboardTabsCtrl.dashboard === 'publish_position'}">-->
+                    <!--{{ 'company.publish_position' | translate }}-->
+                <!--</a>-->
+            <!--</li>-->
+            <li class="list" ui-sref="enterprise-auth.company.interview({companyId: dashboardTabsCtrl.companyId})">
+                <a href="" ng-class="{'active': dashboardTabsCtrl.dashboard === 'interview'}">
+                    {{ 'enterprise.resume_management' | translate }}</a>
+            </li>
+            <li class="list" ui-sref="enterprise-auth.company.company_positions({companyId: dashboardTabsCtrl.companyId})">
+                <a href="" ng-class="{'active': dashboardTabsCtrl.dashboard === 'company_positions'}">
+                    {{ 'enterprise.position_management' | translate }}
+                </a>
+            </li>
+            <li class="list" ui-sref="enterprise-auth.company.job_offer_list({companyId: dashboardTabsCtrl.companyId})">
+                <a href="" ng-class="{'active': dashboardTabsCtrl.dashboard === 'job_offer'}">
+                    EasyBoost
+                </a>
+            </li>
+            <li class="list" ui-sref="main.company({companyId: dashboardTabsCtrl.companyId})">
+                <a href="" ng-class="{'active': dashboardTabsCtrl.dashboard === 'company'}">
+                    {{ 'enterprise.company_page' | translate}}
+                </a>
+            </li>
+            <li class="list" ui-sref="enterprise-auth.company.article-list({companyId: dashboardTabsCtrl.companyId})">
+                <a href="" ng-class="{'active': dashboardTabsCtrl.dashboard === 'article'}">
+                    {{ 'enterprise.article' | translate}}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!--/.col-->
+</div>

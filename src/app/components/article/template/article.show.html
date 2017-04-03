@@ -1,0 +1,137 @@
+<div ng-include="'app/components/search/template/search.html'"></div>
+<div class="container">
+  <div ng-include="'app/components/breadcrumb/template/breadcrumb.html'"></div>
+  <div class="row articleShow">
+    <div class="loading text-center" ng-show="showCtrl.loading">
+      <i class="fa fa-3x fa-spinner fa-spin"></i>
+    </div>
+    <div ng-show="!showCtrl.loading">
+      <div class="col-md-8 col-sm-12 col-xs-12 articleShowLeft">
+        <div class="articleShowLeftContent">
+          <h3 class="title">
+            {{showCtrl.article.title}}
+          </h3>
+          <div class="about">
+            <span class="writer">
+              {{'article.author' | translate}}: {{showCtrl.article.userName}}
+            </span>
+            <span class="time">{{showCtrl.article.createdAt | date: 'yyyy-MM-dd'}} {{'button.publish' | translate}}</span>
+            <span class="click">{{showCtrl.article.view}} {{'global.preview' | translate}}</span>
+          </div>
+          <ul class="keyList list-inline">
+            <li class="List" ng-repeat="list in showCtrl.article.tags">
+              <a >{{list.name}}</a>
+            </li>
+          </ul>
+
+          <div ta-bind ng-model="showCtrl.article.content" class="articleShowLeftText"></div>
+
+          <div class="other" ng-show="showCtrl.otherArticles.length > 0">
+            <h4 class="title">{{'article.more_article_you_like' | translate}}</h4>
+            <div class="loading text-center" ng-show="showCtrl.otherArticleLoading">
+              <i class="fa fa-3x fa-spinner fa-spin"></i>
+            </div>
+            <div class="row content" ng-show="!showCtrl.otherArticleLoading">
+              <div class="col-sm-4 col-xs-12 item" ng-repeat="item in showCtrl.otherArticles track by $index">
+                <div class="img">
+                  <a ui-sref="main.articles-show({articleId: item.id})">
+                    <img src="http://placehold.it/240x160" alt="" class="img-responsive" ng-show="item.cover === null">
+                    <img ng-src="{{item.cover.url['240']}}" alt="" class="img-responsive" ng-show="item.cover !== null">
+                  </a>
+                </div>
+                <h5 class="title">
+                  <a ui-sref="main.articles-show({articleId: item.id})">
+                    {{item.title}}
+                  </a>
+                </h5>
+              </div>
+              <!--/.col-->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--/.col-->
+      <div class="col-md-4 col-sm-12 col-xs-12 articleShowRight">
+        <div class="articleShowRightContent">
+          <div class="newestArticle">
+            <h4 class="title">
+              {{'company.article' | translate}}
+            </h4>
+            <div class="loading text-center" ng-show="showCtrl.relatedArticleLoading">
+              <i class="fa fa-3x fa-spinner fa-spin"></i>
+            </div>
+            <div class="noPosition text-center" ng-show="!showCtrl.relatedArticleLoading && showCtrl.relatedArticles.length === 0">
+              {{'message.no_related_article_msg' | translate}}
+            </div>
+            <div class="item" ng-repeat="article in showCtrl.relatedArticles" ng-show="!showCtrl.relatedArticleLoading && showCtrl.relatedArticles.length > 0">
+              <p class="title">
+                <a href="" ui-sref="main.articles-show({articleId: article.id})">
+                  {{article.title}}
+                </a>
+              </p>
+              <div class="time">
+                <span class="writer">
+                  {{'article.author' | translate}}: {{article.userName}}
+                </span>
+                <span class="createdAt">
+                  {{article.createdAt | date: 'yyyy-MM-dd'}} {{'button.publish' | translate}}
+                </span>
+              </div>
+            </div>
+          </div>
+          <!--/.artcle-->
+
+          <div class="positions">
+            <h4 class="title">
+              {{'company.related_position' | translate}}
+            </h4>
+            <div class="loading text-center" ng-show="showCtrl.relatedPositionsLoading">
+              <i class="fa fa-3x fa-spinner fa-spin"></i>
+            </div>
+            <div class="noPosition text-center" ng-show="!showCtrl.relatedPositionsLoading && showCtrl.relatedPositions.length === 0">
+              {{'message.no_related_position_message' | translate}}
+            </div>
+            <div class="row positionsContent">
+              <div class="col-md-12 col-sm-6 col-xs-12 item" ng-repeat="position in showCtrl.relatedPositions" ng-show="!showCtrl.relatedPositionsLoading && showCtrl.relatedPositions.length > 0">
+                <div class="row">
+                  <div class="col-md-3 col-sm-3 col-xs-4 img">
+                    <a href="" ui-sref="main.show-position({id: position.id})">
+                      <img src="http://placehold.it/100x100" alt="" class="img-responsive" ng-show="position.company.icon === null">
+                      <img ng-src="{{position.company.icon.url['100']}}" alt="" class="img-responsive" ng-show="position.company.icon !== null">
+                    </a>
+                  </div>
+                  <!--/.col-->
+                  <div class="col-md-9 col-sm-9 col-xs-8 itemContent">
+                    <div class="row content">
+                      <div class="col-md-8 col-sm-12 col-xs-12 text">
+                        <p class="companyName">
+                          <a href="" ui-sref="main.company({companyId: position.company.id})">{{position.company.name}}</a>
+                        </p>
+                        <p class="positionName">
+                          <a href="" ui-sref="main.show-position({id: position.id})">{{position.name}}</a>
+                        </p>
+                      </div>
+                      <!--/.col-->
+                      <div class="col-md-4 time hidden-xs hidden-sm">
+                        {{position.createdAt | date: 'yyyy-MM-dd'}}
+                      </div>
+                      <!--/.col-->
+                    </div>
+                  </div>
+                  <!--/.col-->
+                </div>
+              </div>
+              <!--/.col-->
+
+
+            </div>
+          </div>
+          <!--/.positions-->
+        </div>
+
+      </div>
+      <!--/.col-->
+    </div>
+  </div>
+
+</div>

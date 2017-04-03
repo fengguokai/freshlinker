@@ -1,0 +1,325 @@
+<div class="container">
+        <div class="upgrade" style="margin-bottom: 20px">
+            <h2 class="title text-center">
+                Pricing Guide
+            </h2>
+            <p class="subTitle text-center">
+                {{'pricing.subtitle' | translate}}
+            </p>
+            <div class="row content">
+                <div class="item lite">
+                    <div class="loading text-center" ng-show="planCtrl.liteLoading">
+                        <i class="fa fa-3x fa-spinner fa-spin"></i>
+                    </div>
+                    <div  ng-show="!planCtrl.liteLoading">
+                        <div class="itemContent">
+                            <div class="content">
+                                <h3>{{planCtrl.lite.displayName}}</h3>
+                                <p class="price" ng-show="planCtrl.lite.price !== 0">
+									<span class="currency">
+										$
+									</span>
+                                    {{planCtrl.lite.price}}
+                                </p>
+                                <p class="price" ng-show="planCtrl.lite.price === 0">
+                                    FREE!
+                                </p>
+                                <div class="tip">
+                                    {{'credit.list' | translate}}:
+                                    <em class="currency">
+                                        ${{planCtrl.lite.oldPrice}}
+                                    </em>
+
+                                </div>
+                            </div>
+                            <a href="" ui-sref="enterprise-auth.plan_package_detail({plan: '2'})" class="btn itemBtn">
+                                {{'global.go_buy' | translate}}
+                            </a>
+                        </div>
+                        <div class="itemMain">
+                            <div class="itemAbout">
+                                <h3><strong>{{planCtrl.lite.displayName}}</strong> {{'price.includes' | translate}}</h3>
+                                <p>
+                                    {{'price.features' | translate}}
+                                </p>
+                            </div>
+                            <ul class="itemList">
+                                <li>
+									<span>
+										<strong>{{planCtrl.lite.positionQuota}}</strong> {{'price.active_jobs_advertisements' | translate}}
+									</span>
+                                </li>
+                                <li>
+									<span>
+										{{'price.complementary_company_page' | translate}}
+									</span>
+                                </li>
+                                <li>
+									<span>
+										{{'price.applicant_tracking' | translate}}
+									</span>
+                                </li>
+                                <li>
+									<span>
+										{{'price.support' | translate}}: {{'price.standard' | translate}}
+									</span>
+                                </li>
+                                <li>
+									<span>
+										{{'price.validity' | translate}}: <strong>{{planCtrl.lite.planEffectiveDay}}</strong> {{'price.days' | translate}}
+									</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--/.col-->
+                <div class="item standard">
+                    <div class="loading text-center" ng-show="planCtrl.standardLoading">
+                        <i class="fa fa-3x fa-spinner fa-spin"></i>
+                    </div>
+                    <div  ng-show="!planCtrl.standardLoading">
+                        <div class="itemContent">
+                            <div class="content">
+                                <h3>{{planCtrl.standard.displayName}}</h3>
+                                <p class="price">
+								<span class="currency">
+									$
+								</span>
+                                    {{planCtrl.standard.price}}
+                                </p>
+                                <div class="tip">
+                                    {{'credit.list' | translate}}:
+                                    <em class="currency">
+                                        ${{planCtrl.standard.oldPrice}}
+                                    </em>
+                                </div>
+                            </div>
+                            <a href="" ui-sref="enterprise-auth.plan_package_detail({plan: '3'})" class="btn itemBtn">
+                                {{'global.go_buy' | translate}}
+                            </a>
+                        </div>
+                        <div class="itemMain">
+                            <div class="itemAbout">
+                                <h3>{{planCtrl.standard.displayName}} {{'price.includes' | translate}}</h3>
+                                <p>
+                                    {{'price.features' | translate}}
+                                </p>
+                            </div>
+                            <ul class="itemList">
+                                <li>
+									<span>
+										<strong>{{planCtrl.standard.positionQuota}}</strong> {{'price.active_jobs_advertisements' | translate}}
+									</span>
+                                </li>
+                                <li>
+									<span>
+										{{'price.complementary_company_page' | translate}}
+									</span>
+                                </li>
+                                <li>
+									<span>
+										{{'price.applicant_tracking' | translate}}
+									</span>
+                                </li>
+                                <li>
+									<span>
+										{{'price.support' | translate}}: {{'price.standard' | translate}}
+									</span>
+                                </li>
+                                <li>
+									<span>
+										{{'price.validity' | translate}}: <strong>{{planCtrl.standard.planEffectiveDay}}</strong> {{'price.days' | translate}}
+									</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--/.col-->
+
+                <div class="item professional">
+                    <div class="loading text-center" ng-show="planCtrl.professionLoading">
+                        <i class="fa fa-3x fa-spinner fa-spin"></i>
+                    </div>
+                    <div  ng-show="!planCtrl.professionLoading">
+                        <div class="itemContent">
+                            <div class="priceIcon"></div>
+                            <div class="content">
+                                <h3>{{planCtrl.profession.displayName}}</h3>
+                                <p class="price">
+								<span class="currency">
+									$
+								</span>
+                                    {{planCtrl.profession.price}}
+                                </p>
+                                <div class="tip">
+                                    {{'credit.list' | translate}}:
+                                    <em class="currency">
+                                        ${{planCtrl.profession.oldPrice}}
+                                    </em>
+
+                                </div>
+                            </div>
+                            <a href="" ui-sref="enterprise-auth.plan_package_detail({plan: '4'})" class="btn itemBtn">
+                                {{'global.go_buy' | translate}}
+                            </a>
+                        </div>
+                        <div class="itemMain">
+                            <div class="itemAbout">
+                                <h3>{{planCtrl.profession.displayName}} {{'price.includes' | translate}}</h3>
+                                <p>
+                                    {{'price.features' | translate}}
+                                </p>
+                            </div>
+                            <ul class="itemList">
+                                <li>
+									<span>
+										<strong>{{planCtrl.profession.positionQuota}}</strong> {{'price.active_jobs_advertisements' | translate}}
+									</span>
+                                </li>
+                                <li>
+									<span>
+										{{'price.applicant_tracking' | translate}}
+									</span>
+                                </li>
+                                <li>
+									<span>
+										<strong>{{planCtrl.profession.facebookPage}}</strong> {{'price.featured_job_slots' | translate}}
+									</span>
+                                </li>
+                                <li>
+									<span>
+										<strong>{{planCtrl.profession.interview}}</strong> {{'price.interview' | translate}}
+									</span>
+                                </li>
+                                <li>
+									<span>
+										{{'price.support' | translate}}: {{'price.priority' | translate}}
+									</span>
+                                </li>
+                                <li>
+									<span>
+										{{'price.validity' | translate}}: <strong>{{planCtrl.profession.planEffectiveDay}}</strong> {{'price.days' | translate}}
+									</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--/.col-->
+
+                <div class="item premium">
+                    <div class="loading text-center" ng-show="planCtrl.premiumLoading">
+                        <i class="fa fa-3x fa-spinner fa-spin"></i>
+                    </div>
+                    <div  ng-show="!planCtrl.premiumLoading">
+                        <div class="itemContent">
+                            <div class="content">
+                                <h3>{{planCtrl.premium.displayName}}</h3>
+                                <p class="price">
+								<span class="currency">
+									$
+								</span>
+                                    {{planCtrl.premium.price}}
+                                </p>
+                                <div class="tip">
+                                    {{'credit.list' | translate}}:
+                                    <em class="currency">
+                                        ${{planCtrl.premium.oldPrice}}
+                                    </em>
+                                </div>
+                            </div>
+                            <a href="" ui-sref="enterprise-auth.plan_package_detail({plan: '5'})" class="btn itemBtn">
+                                {{'global.go_buy' | translate}}
+                            </a>
+                        </div>
+                        <div class="itemMain">
+                            <div class="itemAbout">
+                                <h3>{{planCtrl.premium.displayName}} {{'price.includes' | translate}}</h3>
+                                <p>
+                                    {{'price.features' | translate}}
+                                </p>
+                            </div>
+                            <ul class="itemList">
+                                <li>
+                                    <span>
+                                        <strong>{{planCtrl.premium.positionQuota}}</strong> {{'price.active_jobs_advertisements' | translate}}
+                                    </span>
+                                </li>
+                                <li>
+									<span>
+										{{'price.applicant_tracking' | translate}}
+									</span>
+                                </li>
+                                <li>
+									<span>
+										<strong>{{planCtrl.premium.facebookPage}}</strong> {{'price.featured_job_slots' | translate}}
+									</span>
+                                </li>
+                                <li>
+									<span>
+										<strong>{{planCtrl.premium.interview}}</strong> {{'price.interview' | translate}}
+									</span>
+                                </li>
+                                <li>
+									<span>
+										{{'price.support' | translate}}: {{'price.priority' | translate}}
+									</span>
+                                </li>
+                                <li>
+									<span>
+										{{'price.validity' | translate}}: <strong>{{planCtrl.premium.planEffectiveDay}}</strong> {{'price.days' | translate}}
+									</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--/.col-->
+
+                <div class="item enterprise">
+                    <div class="loading text-center" ng-show="planCtrl.enterpriseLoading">
+                        <i class="fa fa-3x fa-spinner fa-spin"></i>
+                    </div>
+                    <div ng-show="!planCtrl.enterpriseLoading">
+                        <div class="itemContent">
+                            <div class="content">
+                                <h3>{{planCtrl.enterprise.displayName}}</h3>
+                                <p class="text enterpriseText">
+                                    {{planCtrl.enterprise.description}}
+                                </p>
+                            </div>
+                            <a href="mailto:hello@freshlinker.com" class="btn itemBtn">
+                                {{'about_us.contact_us' | translate}}
+                            </a>
+                        </div>
+                        <div class="itemMain">
+                            <div class="itemAbout">
+                                <h3>{{planCtrl.enterprise.displayName}} {{'price.includes' | translate}}</h3>
+                                <p>
+                                    {{'price.features' | translate}}
+                                </p>
+                            </div>
+                            <ul class="itemList">
+                                <li>
+									<span>
+										{{'price.active_jobs_fit_needs' | translate}}
+									</span>
+                                </li>
+                                <li>
+									<span>
+										{{'price.highest_level_recruitment_support' | translate}}
+									</span>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+
+                </div>
+                <!--/.col-->
+            </div>
+
+        </div>
+    </div>

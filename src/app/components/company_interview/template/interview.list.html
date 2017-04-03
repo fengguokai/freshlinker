@@ -1,0 +1,168 @@
+<div class="container">
+  <div ng-include="'app/components/dashboard_tabs/template/dashboard.tabs.html'"></div>
+  <form action="">
+    <div class="interview row">
+      <div class="col-md-3 col-sm-12 col-xs-12 interviewLeft">
+        <div class="content">
+          <ul class="list-unstyled interviewList">
+            <li class="list" ng-repeat="item in interviewCtrl.candidateStatus" ng-class="{'active': item.id === interviewCtrl.interviewIndex}">
+              <a href=""  ng-click="interviewCtrl.changeTab(item.id)">
+                <span>{{ item.name | translate}}</span>
+              </a>
+            </li>
+          </ul>
+          <div class="searchForm">
+            <h5>{{'search.dashboard_search_position' | translate}}</h5>
+
+              <div class="form-group">
+                <input type="text" placeholder="{{'message.position_name_input' | translate}}" ng-required="true" ng-model="interviewCtrl.filter.search">
+              </div>
+              <div class="form-group">
+                <button type="button" class="btn" ng-click="interviewCtrl.searchInterview()">{{'button.determine' | translate}}</button>
+              </div>
+          </div>
+
+        </div>
+        <!--/.interviewLeft-->
+      </div>
+
+
+      <div class="col-md-9 col-sm-12 col-xs-12 interviewRight">
+
+        <div ng-if="interviewCtrl.changeTabLoading">
+          <div class="text-center loading">
+            <i class="fa fa-spinner fa-pulse fa-3x"></i>
+          </div>
+        </div>
+        <div ng-if="!interviewCtrl.changeTabLoading">
+          <div class="text-center loading" ng-show="interviewCtrl.tableLoading && interviewCtrl.candidateLoading">
+            <i class="fa fa-spinner fa-pulse fa-3x"></i>
+          </div>
+
+          <div ng-show="!interviewCtrl.tableLoading">
+            <div ng-show="interviewCtrl.candidates.length === 0 && !interviewCtrl.candidateLoading" class="noPosition row">
+              <div class="col-md-3 col-sm-3 col-xs-12 col-sm-offset-2">
+                <img src="../../assets/img/no_position_message.png" alt="" class="img-responsive">
+              </div>
+              <!--/.col-->
+              <div class="col-md-5 col-sm-5 col-xs-12 text">
+                <p>
+                  {{'message.dashboard_interview_message' | translate}}
+                  <br>
+                  {{'message.dashboard_interview_tips_message' | translate}}
+                  <br>
+                  <span>{{'global.go_ahead' | translate}}</span>
+                  <a href="" ui-sref="enterprise-auth.company.company_positions({companyId: interviewCtrl.companyId})">
+                    {{ 'enterprise.position_management' | translate }}
+                  </a>
+                </p>
+              </div>
+              <!--/.col-->
+            </div>
+            <!--/.col-->
+            <div st-table="interviewCtrl.candidates" st-safe-src="interviewCtrl.candidates"
+                 st-pipe="interviewCtrl.callServer" ng-show="!interviewCtrl.candidateLoading && interviewCtrl.candidates.length > 0">
+                <div ng-repeat="candidate in interviewCtrl.candidates" class="list row">
+                  <p class="category">{{candidate.name}}</p>
+                  <div class="item row" ng-repeat="position in candidate.content">
+                    <fieldset class="col-sm-2 col-xs-12">
+                      <a ui-sref="main.resume({id: position.userId})">
+                        <img src="http://placehold.it/100x100" alt="" ng-show="position.user.icon === null" class="img-responsive img-circle">
+                        <img ng-src="{{position.user.icon.url['100']}}" alt="" class="img-responsive img-circle">
+                      </a>
+                    </fieldset>
+                    <div class="col-sm-3 col-xs-6 list">
+                      <p class="userName">
+                        <a ui-sref="main.resume({id: position.userId})">
+                          {{position.user.lastName}} {{position.user.firstName}}
+                        </a>
+                      </p>
+                      <p class="tips">
+                        <span>{{position.position.address}}</span>
+                        <span ng-show="position.position.address !== null"> | </span>
+                        <span>{{position.appliedAt | date: 'yyyy-MM-dd'}} {{'global.applied' | translate}}</span>
+                      </p>
+                    </div>
+                    <!--/.col-->
+                    <div class="col-sm-3 col-xs-6 list">
+                      <p class="positionName">
+                        <a class="positionName" ui-sref="main.show-position({id: position.positionId})">
+                          {{position.position.name}}
+                        </a>
+                      </p>
+                      <p class="tips">
+                        <span ng-show="position.isInvitation">{{'enterprise.company_invitation' | translate}}</span>
+                        <span ng-show="position.isInvitation === false">{{'enterprise.user_applied' | translate}}</span>
+                      </p>
+                    </div>
+                    <!--/.col-->
+                    <div class="checkList col-sm-2 col-xs-4">
+                      <a ui-sref="main.resume({id: position.userId})">
+                        <p class="icon">
+                          <span></span>
+                        </p>
+                        <p class="text text-center">
+                          {{'global.check' | translate}}
+                        </p>
+                      </a>
+                    </div>
+                    <!--/.col-->
+                    <div class="btn-user checkList col-sm-2 col-xs-4" uib-dropdown>
+                      <div class="btn-group" uib-dropdown is-open="status.isopen">
+                        <button id="" type="button" class="btn btn-sucess submit" uib-dropdown-toggle
+                                ng-disabled="disabled">
+                          <i class="fa fa-edit"></i>
+                        </button>
+                        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                          <li role="menuitem" ng-show="position.candidateStatusId === 1 || position.candidateStatusId === 3 || position.candidateStatusId === 5 || position.candidateStatusId === 4">
+                            <a ng-really-message="Are you sure?" ng-click="interviewCtrl.changeInterviewStatus(position.id,2)" nodrag>
+                              {{'company.interview' | translate}}
+                            </a>
+                          </li>
+
+                          <li role="menuitem" ng-show="position.candidateStatusId === 2 || position.candidateStatusId === 3 || position.candidateStatusId === 4">
+                            <a ng-really-message="Are you sure?" ng-click="interviewCtrl.changeInterviewStatus(position.id,5)" nodrag>
+                              {{'company.success' | translate}}
+                            </a>
+                          </li>
+
+                          <li role="menuitem" ng-show="position.candidateStatusId === 2 || position.candidateStatusId === 3 || position.candidateStatusId === 5">
+                            <a ng-really-message="Are you sure?" ng-click="interviewCtrl.changeInterviewStatus(position.id,4)" nodrag>
+                              {{'company.finish' | translate}}
+                            </a>
+                          </li>
+
+                          <li role="menuitem" ng-show="position.candidateStatusId === 1 || position.candidateStatusId === 2 || position.candidateStatusId === 4 || position.candidateStatusId === 5">
+                            <a ng-really-message="Are you sure?" ng-click="interviewCtrl.changeInterviewStatus(position.id, 3)"
+                               nodrag>
+                              {{'company.improper' | translate}}
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <p class="text text-center">
+                        {{'button.edit' | translate}}
+                      </p>
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <!-- page -->
+                <div class="page text-center" st-current-page="interviewCtrl.filter.page"
+                     st-template="app/shared/override/smart-table/pagination.html"
+                     st-next-prev-pagination=""
+                     st-pagination-action="interviewCtrl.paginationAction"
+                     st-items-by-page="interviewCtrl.itemsByPage">
+                </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>
+

@@ -1,0 +1,432 @@
+<div ng-include="'app/components/search/template/search.html'"></div>
+<div class="container">
+  <div ng-include="'app/components/breadcrumb/template/breadcrumb.html'"></div>
+  <div class="hotContent container" ng-show="articleCtrl.articleChoice">
+    <div class="row">
+      <div class="col-sm-12">
+        <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+      </div>
+      <!--/.col-->
+    </div>
+  </div>
+  <!-- .article -->
+  <div class="article">
+    <div class="head">
+      <span class="icon"><i class="fa fa-info-circle"></i></span>
+      <span class="title">{{'article.position_article' | translate}}</span>
+    </div>
+    <div class="articleContent row">
+      <div class="col-md-7 col-sm-12 col-xs-12 articleLeft">
+        <div class="loading text-center" ng-show="articleCtrl.featureLoading">
+          <i class="fa fa-3x fa-spinner fa-spin"></i>
+        </div>
+        <div class="noArticle text-center" ng-show="!articleCtrl.featureLoading && articleCtrl.featuredArticle === undefined">
+          {{'message.company_no_publish_articles' | translate}}
+        </div>
+        <div class="img" ng-show="!articleCtrl.featureLoading && articleCtrl.featuredArticle !== undefined">
+          <a ui-sref="main.articles-show({articleId: articleCtrl.featuredArticle.id})">
+            <img src="http://placehold.it/650x420" class="img-responsive" ng-show="articleCtrl.featuredArticle.cover === null">
+            <img ng-src="{{articleCtrl.featuredArticle.cover.url['1024']}}" alt="" class="img-responsive" ng-show="articleCtrl.featuredArticle.cover !== null">
+          </a>
+          <p class="title">
+            <a ui-sref="main.articles-show({articleId: articleCtrl.featuredArticle.id})">{{articleCtrl.featuredArticle.title}}</a>
+          </p>
+        </div>
+      </div>
+      <!--/.col-->
+      <div class="col-md-5 col-sm-12 col-xs-12 articleRight">
+        <div class="noArticle text-center" ng-show="!articleCtrl.popularLoading && articleCtrl.popularArticles.length === 0">
+          {{'message.company_no_publish_articles' | translate}}
+        </div>
+        <div class="loading text-center" ng-show="articleCtrl.popularLoading ">
+          <i class="fa fa-3x fa-spinner fa-spin"></i>
+        </div>
+        <ul class="list-unstyled" ng-show="!articleCtrl.popularLoading && articleCtrl.popularArticles.length > 0">
+          <li class="row" ng-repeat="popular in articleCtrl.popularArticles">
+            <div class="col-md-5 col-sm-5 col-xs-5 img">
+              <a href="" ui-sref="main.articles-show({articleId: popular.id})">
+                <img src="http://placehold.it/240x160" class="img-responsive" ng-show="popular.cover === null">
+                <img ng-src="{{popular.cover.url['240']}}" class="img-responsive" ng-show="popular.cover !== null">
+              </a>
+            </div>
+            <!--/.col-->
+            <div class="col-md-7 col-sm-7 col-xs-7 content">
+              <h5>
+                <a href="" ui-sref="main.articles-show({articleId: popular.id})">
+                  {{popular.title}}
+                </a>
+              </h5>
+              <p class="text">
+                <a href="" ui-sref="main.articles-show({articleId: popular.id})">
+                  {{popular.content | htmlToPlaintext | limitTo: 25}} <span ng-show="popular.content.length > 25">...</span>
+                </a>
+              </p>
+              <p class="tag hidden-xs">
+                <span ng-repeat="tag in popular.tags">{{tag.name}}</span>
+              </p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!--/.col-->
+    </div>
+    <!--  /.articleContent -->
+    <!-- .articleContentList -->
+    <div class="articleContentList row">
+        <div class="col-md-8 col-sm-12 col-xs-12 articleContentListLeft">
+          <div class="articleContentListLeftContent">
+            <ul class="tab list-inline">
+              <li  ng-click="articleCtrl.articleTab(item.id)"
+                   ng-repeat="item in articleCtrl.tabs track by $index">
+                <a href="" ng-class="{'active': item.id === articleCtrl.item}">
+                  {{item.name | translate}}
+                </a>
+              </li>
+
+            </ul>
+            <uib-tabset active="articleCtrl.item">
+              <uib-tab index="1">
+                <div class="loading text-center" ng-show="articleCtrl.tabLoading[1]">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                    </div>
+                    <!--/.col-->
+                  </div>
+                </div>
+                <div ng-show="!articleCtrl.tabLoading[1]">
+                  <div class="noArticle text-center" ng-show="articleCtrl.careerArticles.length === 0">
+                    {{'message.company_no_publish_articles' | translate}}
+                  </div>
+                  <ul class="list list-unstyled" ng-show="articleCtrl.careerArticles.length > 0">
+                    <li class="row item" ng-repeat="list in articleCtrl.careerArticles track by $index">
+                      <div class="col-sm-4 col-xs-12 img">
+                        <a href="" ui-sref="main.articles-show({articleId: list.id})">
+                          <img src="http://placehold.it/250x150" class="img-responsive" ng-show="list.cover === null">
+                          <img ng-src="{{list.cover.url['240']}}" class="img-responsive" alt="" ng-show="list.cover !== null">
+                        </a>
+                      </div>
+                      <!--/.img-->
+                      <div class="content col-sm-8 col-xs-12">
+                        <p class="title">
+                          <a href="" ui-sref="main.articles-show({articleId: list.id})">
+                            {{list.title}}
+                          </a>
+                        </p>
+                        <p class="other">
+                          <span class="author">
+                            {{'article.author' | translate}}: {{list.userName}}
+                          </span>
+                          <span class="time">
+                            {{list.createdAt | date: 'yyyy-MM-dd'}} {{'button.publish' | translate}}
+                          </span>
+                        </p>
+                        <ul class="tags list-inline">
+                          <li class="tag" ng-repeat="tag in list.tags | limitTo: 4">
+                            <span>{{tag.name}}</span>
+                          </li>
+                        </ul>
+                        <p class="text">{{list.content | htmlToPlaintext | limitTo: 50}}<span ng-show="list.content.length > 50">...</span></p>
+
+                      </div>
+                      <!--/.content-->
+                    </li>
+                  </ul>
+                  <p class="showMore text-center" ng-show="articleCtrl.careerArticles.length > 0">
+                    <a href="" class="btn btn-success" type="button" ng-click="articleCtrl.showArticleMore(1)" ng-show="articleCtrl.showMore[1]">
+                      {{'article.read_more' | translate}}
+                    </a>
+                  <span ng-show="!articleCtrl.showMore[1]">
+                    {{'article.article_no_more_articles' | translate}}
+                  </span>
+                  </p>
+                </div>
+              </uib-tab>
+              <uib-tab index="2">
+                <div class="loading text-center" ng-show="articleCtrl.tabLoading[2]">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                    </div>
+                    <!--/.col-->
+                  </div>
+                </div>
+                <div ng-show="!articleCtrl.tabLoading[2]">
+                  <div class="noArticle text-center" ng-show="articleCtrl.blogArticles.length === 0">
+                    {{'message.company_no_publish_articles' | translate}}
+                  </div>
+                  <ul class="list list-unstyled" ng-show="articleCtrl.blogArticles.length > 0">
+                    <li class="row item" ng-repeat="list in articleCtrl.blogArticles track by $index">
+                      <div class="col-sm-4 col-xs-12 img">
+                        <a href="" ui-sref="main.articles-show({articleId: list.id})">
+                          <img src="http://placehold.it/250x150" class="img-responsive" ng-show="list.cover === null">
+                          <img ng-src="{{list.cover.url['240']}}" class="img-responsive" alt="" ng-show="list.cover !== null">
+                        </a>
+                      </div>
+                      <!--/.img-->
+                      <div class="content col-sm-8 col-xs-12">
+                        <p class="title">
+                          <a href="" ui-sref="main.articles-show({articleId: list.id})">
+                            {{list.title}}
+                          </a>
+                        </p>
+                        <p class="other">
+                          <span class="author">
+                            {{'article.author' | translate}}: {{list.userName}}
+                          </span>
+                          <span class="time">
+                            {{list.createdAt | date: 'yyyy-MM-dd'}} {{'button.publish' | translate}}
+                          </span>
+                        </p>
+                        <ul class="tags list-inline">
+                          <li class="tag" ng-repeat="tag in list.tags | limitTo: 4">
+                            <span>{{tag.name}}</span>
+                          </li>
+                        </ul>
+                        <p class="text">{{list.content | htmlToPlaintext | limitTo: 50}}<span ng-show="list.content.length > 50">...</span></p>
+
+                      </div>
+                      <!--/.content-->
+                    </li>
+                  </ul>
+                  <p class="showMore text-center" ng-show="articleCtrl.blogArticles.length > 0">
+                    <a href="" class="btn btn-success" type="button" ng-click="articleCtrl.showArticleMore(2)" ng-show="articleCtrl.showMore[2]">
+                      {{'article.read_more' | translate}}
+                    </a>
+                  <span ng-show="!articleCtrl.showMore[2]">
+                    {{'article.article_no_more_articles' | translate}}
+                  </span>
+                  </p>
+                </div>
+              </uib-tab>
+              <uib-tab index="3">
+                <div class="loading text-center" ng-show="articleCtrl.tabLoading[3]">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                    </div>
+                    <!--/.col-->
+                  </div>
+                </div>
+                <div ng-show="!articleCtrl.tabLoading[3]">
+                  <div class="noArticle text-center" ng-show="articleCtrl.shareArticles.length === 0">
+                    {{'message.company_no_publish_articles' | translate}}
+                  </div>
+                  <ul class="list list-unstyled" ng-show="articleCtrl.shareArticles.length > 0">
+                    <li class="row item" ng-repeat="list in articleCtrl.shareArticles track by $index">
+                      <div class="col-sm-4 col-xs-12 img">
+                        <a href="" ui-sref="main.articles-show({articleId: list.id})">
+                          <img src="http://placehold.it/250x150" class="img-responsive" ng-show="list.cover === null">
+                          <img ng-src="{{list.cover.url['240']}}" class="img-responsive" alt="" ng-show="list.cover !== null">
+                        </a>
+                      </div>
+                      <!--/.img-->
+                      <div class="content col-sm-8 col-xs-12">
+                        <p class="title">
+                          <a href="" ui-sref="main.articles-show({articleId: list.id})">
+                            {{list.title}}
+                          </a>
+                        </p>
+                        <p class="other">
+                          <span class="author">
+                            {{'article.author' | translate}}: {{list.userName}}
+                          </span>
+                          <span class="time">
+                            {{list.createdAt | date: 'yyyy-MM-dd'}} {{'button.publish' | translate}}
+                          </span>
+                        </p>
+                        <ul class="tags list-inline">
+                          <li class="tag" ng-repeat="tag in list.tags | limitTo: 4">
+                            <span>{{tag.name}}</span>
+                          </li>
+                        </ul>
+                        <p class="text">{{list.content | htmlToPlaintext | limitTo: 50}}<span ng-show="list.content.length > 50">...</span></p>
+
+                      </div>
+                      <!--/.content-->
+                    </li>
+                  </ul>
+                  <p class="showMore text-center" ng-show="articleCtrl.shareArticles.length > 0">
+                    <a href="" class="btn btn-success" type="button" ng-click="articleCtrl.showArticleMore(3)" ng-show="articleCtrl.showMore[3]">
+                      {{'article.read_more' | translate}}
+                    </a>
+                    <span ng-show="!articleCtrl.showMore[3]">
+                      {{'article.article_no_more_articles' | translate}}
+                    </span>
+                  </p>
+                </div>
+              </uib-tab>
+              <uib-tab index="4">
+                <div class="loading text-center" ng-show="articleCtrl.tabLoading[4]">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                    </div>
+                    <!--/.col-->
+                  </div>
+                </div>
+                <div ng-show="!articleCtrl.tabLoading[4]">
+                  <div class="noArticle text-center" ng-show="articleCtrl.tipArticles.length === 0">
+                    {{'message.company_no_publish_articles' | translate}}
+                  </div>
+                  <ul class="list list-unstyled" ng-show="articleCtrl.tipArticles.length > 0">
+                    <li class="row item" ng-repeat="list in articleCtrl.tipArticles track by $index">
+                      <div class="col-sm-4 col-xs-12 img">
+                        <a href="" ui-sref="main.articles-show({articleId: list.id})">
+                          <img src="http://placehold.it/250x150" class="img-responsive" ng-show="list.cover === null">
+                          <img ng-src="{{list.cover.url['240']}}" class="img-responsive" alt="" ng-show="list.cover !== null">
+                        </a>
+                      </div>
+                      <!--/.img-->
+                      <div class="content col-sm-8 col-xs-12">
+                        <p class="title">
+                          <a href="" ui-sref="main.articles-show({articleId: list.id})">
+                            {{list.title}}
+                          </a>
+                        </p>
+                        <p class="other">
+                          <span class="author">
+                            {{'article.author' | translate}}: {{list.userName}}
+                          </span>
+                          <span class="time">
+                            {{list.createdAt | date: 'yyyy-MM-dd'}} {{'button.publish' | translate}}
+                          </span>
+                        </p>
+                        <ul class="tags list-inline">
+                          <li class="tag" ng-repeat="tag in list.tags | limitTo: 4">
+                            <span>{{tag.name}}</span>
+                          </li>
+                        </ul>
+                        <p class="text">{{list.content | htmlToPlaintext | limitTo: 50}}<span ng-show="list.content.length > 50">...</span></p>
+
+                      </div>
+                      <!--/.content-->
+                    </li>
+                  </ul>
+                  <p class="showMore text-center" ng-show="articleCtrl.tipArticles.length > 0">
+                    <a href="" class="btn btn-success" type="button" ng-click="articleCtrl.showArticleMore(4)" ng-show="articleCtrl.showMore[4]">
+                      {{'article.read_more' | translate}}
+                    </a>
+                    <span ng-show="!articleCtrl.showMore[4]">
+                      {{'article.article_no_more_articles' | translate}}
+                    </span>
+                  </p>
+                </div>
+              </uib-tab>
+              <uib-tab index="5">
+                <div class="loading text-center" ng-show="articleCtrl.tabLoading[5]">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                    </div>
+                    <!--/.col-->
+                  </div>
+                </div>
+                <div ng-show="!articleCtrl.tabLoading[5]">
+                  <div class="noArticle text-center" ng-show="articleCtrl.insiderArticles.length === 0">
+                    {{'message.company_no_publish_articles' | translate}}
+                  </div>
+                  <ul class="list list-unstyled" ng-show="articleCtrl.insiderArticles.length > 0">
+                    <li class="row item" ng-repeat="list in articleCtrl.insiderArticles track by $index">
+                      <div class="col-sm-4 col-xs-12 img">
+                        <a href="" ui-sref="main.articles-show({articleId: list.id})">
+                          <img src="http://placehold.it/250x150" class="img-responsive" ng-show="list.cover === null">
+                          <img ng-src="{{list.cover.url['240']}}" class="img-responsive" alt="" ng-show="list.cover !== null">
+                        </a>
+                      </div>
+                      <!--/.img-->
+                      <div class="content col-sm-8 col-xs-12">
+                        <p class="title">
+                          <a href="" ui-sref="main.articles-show({articleId: list.id})">
+                            {{list.title}}
+                          </a>
+                        </p>
+                        <p class="other">
+                          <span class="author">
+                            {{'article.author' | translate}}: {{list.userName}}
+                          </span>
+                          <span class="time">
+                            {{list.createdAt | date: 'yyyy-MM-dd'}} {{'button.publish' | translate}}
+                          </span>
+                        </p>
+                        <ul class="tags list-inline">
+                          <li class="tag" ng-repeat="tag in list.tags | limitTo: 4">
+                            <span>{{tag.name}}</span>
+                          </li>
+                        </ul>
+                        <p class="text">{{list.content | htmlToPlaintext | limitTo: 50}}<span ng-show="list.content.length > 50">...</span></p>
+
+                      </div>
+                      <!--/.content-->
+                    </li>
+                  </ul>
+                  <p class="showMore text-center" ng-show="articleCtrl.insiderArticles.length > 0">
+                    <a href="" class="btn btn-success" type="button" ng-click="articleCtrl.showArticleMore(5)" ng-show="articleCtrl.showMore[5]">
+                      {{'article.read_more' | translate}}
+                    </a>
+                    <span ng-show="!articleCtrl.showMore[5]">
+                      {{'article.article_no_more_articles' | translate}}
+                    </span>
+                  </p>
+                </div>
+              </uib-tab>
+            </uib-tabset>
+          </div>
+        </div>
+        <!--/.articleContentListLeft-->
+        <div class="col-md-4 col-sm-12 col-xs-12 articleContentListRight">
+          <div class="articleContentListRightArticle">
+            <p class="title">
+              {{'article.newest_article' | translate}}
+            </p>
+            <div class="loading text-center" ng-show="articleCtrl.newLoading">
+              <div class="row">
+                <div class="col-sm-12">
+                  <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                </div>
+                <!--/.col-->
+              </div>
+            </div>
+
+            <div class="noArticle text-center" ng-show="!articleCtrl.newLoading && articleCtrl.newArticles.length === 0">
+              {{'message.company_no_publish_articles' | translate}}
+            </div>
+            <ul class="newArticle" ng-show="!articleCtrl.newLoading && articleCtrl.newArticles.length > 0">
+              <li ng-repeat="list in articleCtrl.newArticles | limitTo: 5">
+                <a href="" ui-sref="main.articles-show({articleId: list.id})">
+                  {{list.title}}
+                </a>
+                <p class="other">
+                  <span class="author">
+                    {{'article.author' | translate}}: {{list.userName}}
+                  </span>
+                  <span class="time">
+                    {{list.createdAt | date: 'yyyy-MM-dd'}} {{'button.publish' | translate}}
+                  </span>
+                </p>
+              </li>
+
+            </ul>
+
+
+          </div>
+          <!--/.articleContentListRight-->
+
+          <div class="articleContentListRightTag" ng-show="false">
+            <p class="tagsTitle">
+              热点标签
+            </p>
+
+            <ul class="tags list-inline">
+              <li><a href="">人物专访</a></li>
+              <li><a href="">职场资讯</a></li>
+            </ul>
+          </div>
+        </div>
+        <!--/.col-->
+    </div>
+    <!-- /.articleContentList -->
+      <!--/.col-->
+  </div>
+  <!--/.article-->
+</div>

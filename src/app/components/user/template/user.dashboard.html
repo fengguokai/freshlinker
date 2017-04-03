@@ -1,0 +1,320 @@
+<hr class="userHr">
+<div class="container">
+    <div ng-include="'app/components/user/template/user_tabs.html'"></div>
+    <div class="row userDashboard">
+        <div class="col-md-3 col-sm-12 col-xs-12 userDashboardLeft">
+            <div class="loading text-center" ng-show="dashboardCtrl.loading">
+                <i class="fa fa-3x fa-spinner fa-spin"></i>
+            </div>
+            <div class="content" ng-show="!dashboardCtrl.loading">
+                <p class="edit text-left">
+                    <a href="" ui-sref="main-auth.user">
+                        <i class="fa fa-edit"></i>
+                        {{'button.edit' | translate}}
+                    </a>
+                </p>
+                <div class="img">
+                    <a href="" ng-click="dashboardCtrl.openEditIconDialog(dashboardCtrl.user.icon)">
+                        <div ng-if="dashboardCtrl.user.icon.url !== undefined">
+                            <img ng-src="{{dashboardCtrl.user.icon.url['200']}}" class="img-responsive img-circle">
+                        </div>
+                        <div ng-if="dashboardCtrl.user.icon.url === undefined">
+                            <img ng-src="http://placehold.it/200x200" class="img-responsive img-circle">
+                        </div>
+                    </a>
+                </div>
+
+                <!--/.img-->
+                <div class="userInformation text-center">
+                    <h4 class="name">{{dashboardCtrl.user.firstName}} {{dashboardCtrl.user.lastName}}</h4>
+                    <h4 class="position">{{dashboardCtrl.user.experiences[dashboardCtrl.user.experiences.length -
+                        1].title}}</h4>
+                </div>
+                <div class="baseInformation">
+                    <h4>{{'user.profile.base_information' | translate}}</h4>
+                    <div class="row text">
+                        <div class="col-sm-5 col-xs-6 title">
+                            {{'user.profile.education' | translate}}
+                        </div>
+                        <!--/.col-->
+                        <div class="col-sm-7 col-xs-6 content">
+                            {{dashboardCtrl.user.educations[dashboardCtrl.user.educations.length -
+                            1].educationLevel.name}}
+                        </div>
+                        <!--/.col-->
+                    </div>
+                    <div class="row text">
+                        <div class="col-sm-5 col-xs-6 title">
+                            {{'user.profile.experience' | translate}}
+                        </div>
+                        <!--/.col-->
+                        <div class="col-sm-7 col-xs-6 content">
+                            {{dashboardCtrl.user.yearOfExperience}} {{'global.year' | translate}}
+                        </div>
+                        <!--/.col-->
+                    </div>
+                    <div class="row text">
+                        <div class="col-sm-5 col-xs-6 title">
+                            {{'user.profile.tel' | translate}}
+                        </div>
+                        <!--/.col-->
+                        <div class="col-sm-7 col-xs-6 content">
+                            {{dashboardCtrl.user.phone}}
+                        </div>
+                        <!--/.col-->
+                    </div>
+                    <div class="row text">
+                        <div class="col-sm-5 col-xs-6 title">
+                            {{'user.profile.email' | translate}}
+                        </div>
+                        <!--/.col-->
+                        <div class="col-sm-7 col-xs-6 content">
+                            {{dashboardCtrl.user.email}}
+                        </div>
+                        <!--/.col-->
+                    </div>
+                </div>
+                <div class="aboutMe"  ng-show="dashboardCtrl.user.selfDescription !== null">
+                    <h4>{{'user.profile.self_description' | translate}}</h4>
+                    <p>
+                        {{dashboardCtrl.user.selfDescription | escapeHtml | limitTo: 80}}
+                        <span ng-show="!dashboardCtrl.descriptionShow && dashboardCtrl.user.selfDescription.length > 80">...</span>
+                        <span>
+                            <a href="" ng-click="dashboardCtrl.descriptionShow = !dashboardCtrl.descriptionShow" ng-show="!dashboardCtrl.descriptionShow && dashboardCtrl.user.selfDescription.length > 80">
+                                {{'global.expand' | translate}}
+                            </a>
+                        </span>
+                        <span ng-show="dashboardCtrl.descriptionShow">
+                            {{dashboardCtrl.user.selfDescription | escapeHtml | limitTo: 255 : 81}}
+                            <a href="" ng-click="dashboardCtrl.descriptionShow = !dashboardCtrl.descriptionShow" ng-show="dashboardCtrl.descriptionShow">{{'global.put_away' | translate}}</a>
+                      </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!--/.col-->
+        <div class="col-md-9 col-sm-12 col-xs-12 userDashboardRight">
+            <div class="appliedPosition">
+                <h4 class="title">{{'user.profile.applied_position' | translate}}</h4>
+                <div class="loading text-center" ng-show="dashboardCtrl.appliedPositionLoading">
+                    <i class="fa fa-3x fa-spinner fa-spin"></i>
+                </div>
+                <div ng-show="!dashboardCtrl.appliedPositionLoading">
+                    <div class="loading text-center" ng-show="dashboardCtrl.positonLoading">
+                        <i class="fa fa-3x fa-spinner fa-spin"></i>
+                    </div>
+                    <div class="noPosition row" ng-show="dashboardCtrl.appliedPositions.length === 0 && !dashboardCtrl.positonLoading">
+                        <div class="col-md-2 col-sm-3 col-xs-12 col-sm-offset-3">
+                            <img src="../../assets/img/no_position_message.png" alt="" class="img-responsive">
+                        </div>
+                        <!--/.col-->
+                        <div class="col-md-5 col-sm-5 col-xs-12 text">
+                            <p>
+                                {{'message.no_user_applied_position' | translate}}
+                                <br>
+                                {{'message.user_applied_position' | translate}}!
+                                <br>
+                                <span>{{'global.go_ahead' | translate}}</span>
+                                <a href="" ui-sref="main.position-list">
+                                    {{ 'position.position_list' | translate }}
+                                </a>
+                            </p>
+                        </div>
+                        <!--/.col-->
+                    </div>
+                    <div ng-show="dashboardCtrl.appliedPositions.length > 0 && !dashboardCtrl.positonLoading">
+                        <ul class="list-unstyled positionList">
+                            <li class="row" ng-repeat="position in dashboardCtrl.appliedPositions">
+                                <div class="img  col-md-2 col-sm-2 col-xs-6">
+                                    <a ui-sref="main.show-position({id: position.positionId})">
+                                        <img src="http://placehold.it/100x100" alt="" class="img-responsive" ng-show="position.company.icon === null">
+                                        <img ng-src="{{position.company.icon.url['100']}}" alt="" class="img-responsive" ng-show="position.company.icon !== null">
+                                    </a>
+                                </div>
+                                <!--/.col-->
+                                <div class="content col-md-4 col-sm-4 col-xs-6">
+                                    <p class="name">
+                                        <a ui-sref="main.show-position({id: position.positionId})">{{position.position.name}}</a>
+                                    </p>
+                                    <p class="company">
+                                        <a ui-sref="main.company({companyId: position.companyId})">{{position.company.name}}</a>
+                                    </p>
+                                </div>
+                                <!--/.col-->
+                                <div class="status col-md-2 col-sm-3 hidden-xs">
+                                    <p class="text">{{position.candidateStatus.name | translate}}</p>
+                                    <p class="time">{{position.appliedAt | date: 'yyyy-MM-dd'}}{{'position.apply' | translate}}</p>
+                                </div>
+                                <!--/.col-->
+                                <div class="other col-md-2 hidden-xs col-sm-3">
+                                    <p class="num">{{position.candidateNum}}</p>
+                                    <p class="text">{{'position.have_applier' | translate}}</p>
+                                </div>
+                                <!--/.col-->
+                                <div class="button col-md-2 hidden-xs hidden-sm">
+                                    <button class="btn btn-default btn-bg-c">{{'global.applied_position' | translate}}</button>
+                                </div>
+                                <!--/.col-->
+                            </li>
+                        </ul>
+                        <p class="text-right more">
+                            <a ui-sref="main-auth.positions">
+                                {{'global.check' | translate}}{{'global.more' | translate}}{{'position.positions' | translate}}
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!--/.appliedPosition-->
+            <div class="invitationPosiiton">
+                <h4 class="title">{{'enterprise.position_offer' | translate}}</h4>
+                <div class="loading text-center" ng-show="dashboardCtrl.invitationPositonLoading">
+                    <i class="fa fa-3x fa-spinner fa-spin"></i>
+                </div>
+                <div ng-show="!dashboardCtrl.invitationPositonLoading">
+                    <div class="noPosition row" ng-show="dashboardCtrl.invitationPositons.length === 0">
+                        <div class="col-md-2 col-sm-3 col-xs-12 col-sm-offset-3">
+                            <img src="../../assets/img/no_position_message.png" alt="" class="img-responsive">
+                        </div>
+                        <!--/.col-->
+                        <div class="col-md-5 col-sm-5 col-xs-12 text">
+                            <p>
+                                {{'message.no_job_offer_message' | translate}}
+                                <br>
+                                {{'message.user_improve_personal_information' | translate}}!
+                                <br>
+                                <span>{{'global.go_ahead' | translate}}</span>
+                                <a href="" ui-sref="main-auth.profile">
+                                    {{ 'user.profile.my_profile' | translate }}
+                                </a>
+                            </p>
+                        </div>
+                        <!--/.col-->
+                    </div>
+                    <div ng-show="dashboardCtrl.invitationPositons.length > 0">
+                        <ul class="list-unstyled positionList">
+                            <li class="row" ng-repeat="position in dashboardCtrl.invitationPositons">
+                                <div class="img  col-md-2 col-sm-2 col-xs-3">
+                                    <a href="" ui-sref="main.show-position({id: position.id})">
+                                        <img src="http://placehold.it/100x100" alt="" class="img-responsive" ng-show="position.company.icon === null">
+                                        <img ng-src="{{position.company.icon.url['100']}}" alt="" class="img-responsive" ng-show="position.company.icon !== null">
+                                    </a>
+                                </div>
+                                <!--/.col-->
+                                <div class="content col-md-6 col-sm-4 col-xs-5">
+                                    <p class="name">
+                                        <a href="" ui-sref="main.show-position({id: position.position.id})">
+                                            {{position.position.name}}
+                                        </a>
+                                    </p>
+                                    <p class="company">
+                                        <a href="" ui-sref="main.company({companyId: position.company.id})">
+                                            {{position.company.name}}
+                                        </a>
+                                    </p>
+                                </div>
+                                <!--/.col-->
+                                <div class="other col-md-2 hidden-xs col-sm-3">
+                                    <p class="num">
+                                        {{position.candidateNum}}
+                                    </p>
+                                    <p class="text">
+                                        {{'position.have_applier' | translate}}
+                                    </p>
+                                </div>
+                                <!--/.col-->
+                                <div class="button col-md-2 col-sm-3 col-xs-4 text-center" ng-class="{'reject': position.status === 'rejected' || position.status === 'accepted'}">
+                                    <button type="button" class="btn" ng-click="dashboardCtrl.setCandidate(position.position.id, position.id)" ng-class="{'btn-success': position.status === 'pending'}" ng-show="position.status === 'pending'">{{'position.accept_job_interview' | translate}}</button>
+                                    <div class="text-center reject" ng-show="position.status === 'pending' ">
+                                        <a href="" ng-click="dashboardCtrl.rejectPositionInvite(position.id)">{{'position.reject_job_interview' | translate}}</a>
+                                    </div>
+
+                                    <button type="button" class="btn"  ng-show="position.status === 'accepted'" ng-class="{'accepted': position.status === 'accepted'}">{{'position.posted_job_invite' | translate}}</button>
+
+                                    <div class="text-center reject" ng-show="position.status === 'rejected'">
+                                        <button  class="btn btn-default">{{'position.rejected' | translate}}</button>
+                                    </div>
+                                </div>
+                                <!--/.col-->
+
+                            </li>
+
+                        </ul>
+                        <p class="text-right more">
+                            <a ui-sref="main-auth.job-invite">
+                                {{'global.check' | translate}}{{'global.more' | translate}}{{'position.invite' | translate}}
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!--/.invitationPosiiton-->
+            <div class="article">
+                <h4 class="title">{{'enterprise.article_published' | translate}}</h4>
+                <div ng-show="dashboardCtrl.articleLoading" class="loading text-center">
+                    <i class="fa fa-3x fa-spinner fa-spin"></i>
+                </div>
+                <div ng-show="!dashboardCtrl.articleLoading">
+                    <div ng-show="dashboardCtrl.articles.length === 0">
+                        <div class="noPosition row">
+                            <div class="col-md-2 col-sm-3 col-xs-12 col-sm-offset-3">
+                                <img src="../../assets/img/no_position_message.png" alt="" class="img-responsive">
+                            </div>
+                            <!--/.col-->
+                            <div class="col-md-5 col-sm-5 col-xs-12 text">
+                                <p>
+                                    {{'message.article_no_publish_message' | translate}}
+                                    <br>
+                                    {{'message.article_need_to_fill_published' | translate}}!
+                                    <br>
+                                    <span>{{'global.go_ahead' | translate}}</span>
+                                    <a ui-sref="main-auth.article_create">
+                                        {{ 'enterprise.article_publish' | translate }}
+                                    </a>
+                                </p>
+                            </div>
+                            <!--/.col-->
+                        </div>
+                    </div>
+                    <div ng-show="dashboardCtrl.articles.length > 0">
+                        <ul class="list-unstyled articleList">
+                            <li class="article row" ng-repeat="article in dashboardCtrl.articles">
+                                <div class="col-md-12 col-sm-12 col-xs-12 title">
+                                    <a ui-sref="main.articles-show({articleId: article.id})">
+                                        {{article.title}}
+                                    </a>
+                                </div>
+                                <!--/.col-->
+                                <p class="text col-xs-12">
+                                    {{article.content | htmlToPlaintext | limitTo: 100}}<span ng-show="article.content.length > 100">...</span>
+                                </p>
+                                <ul class="col-sm-12 col-xs-12 checkList list-inline">
+                                    <li class="list">
+                                        <a ui-sref="main-auth.article-edit({articleId: article.id})">{{'button.edit' | translate}}</a>
+                                    </li>
+                                    <li>|</li>
+
+                                    <li class="list">
+                                        <a href="" ng-click="dashboardCtrl.destory(article.id)">{{'button.delete' | translate}}</a>
+                                    </li>
+                                    <li>|</li>
+                                    <li class="list">
+                                        {{article.createdAt | date: 'yyyy-MM-dd'}} {{'button.publish' | translate}}
+                                    </li>
+                                </ul>
+                                <!--/.col-->
+                            </li>
+                        </ul>
+                        <p class="text-right more">
+                            <a ui-sref="main-auth.article-list">
+                                {{'enterprise.more_article' | translate}}
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!--/.article-->
+        </div>
+        <!--/.col-->
+    </div>
+</div>

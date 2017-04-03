@@ -1,0 +1,172 @@
+<div class="container">
+    <div ng-include="'app/components/dashboard_tabs/template/dashboard.tabs.html'"></div>
+    <form class="form-horizontal" name="Form" ng-submit="articleCtrl.post()">
+        <div class="row articleEdit">
+            <div class="loading text-center" ng-show="articleCtrl.loading">
+                <i class="fa fa-3x fa-spinner fa-spin"></i>
+            </div>
+            <div ng-show="!articleCtrl.loading">
+                <div class="col-md-3 col-sm-12 col-xs-12 articleEditLeft">
+                    <div class="content">
+                        <div class="button">
+                            <button type="submit" class="btn btn-success sub articleSub">
+                                <span ng-if="articleCtrl.saveLoading"><i class="fa fa-spin fa-spinner"></i></span>
+                                <span ng-if="!articleCtrl.saveLoading">{{ 'button.add' | translate }}</span>
+                            </button>
+                            <a ui-sref="enterprise-auth.company.article-list({companyId: articleCtrl.companyId})" type="button" class="btn btn-default canel" >
+                                {{ 'button.return' | translate }}
+                            </a>
+                        </div>
+
+                        <div class="pic col-xs-12">
+                            <label for="name" class="col-sm-12 col-xs-12 control-label">
+                                {{ 'article.cover' |translate}} ({{'article.article_cover_upload_size_msg' | translate}})
+                            </label>
+                            <!--/.col-->
+                            <div class="col-sm-12 col-xs-12">
+                                <div ng-app="fileUpload" class="text-left" >
+                                    <div  ngf-select="articleCtrl.uploadFile($files)" ng-model="articleCtrl.upload.file" id="file"
+                                          class="ng-file-upload-drop-box"
+                                          ngf-drag-over-class="'ng-file-upload-drag-over'" ngf-multiple="false"
+                                          ngf-allow-dir="true"
+                                          accept="image/*" ngf-max-size="2MB" required  ngf-pattern="'image/*'">
+                                  <span class="text-muted">
+                                    <i class="fa fa-cloud-upload fa-5x" ng-show="articleCtrl.cover ==='' && articleCtrl.files === undefined"></i>
+                                    <i ng-show="companyEditForm.file.$error.maxSize">{{'file.File_too_large' | translate}}
+                                        {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+                                     <img ng-show="companyEditForm.file.$valid" ngf-thumbnail="articleCtrl.upload.file" class="thumb" width="200", height="200">
+                                     <img class="thumb" ng-show="(articleCtrl.cover !== '') && (articleCtrl.files === undefined)" ng-src="{{articleCtrl.cover}}" >
+                                    <br>
+                                    <h4>{{'file.Drop_here_to_upload_(or click)' | translate}}</h4>
+                                  </span>
+                                    </div>
+                                    <div ngf-no-file-drop>{{'file.File_Drag/Drop_is_not_supported_for_this_browser' | translate}}</div>
+                                    <div class="error" ng-show="articleCtrl.showError">
+                                        <i class="fa fa-times-circle"></i>
+                                        {{articleCtrl.coverError | translate}}
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/.col-->
+                        </div>
+                        <!--/.col-->
+
+                        <div class="tags col-xs-12">
+                            <label for="name" class="col-sm-12 col-xs-12 control-label">
+                                {{ 'article.tag' |translate}}
+                            </label>
+                            <!--/.col-->
+
+                            <div class="col-sm-12 col-xs-12">
+                                <ui-select multiple tagging tagging-label ng-model="articleCtrl.article.tags" theme="bootstrap" ng-change="articleCtrl.contentInput()">
+                                    <ui-select-match placeholder="{{'message.article_tag_input' | translate}}"  id="tags">{{$item}}</ui-select-match>
+                                    <ui-select-choices repeat="tag in articleCtrl.defaultTags  | filter:$select.search track by $index">{{tag}}
+                                    </ui-select-choices>
+                                </ui-select>
+                                <div class="tips">
+                                    {{'global.tips' | translate}}: {{'article.article_tags_input_msg' | translate}}
+                                </div>
+                                <div class="error" ng-show="articleCtrl.tagsError">
+                                    <i class="fa fa-times-circle"></i>
+                                    {{'article.article_tags_select_msg' | translate}}
+                                </div>
+                            </div>
+                            <!--/.col-->
+                        </div>
+                        <!--/.col-->
+
+                    </div>
+
+                </div>
+                <!--/.col-->
+                <div class="col-md-9 col-sm-12 col-xs-12 articleEditRight">
+                    <div class="form-group item">
+                        <div class="content col-xs-12">
+                            <div class="input" >
+                                <label class="col-sm-2 col-xs-12 control-label">{{'article.category' | translate}}</label>
+                                <!--/.col-->
+                                <div class="col-sm-10 col-xs-12 categoryContent clearfix">
+                                    <div class="categorySelected pull-left">
+                                        <p ng-show="articleCtrl.selectedArticleCategory.length === 0" class="message" ng-click="articleCtrl.categoryShow = !articleCtrl.categoryShow">{{'article.article_category_select_msg' | translate}}</p>
+                                        <ul class="list-inline" ng-show="articleCtrl.selectedArticleCategory.length > 0">
+                                            <li ng-repeat="select in articleCtrl.selectedArticleCategory" class="selectList" ng-click="articleCtrl.addSelectedArticleCategory(select)">
+                                                <a href="">{{select.name}}</a>
+                                                <i class="fa fa-close"></i>
+                                            </li>
+                                            <li ng-show="articleCtrl.selectedArticleCategory.length === 3" class="limitShow">
+                                                {{'search.up_to_three' | translate}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pull-right hidden-xs"  ng-click="articleCtrl.categoryShow = !articleCtrl.categoryShow">
+                                        <i class="add fa fa-plus"></i>
+                                    </div>
+                                </div>
+                                <!--/.col-->
+                            </div>
+                            <!-- /.form-group -->
+                            <!-- article category-->
+                            <div class="row">
+                                <div class="postArticleCategory clearfix col-sm-offset-2" ng-show="articleCtrl.categoryShow">
+                                    <div class="postArticleCategoryLeft">
+                                        <ul class="postArticleCategoryList list-unstyled">
+                                            <li ng-repeat="list in articleCtrl.articleCategory" ng-click="articleCtrl.addSelectedArticleCategory(list)">
+                                                <input type="checkbox" ng-model="list.selected" ng-disabled="articleCtrl.selectedArticleCategory.length === 3 && !list.selected" ng-checked="list.selected">
+                                                {{list.name}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="error col-sm-offset-2 col-xs-offset-3" ng-show="articleCtrl.categoryError">
+                                    <i class="fa fa-times-circle"></i>
+                                    {{'article.article_category_select_msg' | translate}}
+                                </div>
+                            </div>
+
+                            <!-- /.article category -->
+
+                        </div>
+                        <!--/.col-->
+                        <div class="content title col-xs-12">
+                            <label for="name" class="col-sm-12 col-xs-12 control-label">
+                                {{ 'article.name' |translate}}
+                            </label>
+                            <!--/.col-->
+                            <div class="col-sm-12 col-xs-12">
+                                <input type="text" class="form-control" id="name" name="name" ng-required="true"
+                                       ng-model="articleCtrl.article.title" placeholder="{{'message.article_name_input' | translate}}" maxlength="50">
+                            </div>
+                            <!--/.col-->
+                            <div class="col-sm-12 col-xs-12 tips">
+                                {{'message.artilce_enter_up_to_50_words' | translate}}
+                            </div>
+                        </div>
+                        <!--/.col-->
+
+                        <div class="content text col-xs-12">
+                            <label  class="col-sm-12 col-xs-12 control-label">
+                                {{ 'article.text' |translate}}
+                            </label>
+                            <div class="error" ng-show="articleCtrl.contentError">
+                                <i class="fa fa-times-circle"></i>
+                                {{'article.article_content_input_error_msg' | translate}}
+                            </div>
+                            <!--/.col-->
+                            <div class="col-sm-12 col-xs-12">
+                                <text-angular id="text" name="text" ng-required="true"
+                                              ng-model="articleCtrl.article.content" ng-change="articleCtrl.contentInput()">
+                                </text-angular>
+                            </div>
+                            <!--/.col-->
+                        </div>
+                        <!--/.col-->
+
+                    </div>
+                    <!--/.item-->
+                </div>
+                <!--/.col-->
+            </div>
+
+        </div>
+    </form>
+</div>

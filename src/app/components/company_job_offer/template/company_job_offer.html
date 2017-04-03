@@ -1,0 +1,479 @@
+<div class="container">
+    <div ng-include="'app/components/dashboard_tabs/template/dashboard.tabs.html'"></div>
+    <form class="form-horizontal" name="Form" ng-submit="jobOfferCtrl.postOffer()">
+        <div class="row jobOffer">
+            <div class="col-md-3 col-sm-12 col-xs-12 jobOfferLeft">
+                <div class="text-center content">
+                    <div class="button">
+                        <button type="button" class="btn btn-success sub jobOfferSub" ng-if="!jobOfferCtrl.isNext" ng-click="jobOfferCtrl.checkNext()">
+                            <span>next</span>
+                        </button>
+                        <button type="submit" class="btn btn-success sub jobOfferSub" ng-if="jobOfferCtrl.isNext">
+                            <span ng-if="jobOfferCtrl.saveLoading"><i class="fa fa-spinner fa-pulse"></i></span>
+                            <span ng-if="!jobOfferCtrl.saveLoading">Boost</span>
+                        </button>
+                        <a ui-sref="enterprise-auth.company.job_offer_list({companyId: jobOfferCtrl.companyId})" type="button" class="btn btn-default canel" ng-if="!jobOfferCtrl.isNext">
+                            {{ 'button.return' | translate }}
+                        </a>
+                        <a href="" type="button" class="btn btn-default canel" ng-if="jobOfferCtrl.isNext" ng-click="jobOfferCtrl.isNext = !jobOfferCtrl.isNext">
+                            {{ 'button.return' | translate }}
+                        </a>
+                    </div>
+                    <div class="loading text-center" ng-show="jobOfferCtrl.loading">
+                        <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                    </div>
+                    <div ng-show="!jobOfferCtrl.loading">
+                        <div class="item" ng-repeat="item in jobOfferCtrl.price" ng-show="!jobOfferCtrl.isNext">
+                            <div ng-show="item.name === 'skill'">
+                                <p class="price">
+                                    $ {{item.price}}
+                                </p>
+                                <span>{{'user.profile.skill' | translate}}:</span>
+                                <span>{{item.value}}</span>
+                            </div>
+                            <div ng-show="item.name === 'education'" >
+                                <p class="price">
+                                    $ {{jobOfferCtrl.educationPrice.totalPrice}}
+                                </p>
+                                <p ng-show="jobOfferCtrl.educationPrice.educationLevel !== ''">
+                                    <span>{{'user.profile.education' | translate}}: </span>
+                                    <span>{{jobOfferCtrl.educationPrice.educationLevel}}</span>
+                                    <span>$ {{jobOfferCtrl.educationPrice.price}}</span>
+                                </p>
+
+                                <p ng-show="jobOfferCtrl.educationPrice.gpa !== undefined && jobOfferCtrl.educationPrice.gpa !== null">
+                                    <span>gpa: </span>
+                                    <span>{{jobOfferCtrl.educationPrice.gpa}}</span>
+                                    <span>$ {{jobOfferCtrl.educationPrice.price}}</span>
+                                </p>
+                            </div>
+
+                            <div ng-show="item.name === 'language'" >
+                                <p class="price">
+                                    $ {{item.price}}
+                                </p>
+                                <p>
+                                    {{'user.profile.language' | translate}}
+                                </p>
+                                <p ng-repeat="list in item.value track by $index">
+                                    <span>{{list.name}}:</span>
+                                    <span>{{list.level}}</span>
+                                </p>
+                            </div>
+                            <div ng-show="item.name === 'experience'" >
+                                <p class="price">
+                                    $ {{item.price}}
+                                </p>
+                                <p>
+                                    {{'user.profile.experience' | translate}}: {{item.value}}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="item" ng-show="jobOfferCtrl.totalPrice !== undefined">
+                            <p class="price">
+                                $ {{jobOfferCtrl.totalPrice}}
+                            </p>
+                            <span>{{'position.total_price' | translate}}</span>
+                        </div>
+
+                        <div class="item" ng-show="jobOfferCtrl.jobOffer.maxPerPrice !== undefined">
+                            <p class="price">
+                                $ {{jobOfferCtrl.jobOffer.maxPerPrice}}
+                            </p>
+                            <span>{{'message.job_offer_maximum_price_each_invited_applicants' | translate}}</span>
+                        </div>
+
+                        <div class="item" ng-show="jobOfferCtrl.jobOffer.maxPersonNum !== undefined && jobOfferCtrl.jobOffer.maxPersonNum !== null">
+                            <p class="price">
+                                {{jobOfferCtrl.jobOffer.maxPersonNum}}
+                            </p>
+                            <span>{{'message.job_offer_get_up_number_applicants' | translate}}</span>
+                        </div>
+
+                        <div class="item" ng-show="jobOfferCtrl.jobOffer.maxCost !== undefined">
+                            <p class="price">
+                                $ {{jobOfferCtrl.jobOffer.maxCost}}
+                            </p>
+                            <span>{{'message.job_offer_budget_max' | translate}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/.col-->
+            <div class="col-md-9 col-sm-12 col-xs-12 jobOfferRight" ng-show="!jobOfferCtrl.isNext">
+                <div class="jobOfferText">
+                    <p class="title text-center">
+                        {{'message.job_offer_choose_position_maxCost' | translate}}
+                    </p>
+                    <p class="subTitile text-center">
+                        {{'message.job_offer_correct_people_num' | translate}}
+                    </p>
+                </div>
+                <div class="jobOfferContent">
+                    <div class="loading text-center" ng-show="jobOfferCtrl.loading">
+                        <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                    </div>
+                    <div ng-show="!jobOfferCtrl.loading">
+                        <div class="form-group contentOne">
+                            <div class="col-md-12 col-xs-12">
+                                <label class="control-label col-md-12">
+                                    {{ 'position.select_position' | translate}}
+                                </label>
+                                <div class="col-md-8 col-xs-12 select">
+                                    <select class="form-control"
+                                            ng-options="position.id as position.name for position in jobOfferCtrl.positions" ng-model="jobOfferCtrl.jobOffer.positionId" ng-required="true" ng-change="jobOfferCtrl.getPosition(jobOfferCtrl.jobOffer.positionId)">
+                                        <option value="">{{ 'position.select_position' | translate}}</option>
+                                    </select>
+                                </div>
+                                <div class="addPosition col-md-4 col-xs-12">
+                                    <a href="" ui-sref="enterprise-auth.company.company_positions_create({companyId: jobOfferCtrl.jobOffer.companyId})"><i class="fa fa-plus-square"></i>{{'position.add_position' | translate}}</a>
+                                </div>
+                                <div class="tips col-md-12 col-xs-12">
+                                    {{'global.example' | translate}}: {{'position.web_frontend' | translate}}
+                                </div>
+                            </div>
+                            <!--/col-->
+
+                        </div>
+                        <!-- /.form-group -->
+
+                        <div class="form-group contentTwo" ng-show="jobOfferCtrl.jobOffer.positionId">
+                            <div class="jobOfferText">
+                                <p class="title text-center">
+                                    {{'message.job_offer_select_condition' | translate}}
+                                </p>
+                                <p class="subTitile text-center">
+                                    {{'message.job_offer_select_condition_input' | translate}}
+                                </p>
+                            </div>
+                            <label class="col-xs-12 col-md-12  control-label">
+                                {{ 'global.choose_filters' | translate}}
+                            </label>
+                            <!--/.col-->
+                            <div class=" col-xs-12 col-md-12">
+                                <ul class="list-inline checkList">
+                                    <li ng-repeat="(key, item) in jobOfferCtrl.types">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" value="{{key}}" ng-model="item.selected" ng-click="jobOfferCtrl.check(item)">
+                                                {{item.name | translate}}
+                                            </label>
+                                        </div>
+
+                                    </li>
+
+
+                                </ul>
+                            </div>
+                            <!--/.col-->
+                            <div class="col-md-12 col-xs-12 other">
+                                {{'global.tips' | translate}}: {{'message.job_offer_select_condition_finish' | translate}}
+                            </div>
+                        </div>
+                        <!-- /.form-group -->
+
+                        <div class="form-group contentThree" ng-show="jobOfferCtrl.types.education.selected">
+                            <div class="col-md-6 col-xs-12">
+                                <label class="control-label">
+                                    {{'user.profile.education' | translate}}
+                                </label>
+                                <select class="form-control"
+                                        ng-options="education.id as education.name for education in jobOfferCtrl.educations"
+                                        ng-model="jobOfferCtrl.types.education.educationLevelId" ng-change="jobOfferCtrl.check(jobOfferCtrl.types.education)" >
+                                    <option value="">{{'message.select_position_education' | translate}}</option>
+                                </select>
+                            </div>
+                            <!--/.col-->
+                            <div class="col-md-6 col-xs-12 gpa">
+                                <label class="control-label">
+                                    GPA
+                                </label>
+                                <input type="text" class="form-control"  placeholder="{{'message.position_gpa_input' | translate}}" ng-model="jobOfferCtrl.types.education.gpa" ng-change="jobOfferCtrl.check(jobOfferCtrl.types.education)">
+                                <div class="tips">{{'global.tips' | translate}}: {{'message.job_offer_digital_0-5' | translate}}</div>
+                            </div>
+                            <!--/.col-->
+                        </div>
+                        <!--/.form-group-->
+
+                        <!--skill-->
+                        <div class="form-group contentThree" ng-show="jobOfferCtrl.types.skill.selected">
+                            <label class="col-xs-12 col-sm-12  control-label">
+                                {{'user.profile.skill' | translate}}
+                            </label>
+                            <!--/.col-->
+                            <div class="col-md-8  col-xs-12 skillInput">
+                                <ui-select multiple tagging tagging-label ng-model="jobOfferCtrl.skills" ng-change="jobOfferCtrl.check(jobOfferCtrl.types.skill)" theme="bootstrap" title="{{'user.profile.skill_name' | translate}}" id="skill" ng-required="jobOfferCtrl.types.skill.selected" max="3">
+                                    <ui-select-match placeholder="{{'user.profile.skill_name_input' | translate}}">
+                                        {{$item}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="skill in jobOfferCtrl.defaultSkills  | filter:$select.search track by $index">{{skill}}
+                                    </ui-select-choices>
+                                </ui-select>
+
+                            </div>
+                            <!--/.col-->
+                            <div class="error col-md-4 col-xs-12" ng-show="jobOfferCtrl.skillError">
+                                <i class="fa fa-times-circle"></i>
+                                {{'message.job_offer_three_skills_error_msg' | translate}}
+                            </div>
+
+                        </div>
+                        <!-- /.form-group -->
+
+
+                        <!--language-->
+                        <div class="contentFour" ng-show="jobOfferCtrl.types.languages.selected">
+                            <div class="form-group languageTips">
+                                <label class="col-xs-12 col-sm-12  control-label">
+                                    {{'user.profile.language' | translate}}
+                                    <a ng-click="jobOfferCtrl.addLanguage()" class="icon">
+                                        <i class="fa fa-plus-square"></i>
+                                    </a>
+
+                                </label>
+                                <!--/.col-->
+                            </div>
+
+
+
+                            <div ng-show="jobOfferCtrl.languageShow">
+                                <div class="row item" ng-repeat="list in jobOfferCtrl.language track by $index" ng-show="!list.deleted">
+                                    <div class="col-md-4  col-xs-12">
+                                        <select class="form-control" ng-options="languageItem.id as languageItem.name for languageItem in jobOfferCtrl.languages" ng-model="list.languageId" ng-change="jobOfferCtrl.getLanguageName(list.languageId, $index, jobOfferCtrl.types.languages)">
+                                            <option value="">{{'message.position_language_select' | translate}}</option>
+                                        </select>
+
+                                    </div>
+                                    <!--/.col-->
+                                    <div class="col-md-6 col-xs-8">
+                                        <label ng-repeat="item in jobOfferCtrl.languageLevel">
+                                            <input type="radio" value="{{item.level}}" ng-model="list.level" ng-change="jobOfferCtrl.check(jobOfferCtrl.types.languages)">
+                                            {{item.name | translate}}
+                                        </label>
+                                    </div>
+                                    <!--/.col-->
+                                    <div class="col-xs-2 minus" ng-click="jobOfferCtrl.deleteLanguage($index, jobOfferCtrl.types.languages)">
+                                        <i class="fa fa-minus "></i>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row other">
+                                <div class="col-md-12 col-xs-12 ">
+                                    {{'global.tips' | translate}}: {{'message.job_offer_add_language_condition' | translate}}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.form-group -->
+
+                        <!--experience-->
+                        <div class="form-group contentFour" ng-show="jobOfferCtrl.types.experience.selected">
+                            <div class="col-md-6 col-xs-12">
+                                <label class="control-label">
+                                    {{ 'user.profile.experience' | translate}}
+                                </label>
+                                <br>
+                                <label for="expeirence01">
+                                    <input type="radio" value="0-2" name="expeirence01" id="expeirence01" ng-model="jobOfferCtrl.jobOffer.experience" ng-change="jobOfferCtrl.check(jobOfferCtrl.types.experience)">
+                                    {{'message.job_offer_experience_0-2' | translate}}
+                                </label>
+                                <label for="expeirence02">
+                                    <input type="radio" value="3-5" name="expeirence02" id="expeirence02" ng-model="jobOfferCtrl.jobOffer.experience" ng-change="jobOfferCtrl.check(jobOfferCtrl.types.experience)">
+                                    {{'message.job_offer_experience_3-5' | translate}}
+                                </label>
+                                <div class="tips">
+                                    {{'global.example' | translate}}: {{'message.job_offer_experience_0-2' | translate}}
+                                </div>
+                            </div>
+                            <!--/col-->
+
+                        </div>
+                        <!-- /.form-group -->
+
+                        <div class="maxCost" ng-show="jobOfferCtrl.jobOffer.positionId">
+                            <div class="jobOfferText">
+                                <p class="title text-center">
+                                    {{'message.job_offer_determine_cost_expectations' | translate}}
+                                </p>
+                                <p class="subTitile text-center">
+                                    {{'message.job_offer_determine_number_invitation' | translate}}
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                <div class=" col-xs-12 col-md-12">
+                                    <label class="control-label col-xs-12">
+                                        {{'message.job_offer_budget_max' | translate}}
+                                    </label>
+                                    <div class="maxCostInput row">
+                                        <div class="col-xs-12 col-sm-8 input">
+                                            <input type="number" ng-model="jobOfferCtrl.maxCost" class="form-control" ng-blur="jobOfferCtrl.checkPrice()">
+                                        </div>
+                                        <!--/.col-->
+                                        <div class="col-sm-4 col-xs-12">
+                                            <button type="button" class="btn btn-success" ng-click="jobOfferCtrl.checkPrice()">{{'button.determine' | translate}}</button>
+                                        </div>
+                                        <!--/.col-->
+                                    </div>
+
+                                    <div class="tips">
+                                        {{'global.tips' | translate}}：{{'message.job_offer_budget_max_no_input' | translate}}
+                                    </div>
+                                </div>
+                                <!--/.col-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!--/.col-->
+
+            <div class="col-md-9 col-xs-12 col-xs-12 jobOfferRight" ng-show="jobOfferCtrl.isNext">
+                <div class="jobOfferText">
+                    <p class="title text-center">
+                        {{'message.job_offer_confirm_order_information' | translate}}
+                    </p>
+                    <p class="subTitile text-center">
+                        {{'message.job_offer_confirm_contents_billing_information' | translate}}
+                    </p>
+                </div>
+                <div class="jobOfferContent">
+                    <div class="loading text-center" ng-show="jobOfferCtrl.loading">
+                        <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                    </div>
+                    <div ng-show="!jobOfferCtrl.loading">
+                        <div class="itemOne">
+                            <p class="title">{{'position.name' | translate}}: <span>{{jobOfferCtrl.jobOffer.positionName}}</span></p>
+                            <ul class="content list-unstyled">
+                                <li class="row list title">
+                                    <div class="col-xs-4">
+                                        {{'message.job_offer_item_condition' | translate}}
+                                    </div>
+                                    <!--/.col-->
+                                    <div class="col-xs-4">
+                                        {{'message.job_offer_details' | translate}}
+                                    </div>
+                                    <!--/.col-->
+                                    <div class="col-xs-4 text-right">
+                                        {{'message.job_offer_price_quantity' | translate}}
+                                    </div>
+                                    <!--/.col-->
+                                </li>
+                                <li class="list" ng-repeat="item in jobOfferCtrl.price">
+                                    <div ng-show="item.name === 'skill'" class="row">
+                                        <div class="col-xs-4">
+                                            {{'user.profile.skill' | translate}}
+                                        </div>
+                                        <!--/.col-->
+                                        <div class="col-xs-4">
+                                            {{item.value}}
+                                        </div>
+                                        <!--/.col-->
+                                        <div class="col-xs-4 text-right">
+                                            $ {{item.price}}
+                                        </div>
+                                        <!--/.col-->
+                                    </div>
+                                    <div ng-show="item.name === 'education'" class="row">
+                                        <div class="col-xs-4">
+                                            {{'user.profile.education' | translate}}
+                                        </div>
+                                        <!--/.col-->
+                                        <div class="col-xs-4">
+                                            <p ng-show="jobOfferCtrl.educationPrice.educationLevel !== ''">
+                                                {{jobOfferCtrl.educationPrice.educationLevel}}
+                                            </p>
+                                            <p ng-show="jobOfferCtrl.educationPrice.gpa !== undefined && jobOfferCtrl.educationPrice.gpa !== null">
+                                                gpa: {{jobOfferCtrl.educationPrice.gpa}}
+                                            </p>
+                                        </div>
+                                        <!--/.col-->
+                                        <div class="col-xs-4 text-right">
+                                            <p ng-show="jobOfferCtrl.educationPrice.educationLevel !== ''">
+                                                $ {{jobOfferCtrl.educationPrice.price}}
+                                            </p>
+                                            <p ng-show="jobOfferCtrl.educationPrice.gpa !== undefined && jobOfferCtrl.educationPrice.gpa !== null">
+                                                $ {{jobOfferCtrl.educationPrice.price}}
+                                            </p>
+                                        </div>
+                                        <!--/.col-->
+                                    </div>
+                                    <div ng-show="item.name === 'language'" class="row">
+                                        <div class="col-xs-4">
+                                            {{'user.profile.language' | translate}}
+                                        </div>
+                                        <!--/.col-->
+                                        <div class="col-xs-4">
+                                            <p ng-repeat="list in item.value track by $index">
+                                                <span>{{list.name}}:</span>
+                                                <span>{{list.level}}</span>
+                                            </p>
+                                        </div>
+                                        <!--/.col-->
+                                        <div class="col-xs-4 text-right">
+                                            <p ng-repeat="list in item.value track by $index">
+                                                $ {{item.price}}
+                                            </p>
+                                        </div>
+                                        <!--/.col-->
+                                    </div>
+                                    <div ng-show="item.name === 'experience'" class="row">
+                                        <div class="col-xs-4">
+                                            {{'user.profile.experience' | translate}}
+                                        </div>
+                                        <!--/.col-->
+                                        <div class="col-xs-4">
+                                            {{item.value}}
+                                        </div>
+                                        <!--/.col-->
+                                        <div class="col-xs-4 text-right">
+                                            $ {{item.price}}
+                                        </div>
+                                        <!--/.col-->
+                                    </div>
+                                </li>
+                                <li class="list">
+                                    <div class="row item">
+                                        <div class="col-xs-8">
+                                            {{'message.job_offer_maximum_price_each_invited_applicants' | translate}}
+                                        </div>
+                                        <!--/.col-->
+                                        <div class="col-xs-4 text-right">
+                                            $ {{jobOfferCtrl.jobOffer.maxPerPrice}}
+                                        </div>
+                                        <!--/.col-->
+                                    </div>
+                                    <div class="row item">
+                                        <div class="col-xs-8">
+                                            {{'message.job_offer_get_up_number_applicants' | translate}}
+                                        </div>
+                                        <!--/.col-->
+                                        <div class="col-xs-4 text-right">
+                                            {{jobOfferCtrl.jobOffer.maxPersonNum}}
+                                        </div>
+                                        <!--/.col-->
+                                    </div>
+                                    <div class="row item">
+                                        <div class="col-xs-8">
+                                            {{'message.job_offer_budget_max' | translate}}
+                                        </div>
+                                        <!--/.col-->
+                                        <div class="col-xs-4 text-right">
+                                            $ {{jobOfferCtrl.jobOffer.maxCost}}
+                                        </div>
+                                        <!--/.col-->
+                                    </div>
+                                </li>
+                            </ul>
+                            <p class="title subTitle">{{'position.expiredDate' | translate}}: <span>30{{'global.days' | translate}}</span></p>
+                            <p class="tips">{{'message.job_offer_charge_appropriate_fees' | translate}}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!--/.col-->
+
+        </div>
+    </form>
+</div>

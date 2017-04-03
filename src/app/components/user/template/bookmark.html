@@ -1,0 +1,110 @@
+<hr class="userHr">
+<div class="container">
+    <div ng-include="'app/components/user/template/user_tabs.html'"></div>
+    <form action="">
+        <div class="row userBookmarks">
+            <div class="col-md-3 col-sm-12 col-xs-12 userBookmarksLeft">
+                <ul class="editList list-unstyled">
+                    <li class="list">
+                        <a href="" ui-sref="main-auth.positions">{{'user.profile.applied_position' | translate}}</a>
+                    </li>
+                    <li class="list active">
+                        <a href="" ui-sref="main-auth.user-bookmark">{{'user.profile.bookmark' | translate}}</a>
+                    </li>
+                </ul>
+                <div class="searchForm">
+                    <h5>{{'search.dashboard_search_position' | translate}}</h5>
+                    <div class="form-group">
+                        <input type="text" placeholder="{{'message.position_name_input' | translate}}" ng-required="true" ng-model="bookmarkCtrl.filter.search">
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn" ng-click="bookmarkCtrl.searchPosition()">{{'button.determine' | translate}}</button>
+                    </div>
+                </div>
+            </div>
+            <!--/.col-->
+            <div class="col-md-9 col-sm-12 col-xs-12 userBookmarksRight">
+                <div class="userAppliedPosition">
+                    <div ng-if="!bookmarkCtrl.changeLoading">
+                        <div ng-if="bookmarkCtrl.tableLoading && bookmarkCtrl.positionLoading" class="text-center loading">
+                            <i class="fa fa-3x fa-spinner fa-spin"></i>
+                        </div>
+                        <div ng-show="!bookmarkCtrl.tableLoading">
+                            <div  class="noPosition row" ng-show="bookmarkCtrl.positions.length === 0 && !bookmarkCtrl.positionLoading">
+                                <div class="col-md-2 col-sm-3 col-xs-12 col-sm-offset-3">
+                                    <img src="../../assets/img/no_position_message.png" alt="" class="img-responsive">
+                                </div>
+                                <!--/.col-->
+                                <div class="col-md-5 col-sm-5 col-xs-12 text">
+                                    <p>
+                                        {{'message.no_save_position_message' | translate}}
+                                        <br>
+                                        {{'message.post_collection_message' | translate}}
+                                        <br>
+                                        <span>{{'global.go_ahead' | translate}}</span>
+                                        <a ui-sref="main.position-list">
+                                            {{ 'position.position_list' | translate }}
+                                        </a>
+                                    </p>
+                                </div>
+                                <!--/.col-->
+
+
+                            </div>
+                            <div st-table="bookmarkCtrl.positions" st-safe-src="bookmarkCtrl.positions"
+                                     st-pipe="bookmarkCtrl.callServer" ng-show="bookmarkCtrl.positions.length > 0 && !bookmarkCtrl.positionLoading" class="content">
+                                    <div class="item row" ng-repeat="position in bookmarkCtrl.positions">
+                                        <div class="col-sm-3 col-xs-4 img">
+                                            <a  ui-sref="main.show-position({id: position.id})" class="img">
+                                                <img src="http://placehold.it/100x100" alt="" class="img-responsive" ng-show="position.company.icon === null">
+                                                <img ng-src="{{position.company.icon.url['100']}}" alt="" class="img-responsive" ng-show="position.company.icon !== null">
+                                            </a>
+                                        </div>
+                                        <!--/.col-->
+
+                                        <div class="col-sm-3 col-xs-8 positions">
+                                            <a ui-sref="main.show-position({id: position.id})" class="positionName">
+                                                {{position.name}}
+                                            </a>
+                                            <div class="time">{{'position.position_publish' | translate}} {{position.createdAt | date: 'yyyy-MM-dd'}}</div>
+                                        </div>
+                                        <!--/.col-->
+
+                                        <div class="col-sm-3 col-xs-9 company">
+                                            <a ui-sref="main.company({companyId: position.companyId})" class="companyName">
+                                                {{position.company.name}}
+                                            </a>
+                                            <address>{{position.address}}</address>
+                                        </div>
+                                        <!--/.col-->
+
+                                        <div class="checkList col-sm-2 col-xs-3 col-sm-offset-1">
+                                            <a href="" ng-click="bookmarkCtrl.removeCollectPosition(position.id)" ng-show="position.bookmarkStatus === true">
+                                                <p class="icon star">
+                                                    <i class="fa fa-star fa-2x"></i>
+                                                </p>
+                                            </a>
+
+                                            <a href="" ng-click="bookmarkCtrl.collectPosition(position.id)" ng-show="position.bookmarkStatus === false">
+                                                <p class="icon star">
+                                                    <i class="fa fa-star-o fa-2x"></i>
+                                                </p>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                    <div class="page text-center" st-current-page="bookmarkCtrl.filter.page"
+                                         st-template="app/shared/override/smart-table/pagination.html"
+                                         st-next-prev-pagination=""
+                                         st-pagination-action="bookmarkCtrl.paginationAction"
+                                         st-items-by-page="bookmarkCtrl.itemsByPage">
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/.col-->
+        </div>
+    </form>
+</div>

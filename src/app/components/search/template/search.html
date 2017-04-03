@@ -1,0 +1,227 @@
+<div ng-controller="SearchController as searchCtrl">
+  <section class="search">
+    <div class="container nav-tabs-style1">
+      <div class="row">
+        <div class="col-md-12 searchContent">
+          <uib-tabset active="searchCtrl.searchIndex" class="nav-tabs-style1">
+            <uib-tab heading="{{'search.search_position' | translate}}" index="1">
+              <form class="form-horizontal searchPosition" ng-submit="searchCtrl.searchPosition()">
+                <!-- new -->
+                <div class="form-group">
+                  <div class="col-sm-4 col-xs-12">
+                    <article class="input searchText">
+                      <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                        <input type="text" ng-model="searchCtrl.filter.search"
+                               placeholder="{{'search.search_position_input' | translate}}"
+                               uib-typeahead="position.name for position in searchCtrl.getPositionLocation($viewValue)"
+                               typeahead-loading="searchCtrl.loading" typeahead-no-results="searchCtrl.noResults"
+                               class="form-control" ng-click="searchCtrl.searchToggle('search')">
+                        <i class="searchRefresh" ng-show="searchCtrl.loading" class="fa fa-refresh"></i>
+                      </div>
+                    </article>
+                  </div>
+                  <!--/.col-->
+
+                  <div class="col-sm-4 col-xs-12">
+                    <custom-dropdown ng-if="searchCtrl.positionCategories.length > 0" title="'search.search_position_category_select' | translate" icon="'fa fa-suitcase'" checked="searchCtrl.selectedPositionCategories" items="searchCtrl.positionCategories" default-selected-ids="searchCtrl.defaultPositionCategoryIds" type="'checkbox'"></custom-dropdown>
+                  </div>
+                  <!--/.col-->
+
+                  <div class="col-sm-4 col-xs-12">
+                    <!--<slider-dropdown ng-if="searchCtrl.filter.minSalary !== undefined"  icon="'fa fa-usd'" selectedMaxSalary="searchCtrl.filter.maxSalary" selectedMinSalary="searchCtrl.filter.minSalary" selectedSalaryType="searchCtrl.filter.salaryType" type="'sliderSalary'" monthOptions="searchCtrl.salarySlider.monthOptions" hourOptions="searchCtrl.salarySlider.hourOptions"></slider-dropdown>-->
+
+                    <article class="searchSalary input-group input clearfix" ng-click="searchCtrl.searchToggle('salary')">
+                      <div class="input-group-addon" >
+                        <i class="fa fa-usd"></i>
+                      </div>
+                      <div style="z-index:998;" class="searchCategoryOpened pull-left">
+                        <div class="searchTextShow" >
+                          <p ng-if="searchCtrl.filter.salaryType === 'monthly'">
+                            <span>Monthly</span>
+                            <span>${{searchCtrl.filter.minSalary}}</span>
+                            <span>to</span>
+                              <span>$
+                                {{searchCtrl.filter.maxSalary === 100000 ? searchCtrl.filter.maxSalary + '+' : searchCtrl.filter.maxSalary }}
+                              </span>
+                          </p>
+                          <p ng-if="searchCtrl.filter.salaryType === 'hourly'">
+                            <span>Hourly</span>
+                            <span>${{searchCtrl.filter.minSalary}}</span>
+                            <span>to</span>
+                              <span>$
+                                {{searchCtrl.filter.maxSalary === 100 ? searchCtrl.filter.maxSalary + '+' : searchCtrl.filter.maxSalary}}
+                              </span>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="input-group-addon pull-right">
+                        <i class="fa fa-caret-down"></i>
+                      </div>
+                    </article>
+                    <div class="searchPositionSalary" ng-if="searchCtrl.searchShow.salary">
+                      <div class="searchPositionSalaryContent">
+                        <div class="salaryList">
+                          <a  href="" class="month" ng-class="{'active': searchCtrl.filter.salaryType === 'monthly'}" ng-click="searchCtrl.switchSalaryType('monthly')">
+                            Monthly
+                          </a>
+                          <a href="" class="hour" ng-class="{'active': searchCtrl.filter.salaryType === 'hourly'}" ng-click="searchCtrl.switchSalaryType('hourly')">
+                            Hourly
+                          </a>
+                        </div>
+                        <div ng-if="searchCtrl.filter.salaryType === 'monthly'">
+                          <rzslider rz-slider-model="searchCtrl.filter.minSalary"
+                                    rz-slider-high="searchCtrl.filter.maxSalary"
+                                    rz-slider-options="searchCtrl.salarySlider.monthOptions"></rzslider>
+                        </div>
+                        <div ng-if="searchCtrl.filter.salaryType === 'hourly'">
+                          <rzslider rz-slider-model="searchCtrl.filter.minSalary"
+                                    rz-slider-high="searchCtrl.filter.maxSalary"
+                                    rz-slider-options="searchCtrl.salarySlider.hourOptions"></rzslider>
+                        </div>
+
+                      </div>
+                    </div>
+                  <!--/.col-->
+                </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-4 col-xs-12">
+                    <custom-dropdown ng-if="searchCtrl.educationLevel.length > 0" title="'user.profile.education' | translate" icon="'fa fa-graduation-cap'" items="searchCtrl.educationLevel" checked="searchCtrl.selectedEducationLevel" default-selected-ids="searchCtrl.defaultEducationLevelIds" type="'checkbox'"></custom-dropdown>
+                  </div>
+                  <!--/.col-->
+
+                  <div class="col-sm-4 col-xs-12">
+                    <custom-dropdown  title="'position.job_type' | translate" icon="'fa fa-bookmark'"  selected="searchCtrl.filter.type" type="'radio'" searched="'type'"></custom-dropdown>
+                  </div>
+                  <!--/.col-->
+
+                  <div class="col-sm-4 col-xs-12">
+                    <article class="searchCategory input-group input clearfix" ng-click="searchCtrl.searchToggle('jobNature')">
+                      <div class="input-group-addon">
+                        <i class="fa fa-bookmark"></i>
+                      </div>
+                      <div style="z-index:997;" class="searchCategoryOpened pull-left">
+                        <p class="searchTextShow">
+                          <span>{{searchCtrl.filter.jobNatureId === undefined ? ('position.jobNature' | translate) : searchCtrl.selectedJobNature.name}}</span>
+                        </p>
+
+                      </div>
+                      <div class="input-group-addon pull-right">
+                        <i class="fa fa-caret-down"></i>
+                      </div>
+                    </article>
+                    <div class="searchPositionCategoryMain" ng-show="searchCtrl.searchShow.jobNature">
+                      <div class="searchPositionJobNature noBorder">
+                          <ul class="searchPositionEmploymentContent searchPositionCategoryContent list-unstyled">
+                            <li class="searchEducationCategoryList" ng-repeat="item in searchCtrl.jobNatures">
+                              <label>
+                                <input type="radio" name="type" value="{{item.id}}" ng-model="searchCtrl.filter.jobNatureId" ng-checked="searchCtrl.filter.jobNatureId === item.id" ng-change="searchCtrl.selectJobNature(item.id)">
+                                {{item.name}}
+                              </label>
+                            </li>
+                          </ul>
+                    </div>
+                    </div>
+                  <!--/.col-->
+                </div>
+                </div>
+
+                <div class="form-group" ng-show="searchCtrl.searchShowMore">
+                  <div class="col-sm-4 col-xs-12">
+                    <custom-dropdown ng-if="searchCtrl.locations.length > 0" title="'global.all_location' | translate" icon="'fa fa-map-marker'" items="searchCtrl.locations" checked="searchCtrl.selectedLocations" default-selected-ids="searchCtrl.defaultLocationIds" type="'checkbox'"></custom-dropdown>
+
+                  </div>
+                  <!--/.col-->
+                  <div class="col-sm-4 col-xs-12">
+                    <article class="searchExperience input-group input clearfix" ng-click="searchCtrl.searchToggle('experience')">
+                      <div class="input-group-addon">
+                        <i class="fa fa-bookmark"></i>
+                      </div>
+                      <div style="z-index:998;" class="searchCategoryOpened pull-left" ng-model="searchCtrl.filter.categoryIds">
+                        <p>
+                          <span>At least</span>
+                          <span>{{searchCtrl.filter.experience}}</span>
+                          years
+                        </p>
+                      </div>
+                      <div class="input-group-addon pull-right">
+                        <i class="fa fa-caret-down"></i>
+                      </div>
+                    </article>
+                    <div class="searchPositionExperience" ng-if="searchCtrl.searchShow.experience">
+                      <div class="searchPositionExperienceContent">
+                        <rzslider rz-slider-model="searchCtrl.filter.experience"
+                                  rz-slider-options="searchCtrl.experience.options"></rzslider>
+                      </div>
+                    </div>
+                  </div>
+                  <!--/.col-->
+                </div>
+
+                <div class="form-group">
+                  <span class="col-md-2 col-sm-3 col-md-offset-8 col-xs-12 col-sm-offset-9  text-right more" ng-click="searchCtrl.searchShowMore = !searchCtrl.searchShowMore">
+                    {{'global.more_options' | translate }}
+                    <i class="fa fa-angle-down" ng-show="searchCtrl.searchShowMore === false"></i>
+                    <i class="fa fa-angle-up" ng-show="searchCtrl.searchShowMore === true"></i>
+                  </span>
+
+                  <div class="col-md-2 col-sm-3 col-xs-4 col-xs-offset-8 col-sm-offset-9 col-md-offset-0">
+                    <button  type="submit" class="btn submit btn-success" ng-click="searchCtrl.searchToggle('toggleHide')">{{'search.search_button' | translate}}</button>
+                  </div>
+                </div>
+
+
+
+              </form>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="text-right showInvalidMessage" ng-show="searchCtrl.showInvalidMessage">
+                            Please enter keyword, or select a job function/salary
+                        </div>
+                    </div>
+                    <!--/.col-->
+                </div>
+
+            </uib-tab>
+            <uib-tab heading="{{'search.search_article' | translate}}" index="2">
+              <form class="form-horizontal searchArticle" ng-submit="searchCtrl.searchArticle()">
+                <div class="form-group">
+                  <div class="col-md-10 col-sm-12 col-xs-12 articleSearch">
+                    <input type="text" ng-model="searchCtrl.article_query"
+                           placeholder="{{'search.search_article_input' | translate}}"
+                           uib-typeahead="article.title for article in searchCtrl.getArticle(searchCtrl.article_query)"
+                           typeahead-loading="searchCtrl.loading" typeahead-no-results="searchCtrl.noResults"
+                           class="form-control" ng-required="true">
+                    <i class="searchRefresh" ng-show="searchCtrl.loading" class="fa fa-refresh"></i>
+                    <div ng-show="searchCtrl.noResults" class="noResults">
+                      <i class="fa fa-remove"></i>
+                      {{'search.no_search_article' | translate}}
+                    </div>
+                  </div>
+                  <!--/.col-->
+                  <div class="col-md-2 col-sm-3 col-xs-4">
+                    <button type="submit" class="btn submit btn-success" ng-disabled="!searchCtrl.article_query">{{'search.search_button' | translate}}</button>
+                  </div>
+                  <!--/.col-->
+                </div>
+              </form>
+            </uib-tab>
+          </uib-tabset>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+
+</div>
+
+
+
+
+
+
+

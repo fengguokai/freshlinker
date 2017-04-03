@@ -1,0 +1,10 @@
+<div ng-controller="BreadcrumbController as breadCtrl" class="row">
+  <ol class="breadcrumb col-sm-12">
+    <li ng-repeat="item in breadCtrl.bread track by $index" ng-if="item.url">
+      <a href="{{ item.url }}">{{ item.title | translate}}</a>
+    </li>
+    <li ng-repeat="item in breadCtrl.bread track by $index" ng-if="!item.url">
+      {{ item.title }}
+    </li>
+  </ol>
+</div>

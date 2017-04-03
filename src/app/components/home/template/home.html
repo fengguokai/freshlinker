@@ -1,0 +1,649 @@
+<div ng-include="'app/components/navbar/template/navbar.html'"></div>
+<!-- .carousel -->
+<div class="carousel">
+	<div class="loading text-center" ng-show="homeCtrl.slideLoading">
+		<div class="row">
+			<div class="col-sm-12">
+				<i class="fa fa-spinner fa-pulse fa-3x"></i>
+			</div>
+			<!--/.col-->
+		</div>
+	</div>
+	<div ng-show="!homeCtrl.slideLoading">
+		<slick settings="homeCtrl.bannerSlick" ng-if="homeCtrl.slides.length > 0">
+			<div ng-repeat="slide in homeCtrl.slides track by $index">
+				<div class="item">
+					<a href="{{slide.url}}">
+						<img ng-src="{{slide.imageUrl}}" alt="{{slide.name}}" class="img-responsive">
+					</a>
+				</div>
+			</div>
+		</slick>
+	</div>
+</div>
+
+<!-- /.carousel -->
+<div ng-include="'app/components/search/template/search.html'"></div>
+<div class="container">
+	<!--.hotPosition-->
+	<section class="hotPosition">
+		<div class="header">
+			<div class="row">
+				<div class="col-sm-9 col-xs-8 headerLeft">
+					<h4>
+						<i class="fa fa-navicon"></i> {{'article.hot_position' | translate}}
+					</h4>
+				</div>
+				<!--/.col-->
+				<div class="col-sm-3 col-xs-4 text-right headerRight">
+					<a ui-sref="main.position-list">{{'article.read_more' | translate}}</a>
+				</div>
+				<!--/.col-->
+			</div>
+		</div>
+		<div class="hotPositionContent">
+			<div class="loading text-center" ng-if="homeCtrl.positionLoading">
+				<div class="row">
+					<div class="col-sm-12">
+						<i class="fa fa-spinner fa-pulse fa-3x"></i>
+					</div>
+					<!--/.col-->
+				</div>
+			</div>
+			<div class="hotPositionContentList" ng-if="!homeCtrl.positionLoading">
+				<div class="noPosition text-center" ng-if="homeCtrl.hotPosition.length === 0">
+					{{'message.company_no_publish_positions' | translate}}
+				</div>
+				<slick settings="homeCtrl.positionSlick" ng-if="!homeCtrl.positionLoading">
+					<div class="List" ng-repeat="item in homeCtrl.hotPosition track by $index">
+						<a ui-sref="main.show-position({id: item.id})">
+							<div class="top text-center" ng-show="false">
+								<!--<i class="fa fa-info-circle"></i>-->
+								<span ng-repeat="category in item.categories | limitTo: 1">{{category.name}}</span>
+							</div>
+							<!--/.top-->
+							<fieldset>
+
+								<div ng-if="item.company.icon !== null">
+									<img ng-src="{{item.company.icon.url['160']}}" class="img-responsive Img">
+								</div>
+								<div ng-if="item.company.icon === null">
+									<img ng-src="http://placehold.it/160x160" class="img-responsive">
+								</div>
+							</fieldset>
+							<!--/fieldset-->
+							<h5 class="title text-center">
+								<a ui-sref="main.company({companyId: item.companyId})">{{item.company.name}}</a>
+							</h5>
+							<p class="position text-center">
+								<span>
+                  <a ui-sref="main.show-position({id: item.id})">{{item.name}}</a>
+                </span>
+							</p>
+						</a>
+					</div>
+
+					<!--/.col-->
+
+				</slick>
+			</div>
+		</div>
+	</section>
+	<!--/.hotPosition-->
+
+	<!-- .hotDiscuss -->
+	<section class="hotDiscuss">
+		<div class="header">
+			<div class="row">
+				<div class="col-sm-3 col-xs-12 headerLeft">
+					<h4>
+						<i class="fa fa-star"></i> {{'article.position_article' | translate}}
+					</h4>
+				</div>
+				<!--/.col-->
+				<div class="col-sm-9 col-xs-12 headerRight">
+					<ul class="list-inline">
+						<li ng-repeat="tab in homeCtrl.tabs" ng-click="homeCtrl.changeTab('hotDiscuss',tab.id)" ng-class="{'active': tab.id === homeCtrl.hotDiscussIndex}">
+							{{tab.name | translate}}
+						</li>
+					</ul>
+				</div>
+				<!--/.col-->
+			</div>
+		</div>
+
+		<div class="content">
+			<uib-tabset active="homeCtrl.hotDiscussIndex">
+				<uib-tab index="1">
+					<div class="loading text-center" ng-show="homeCtrl.articleLoading[1]">
+						<div class="row">
+							<div class="col-sm-12">
+								<i class="fa fa-spinner fa-pulse fa-3x"></i>
+							</div>
+							<!--/.col-->
+						</div>
+					</div>
+					<div class="noPosition text-center" ng-show="!homeCtrl.articleLoading[1] && homeCtrl.article[1].length === 0">
+						{{'message.company_no_publish_articles' | translate}}
+					</div>
+					<div class="row hotDiscussContent" ng-show="!homeCtrl.articleLoading[1] && homeCtrl.article[1].length > 0">
+						<div class="col-md-7 col-sm-12 col-xs-12 hotDiscussLeft">
+							<div class="row">
+								<div class="col-xs-12 col-sm-12">
+									<div class="hotDiscussLeftTop">
+										<div class="img">
+											<a ui-sref="main.articles-show({articleId: homeCtrl.article[1][0].id})">
+												<img src="http://placehold.it/750x425" alt="" class="img-responsive" ng-show="homeCtrl.article[1][0].cover === null">
+												<img ng-src="{{homeCtrl.article[1][0].cover.url['1024']}}" alt="" class="img-responsive" ng-show="homeCtrl.article[1][0].cover !== null">
+											</a>
+										</div>
+										<p class="title">
+											<a ui-sref="main.articles-show({articleId: homeCtrl.article[1][0].id})">
+                        {{homeCtrl.article[1][0].title}}
+                      </a>
+										</p>
+									</div>
+								</div>
+								<!--/.col-->
+							</div>
+						</div>
+						<!--/.col-->
+
+						<div class="col-md-5 col-sm-12 col-xs-12 hotDiscussRight">
+							<div class="row hotDiscussRightList" ng-repeat="item in homeCtrl.article[1] | limitTo : 3 : 1 ">
+								<div class="col-md-5 col-sm-5 col-xs-12 hotDiscussRightListImg">
+									<a href="" ui-sref="main.articles-show({articleId: item.id})">
+										<img ng-src="{{item.cover.url['240']}}" alt="" class="img-responsive" ng-show="item.cover !== null">
+										<img src="http://placehold.it/240x160" alt="" class="img-responsive" ng-show="item.cover === null">
+									</a>
+								</div>
+								<!--/.col-->
+								<div class="col-md-7 col-sm-7 col-xs-12 hotDiscussRightListContent">
+									<h4 class="title">
+										<a ui-sref="main.articles-show({articleId: item.id})">{{item.title}}</a>
+									</h4>
+									<p class="text">{{item.content | htmlToPlaintext | limitTo: 30}}<span ng-show="item.content.length > 30">...</span></p>
+									<ul class="list-inline tags">
+										<li class="tag" ng-repeat="tag in item.tags | limitTo: 3">
+											<span class="btn-success">{{tag.name}}</span>
+										</li>
+									</ul>
+
+								</div>
+								<!--/.col-->
+							</div>
+
+						</div>
+						<!--/.col-->
+
+					</div>
+				</uib-tab>
+				<uib-tab index="2">
+					<div class="text-center" ng-show="homeCtrl.articleLoading[2]">
+						<div class="row">
+							<div class="col-sm-12">
+								<i class="fa fa-spinner fa-pulse fa-3x"></i>
+							</div>
+							<!--/.col-->
+						</div>
+					</div>
+					<div class="noPosition text-center" ng-show="!homeCtrl.articleLoading[2] && homeCtrl.article[2].length === 0">
+						{{'message.company_no_publish_articles' | translate}}
+					</div>
+					<div class="hotDiscussContent row" ng-show="!homeCtrl.articleLoading[2] && homeCtrl.article[2].length > 0">
+						<div class="col-md-7 col-sm-12 col-xs-12 hotDiscussLeft">
+							<div class="row ">
+								<div class="col-xs-12 col-sm-12">
+									<div class="hotDiscussLeftTop">
+										<div class="img">
+											<a href="" ui-sref="main.articles-show({articleId: homeCtrl.article[2][0].id})">
+												<img src="http://placehold.it/750x425" alt="" class="img-responsive" ng-show="homeCtrl.article[2][0].cover === null">
+												<img ng-src="{{homeCtrl.article[2][0].cover.url['1024']}}" alt="" class="img-responsive" ng-show="homeCtrl.article[2][0].cover !== null">
+											</a>
+										</div>
+										<p class="title">
+											<a href="" ui-sref="main.articles-show({articleId: homeCtrl.article[2][0].id})">
+                        {{homeCtrl.article[2][0].title}}
+                      </a>
+										</p>
+									</div>
+								</div>
+					
+							</div>
+						</div>
+						<div class="col-md-5 col-sm-12 col-xs-12 hotDiscussRight">
+							<div class="row hotDiscussRightList" ng-repeat="item in homeCtrl.article[2] | limitTo: 3 : 1">
+								<div class="col-md-5 col-sm-5 col-xs-12 hotDiscussRightListImg">
+									<a href="" ui-sref="main.articles-show({articleId: item.id})">
+										<img ng-src="{{item.cover.url['240']}}" alt="" class="img-responsive" ng-show="item.cover !== null">
+										<img src="http://placehold.it/240x160" alt="" class="img-responsive" ng-show="item.cover === null">
+									</a>
+								</div>
+								<!--/.col-->
+								<div class="col-md-7 col-sm-7 col-xs-12 hotDiscussRightListContent">
+									<h4 class="title">
+										<a ui-sref="main.articles-show({articleId: item.id})">{{item.title}}</a>
+									</h4>
+									<p class="text">{{item.content | htmlToPlaintext | limitTo: 30}}<span ng-show="item.content.length > 30">...</span></p>
+									<ul class="list-inline tags">
+										<li class="tag" ng-repeat="tag in item.tags | limitTo:3">
+											<span class="btn-success">{{tag.name}}</span>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</uib-tab>
+				<uib-tab index="3">
+					<div class="text-center" ng-show="homeCtrl.articleLoading[3]">
+						<div class="row">
+							<div class="col-sm-12">
+								<i class="fa fa-spinner fa-pulse fa-3x"></i>
+							</div>
+							<!--/.col-->
+						</div>
+					</div>
+					<div class="noPosition text-center" ng-show="!homeCtrl.articleLoading[3] && homeCtrl.article[3].length === 0">
+						{{'message.company_no_publish_articles' | translate}}
+					</div>
+					<div class="hotDiscussContent row" ng-show="!homeCtrl.articleLoading[3] && homeCtrl.article[3].length > 0">
+						<div class="col-md-7 col-sm-12 col-xs-12 hotDiscussLeft">
+							<div class="row">
+								<div class="col-xs-12 col-sm-12">
+									<div class="hotDiscussLeftTop">
+										<div class="img">
+											<a href="" ui-sref="main.articles-show({articleId: homeCtrl.article[3][0].id})">
+												<img src="http://placehold.it/750x425" alt="" class="img-responsive" ng-show="homeCtrl.article[3][0].cover === null">
+												<img ng-src="{{homeCtrl.article[3][0].cover.url['1024']}}" alt="" class="img-responsive" ng-show="homeCtrl.article[3][0].cover !== null">
+											</a>
+										</div>
+										<p class="title">
+											<a href="" ui-sref="main.articles-show({articleId: homeCtrl.article[3][0].id})">
+                        {{homeCtrl.article[3][0].title}}
+                      </a>
+										</p>
+									</div>
+								</div>
+								<!--/.col-->
+							</div>
+						</div>
+						<div class="col-md-5 col-sm-12 col-xs-12 hotDiscussRight">
+							<div class="row hotDiscussRightList" ng-repeat="item in homeCtrl.article[3] | limitTo: 3 : 1">
+								<div class="col-md-5 col-sm-5 col-xs-12 hotDiscussRightListImg">
+									<a href="" ui-sref="main.articles-show({articleId: item.id})">
+										<img ng-src="{{item.cover.url['240']}}" alt="" class="img-responsive" ng-show="item.cover !== null">
+										<img src="http://placehold.it/240x160" alt="" class="img-responsive" ng-show="item.cover === null">
+									</a>
+								</div>
+								<!--/.col-->
+								<div class="col-md-7 col-sm-7 col-xs-12 hotDiscussRightListContent">
+									<h4 class="title">
+										<a ui-sref="main.articles-show({articleId: item.id})">{{item.title}}</a>
+									</h4>
+									<p class="text">{{item.content | htmlToPlaintext | limitTo: 30}}<span ng-show="item.content.length > 30">...</span></p>
+									<ul class="list-inline tags">
+										<li class="tag" ng-repeat="tag in item.tags | limitTo:3">
+											<span class="btn-success">{{tag.name}}</span>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</uib-tab>
+				<uib-tab index="4">
+					<div class="text-center" ng-show="homeCtrl.articleLoading[4]">
+						<div class="row">
+							<div class="col-sm-12">
+								<i class="fa fa-spinner fa-pulse fa-3x"></i>
+							</div>
+							<!--/.col-->
+						</div>
+					</div>
+					<div class="noPosition text-center" ng-show="!homeCtrl.articleLoading[4] && homeCtrl.article[4].length === 0">
+						{{'message.company_no_publish_articles' | translate}}
+					</div>
+					<div class="hotDiscussContent row" ng-show="!homeCtrl.articleLoading[4] && homeCtrl.article[4].length > 0">
+						<div class="col-md-7 col-sm-12 col-xs-12 hotDiscussLeft">
+							<div class="row">
+								<div class="col-xs-12 col-sm-12">
+									<div class="hotDiscussLeftTop">
+										<div class="img">
+											<a href="" ui-sref="main.articles-show({articleId: homeCtrl.article[4][0].id})">
+												<img src="http://placehold.it/750x425" alt="" class="img-responsive" ng-show="homeCtrl.article[4][0].cover === null">
+												<img ng-src="{{homeCtrl.article[4][0].cover.url['1024']}}" alt="" class="img-responsive" ng-show="homeCtrl.article[4][0].cover !== null">
+											</a>
+										</div>
+										<p class="title">
+											<a href="" ui-sref="main.articles-show({articleId: homeCtrl.article[4][0].id})">
+                        {{homeCtrl.article[4][0].title}}
+                      </a>
+										</p>
+									</div>
+								</div>
+								<!--/.col-->
+								<div class="col-sm-4 col-xs-6" ng-show="homeCtrl.article[4][2] !== undefined">
+									<div class="hotDiscussLeftList">
+										<div class="img">
+											<a href="" ui-sref="main.articles-show({articleId: homeCtrl.article[4][2].id})">
+												<img src="http://placehold.it/240x160" alt="" class="img-responsive" ng-show="homeCtrl.article[4][2].cover === null">
+												<img ng-src="{{homeCtrl.article[4][2].cover.url['240']}}" alt="" class="img-responsive" ng-show="homeCtrl.article[4][2].cover !== null">
+											</a>
+
+										</div>
+										<p class="title">
+											<a href="" ui-sref="main.articles-show({articleId: homeCtrl.article[4][2].id})">
+                        {{homeCtrl.article[4][2].title}}
+                      </a>
+										</p>
+									</div>
+								</div>
+								<!--/.col-->
+								<div class="col-sm-4 col-xs-6" ng-show="homeCtrl.article[4][3] !== undefined">
+									<div class="hotDiscussLeftList">
+										<div class="img">
+											<a href="" ui-sref="main.articles-show({articleId: homeCtrl.article[4][3].id})">
+												<img src="http://placehold.it/240x160" alt="" class="img-responsive" ng-show="homeCtrl.article[4][3].cover === null">
+												<img ng-src="{{homeCtrl.article[4][3].cover.url['240']}}" alt="" class="img-responsive" ng-show="homeCtrl.article[4][3].cover !== null">
+											</a>
+
+										</div>
+										<p class="title">
+											<a href="" ui-sref="main.articles-show({articleId: homeCtrl.article[4][3].id})">
+                        {{homeCtrl.article[4][3].title}}
+                      </a>
+										</p>
+									</div>
+								</div>
+								<!--/.col-->
+
+							</div>
+						</div>
+						<!--/.col-->
+						<div class="col-md-5 col-sm-12 col-xs-12 hotDiscussRight">
+							<div class="row hotDiscussRightList" ng-repeat="item in homeCtrl.article[4] | limitTo: 3 : 1">
+								<div class="col-md-5 col-sm-5 col-xs-12 hotDiscussRightListImg">
+									<a href="" ui-sref="main.articles-show({articleId: item.id})">
+										<img ng-src="{{item.cover.url['240']}}" alt="" class="img-responsive" ng-show="item.cover !== null">
+										<img src="http://placehold.it/240x160" alt="" class="img-responsive" ng-show="item.cover === null">
+									</a>
+								</div>
+								<!--/.col-->
+								<div class="col-md-7 col-sm-7 col-xs-12 hotDiscussRightListContent">
+									<h4 class="title">
+										<a ui-sref="main.articles-show({articleId: item.id})">{{item.title}}</a>
+									</h4>
+									<p class="text">{{item.content | htmlToPlaintext | limitTo: 30}}<span ng-show="item.content.length > 30">...</span></p>
+									<ul class="list-inline tags">
+										<li class="tag" ng-repeat="tag in item.tags | limitTo:4">
+											<span class="btn-success">{{tag.name}}</span>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<!--/.col-->
+					</div>
+				</uib-tab>
+
+				<uib-tab index="5">
+					<div class="text-center" ng-show="homeCtrl.articleLoading[5]">
+						<div class="row">
+							<div class="col-sm-12">
+								<i class="fa fa-spinner fa-pulse fa-3x"></i>
+							</div>
+							<!--/.col-->
+						</div>
+					</div>
+					<div class="noPosition text-center" ng-show="!homeCtrl.articleLoading[5] && homeCtrl.article[5].length === 0">
+						{{'message.company_no_publish_articles' | translate}}
+					</div>
+					<div class="hotDiscussContent row" ng-show="!homeCtrl.articleLoading[5] && homeCtrl.article[5].length > 0">
+						<div class="col-md-7 col-sm-12 col-xs-12 hotDiscussLeft">
+							<div class="row">
+								<div class="col-xs-12 col-sm-12">
+									<div class="hotDiscussLeftTop">
+										<div class="img">
+											<a href="" ui-sref="main.articles-show({articleId: homeCtrl.article[5][0].id})">
+												<img src="http://placehold.it/750x425" alt="" class="img-responsive" ng-show="homeCtrl.article[5][0].cover === null">
+												<img ng-src="{{homeCtrl.article[5][0].cover.url['1024']}}" alt="" class="img-responsive" ng-show="homeCtrl.article[5][0].cover !== null">
+											</a>
+										</div>
+										<p class="title">
+											<a href="" ui-sref="main.articles-show({articleId: homeCtrl.article[5][0].id})">
+                        {{homeCtrl.article[5][0].title}}
+                      </a>
+										</p>
+									</div>
+								</div>
+								<!--/.col-->
+							</div>
+						</div>
+						<!--/.col-->
+						<div class="col-md-5 col-sm-12 col-xs-12 hotDiscussRight">
+							<div class="row hotDiscussRightList" ng-repeat="item in homeCtrl.article[5] | limitTo: 3 : 1">
+								<div class="col-md-5 col-sm-5 col-xs-12 hotDiscussRightListImg">
+									<a href="" ui-sref="main.articles-show({articleId: item.id})">
+										<img ng-src="{{item.cover.url['240']}}" alt="" class="img-responsive" ng-show="item.cover !== null">
+										<img src="http://placehold.it/240x160" alt="" class="img-responsive" ng-show="item.cover === null">
+									</a>
+								</div>
+								<!--/.col-->
+								<div class="col-md-7 col-sm-7 col-xs-12 hotDiscussRightListContent">
+									<h4 class="title">
+										<a ui-sref="main.articles-show({articleId: item.id})">{{item.title}}</a>
+									</h4>
+									<p class="text">{{item.content | htmlToPlaintext | limitTo: 30}}<span ng-show="item.content.length > 30">...</span></p>
+									<ul class="list-inline tags">
+										<li class="tag" ng-repeat="tag in item.tags | limitTo:3">
+											<span class="btn-success">{{tag.name}}</span>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<!--/.col-->
+					</div>
+				</uib-tab>
+
+			</uib-tabset>
+		</div>
+
+	</section>
+
+
+	<!-- /.hotDiscuss -->
+
+	
+	<!-- .hotActive -->
+	<section class="hotActive" ng-show="false">
+		<div class="header">
+			<div class="row">
+				<div class="col-sm-3 col-xs-12">
+					<h4>
+						<i class="fa fa-cart-plus"></i> {{'article.hot_active'| translate}}
+					</h4>
+				</div>
+				<!--/.col-->
+				<div class="col-sm-9 col-xs-12">
+					<ul class="list-inline">
+						<li class="active" ng-click="homeCtrl.changeTab('hotActive',1,5)" ng-class="{'active': 1 === homeCtrl.hotActiveIndex}">{{'article.hot_active'| translate}}
+						</li>
+						<li ng-click="homeCtrl.changeTab('hotActive',2, 6)" ng-class="{'active': 2 === homeCtrl.hotActiveIndex}">
+							{{'article.cover_activity'| translate}}
+						</li>
+					</ul>
+
+				</div>
+				<!--/.col-->
+			</div>
+		</div>
+		<article class="hotActiveContent">
+
+			<uib-tabset active="homeCtrl.hotActiveIndex">
+				<uib-tab index="1">
+					<div class="loading text-center" ng-show="homeCtrl.articleLoading[5]">
+						<div class="row">
+							<div class="col-sm-12">
+								<i class="fa fa-spinner fa-pulse fa-3x"></i>
+							</div>
+							<!--/.col-->
+						</div>
+					</div>
+					<slick settings="homeCtrl.slick" ng-if="homeCtrl.article[5].length > 0 && !homeCtrl.articleLoading[5]">
+						<div class=" hotActiveList" ng-repeat="list in homeCtrl.article[5]">
+							<div class="img">
+								<a href="">
+									<img ng-src="http://placehold.it/285x190" alt="" class="img-responsive">
+								</a>
+							</div>
+
+							<h5 class="title">
+								<a ui-sref="main.articles-show({articleId: list.id})">{{list.title}} </a>
+							</h5>
+							<div class="content">
+								<time>
+									{{list.createdAt | date: 'yyyy-MM-dd'}}
+								</time>
+								<div class="text">
+									{{list.content | limitTo: 100: 0}}
+								</div>
+								<p class="more clearfix">
+									<a ui-sref="main.articles-show({articleId: list.id})">阅读更多</a>
+								</p>
+							</div>
+						</div>
+					</slick>
+				</uib-tab>
+				<uib-tab index="2">
+					<div class="loading text-center" ng-show="homeCtrl.articleLoading[6]">
+						<div class="row">
+							<div class="col-sm-12">
+								<i class="fa fa-spinner fa-pulse fa-3x"></i>
+							</div>
+							<!--/.col-->
+						</div>
+					</div>
+					<slick settings="homeCtrl.slick" ng-if="homeCtrl.article[6].length > 0  && !homeCtrl.articleLoading[6]">
+						<div class=" hotActiveList" ng-repeat="list in homeCtrl.article[6] | limitTo: 10">
+							<a href="https://community.freshlinker.com/topic/{{list.tid}}/{{list.title}}">
+								<p class="img" style="background-size: cover; background-image: url('{{list.thumb}}');"></p>
+							</a>
+							<h5 class="title">
+								<a href="https://community.freshlinker.com/topic/{{list.tid}}/{{list.title}}">{{list.title}} </a>
+							</h5>
+							<p class="more clearfix">
+								<time class="pull-left">
+									{{list.lastposttimeISO | date: 'yyyy-MM-dd'}}
+								</time>
+								<a href="https://community.freshlinker.com/topic/{{list.tid}}/{{list.title}}" class="pull-right">
+									<span>{{'article.read_more' | translate}}</span>
+								</a>
+							</p>
+							<ul class="keyList list-inline">
+								<li class="List" ng-repeat="item in list.tags">
+									<a href="https://community.freshlinker.com/tags/{{item.value}}">{{item.value}}</a>
+								</li>
+							</ul>
+						</div>
+					</slick>
+				</uib-tab>
+			</uib-tabset>
+
+		</article>
+	</section>
+	<!-- /.hotActive -->
+
+	<hr class="hr" ng-show="false">
+
+	<!-- .keyWords -->
+	<section class="keyWords" ng-show="false">
+		<div class="row">
+			<div class="col-xs-12">
+				<h4>{{'article.key_words' | translate}}:</h4>
+				<div class="loading text-center" ng-show="homeCtrl.articleTagsLoading">
+					<div class="row">
+						<div class="col-sm-12">
+							<i class="fa fa-spinner fa-pulse fa-3x"></i>
+						</div>
+						<!--/.col-->
+					</div>
+				</div>
+				<ul class="keyList list-inline" ng-show="!homeCtrl.articleTagsLoading">
+					<li class="List" ng-repeat="list in homeCtrl.articleTags">
+						<a href="https://community.freshlinker.com/tags/{{list.value}}">{{list.value}}</a>
+					</li>
+				</ul>
+			</div>
+			<!--/.col-->
+		</div>
+	</section>
+	<!-- /.keyWords -->
+
+	<div class="cooperation">
+		<div class="row text-center cooperationTitle">
+			<span class="col-md-4 col-xs-12 col-sm-12" ng-click="active=1" ng-class="{'active':active===1}">{{'article.home_bot_title2'| translate}}<i class="left"></i></span>
+			<span class="col-md-3 col-xs-12 col-sm-12" ng-click="active = 2" ng-class="{'active': active === 2}">{{'article.home_bot_title'| translate}}<i class="left"></i></span>
+			<span class="col-md-3 col-xs-12 col-sm-12" ng-click="active = 3" ng-class="{'active': active === 3}">{{'article.home_bot_title1'| translate}}<i class="left"></i></span>
+		</div>
+		<uib-tabset active="active">
+			<uib-tab index="1">
+				<ul class="row list-inline">
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg1.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg2.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg4.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg7.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg8.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg9.png" class="img-responsive"></li>
+				</ul>
+				<ul class="row list-inline">
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg10.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg11.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg13.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg14.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg15.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg19.png" class="img-responsive"></li>
+				</ul>
+				<ul class="row list-inline">
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg20.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg21.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg22.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg25.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg30.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg29.png" class="img-responsive"></li>
+				</ul>
+			</uib-tab>
+			<uib-tab index="2">
+				<ul class="row list-inline">
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg32.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg33.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg23.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg35.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg37.png" class="img-responsive"></li>
+				</ul>
+			</uib-tab>
+			<uib-tab index="3">
+				<ul class="row list-inline">
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homemeiti1.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homemeiti2.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homemeiti3.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homemeiti4.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homemeiti5.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homemeiti6.png" class="img-responsive"></li>
+				</ul>
+				<ul class="row list-inline">
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homeimg32.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homemeiti8.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homemeiti9.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homemeiti10.png" class="img-responsive"></li>
+					<li class="col-sm-2 col-xs-4"><img src="../../assets/img/homemeiti12.png" class="img-responsive"></li>
+				</ul>
+			</uib-tab>
+		</uib-tabset>
+	</div>
+
+</div>
+
+
+<div ng-include="'app/main/footer/template/footer.html'"></div>

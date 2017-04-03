@@ -1,0 +1,131 @@
+<!--nav-->
+<section class="authNav">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-2">
+        <a class="logo" ui-sref="fullscreen.login">
+          <img src="http://placehold.it/150x65" class="img-responsive">
+        </a>
+      </div>
+      <div class="col-sm-1">
+        <div class="navLanguage">
+          <ul class="nav navbar-nav navbar-right acme-navbar-text">
+            <li class="language">
+        <span uib-dropdown on-toggle="toggled(open)">
+          <a href="#" id="language" uib-dropdown-toggle>
+            {{'lang.zh_cn' | translate}}
+          </a>
+          <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="language">
+            <li><a href="#">{{'lang.zh_cn' | translate}}</a></li>
+            <li><a href="#">{{'lang.zh_hk' | translate}}</a></li>
+            <li><a href="#">{{'lang.en_us' | translate}}</a></li>
+          </ul>
+        </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!--/.col-->
+    </div>
+  </div>
+</section>
+<!--/nav-->
+<!--.register-->
+<section class="register">
+  <div class="row">
+    <div class="col-xs-12">
+      <h4 class="text-center">{{'auth.register_title' | translate}}</h4>
+    </div>
+    <!--/.col-->
+  </div>
+
+  <section class="registerMain container">
+    <div class="row">
+      <div class="col-md-6 col-sm-12 col-xs-12">
+        <article class="registerLeft">
+          <form ng-submit="registerCtrl.register()" class="form-horizontal">
+            <div class="form-group">
+                <div class="input col-sm-6 col-xs-6">
+                  <label for="firstName" class="col-sm-3 col-xs-3 control-label">{{'auth.first_name' | translate}}</label>
+                  <div class="col-sm-9 col-xs-9">
+                    <input type="text" class="form-control" id="firstName" required ng-model="registerCtrl.form.firstName">
+                  </div>
+                </div>
+                <!--/.col-->
+                <div class="input col-sm-6 col-xs-6 formGroupRight">
+                  <label for="lastName" class="col-sm-3 col-xs-3 control-label">{{'auth.last_name' | translate}}</label>
+                  <!--/.col-->
+                  <div class="col-sm-9 col-xs-9">
+                    <input type="text" class="form-control" id="lastName" required ng-model="registerCtrl.form.lastName">
+                  </div>
+                  <!--/.col-->
+                </div>
+                <!--/.col-->
+
+            </div>
+
+            <div class="form-group input">
+              <label for="email" class="col-sm-2 col-xs-2 control-label">{{'auth.email' | translate}}</label>
+              <!--/.col-->
+              <div class="col-sm-10 col-xs-10">
+                <input type="email" class="form-control" id="email" required ng-model="registerCtrl.form.email">
+              </div>
+              <!--/.col-->
+            </div>
+
+            <div class="form-group input">
+              <label for="password" class="col-sm-2 col-xs-2 control-label">{{'auth.password' | translate}}</label>
+              <!--/.col-->
+              <div class="col-sm-10 col-xs-10">
+                <input type="password" class="form-control" id="password" required ng-model="registerCtrl.form.password">
+              </div>
+              <!--/.col-->
+            </div>
+            <div class="form-group">
+              <div class="col-sm-12 col-xs-12">
+                <button type="submit" class="btn submit registerBtn" ng-disabled="registerCtrl.loading">
+                  <span ng-hide="registerCtrl.loading">
+                            {{'auth.create_account' | translate}}
+                  </span>
+                  <span ng-show="registerCtrl.loading">
+                            <i class="fa fa-spinner fa-spin"></i>
+                  </span>
+                </button>
+              </div>
+              <!--/.col-->
+            </div>
+          </form>
+          <p class="text-center">
+            {{'auth.read' | translate}} <a href="#">{{'auth.privacy' | translate}}</a>和 <a href="#">{{'auth.provision' | translate}}</a>
+          </p>
+        </article>
+      </div>
+      <!--/.col-->
+      <div class="col-md-6 col-sm-12 col-xs-12">
+        <article class="registerRight">
+          <div class="line">
+            <span>{{'auth.to_be_member' | translate}}</span>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-md-offest-4 col-sm-4 col-sm-offset-4 col-xs-6 col-xs-offset-3">
+              <button class="buttonRegister" ui-sref="fullscreen.login">{{'auth.login_button' | translate}}</button>
+            </div>
+            <!--/.col-->
+          </div>
+        </article>
+      </div>
+      <!--/.col-->
+    </div>
+
+  </section>
+
+</section>
+
+<!--/.register-->
+
+<div ng-include="'app/main/auth_footer.html'"></div>
+
+
+
+
+

@@ -1,0 +1,100 @@
+<div class="dialog editPicture">
+    <form class="form-horizontal " name="Form" ng-submit="formCtrl.save()">
+        <div class="modal-header">
+            <button type="button" class="close" aria-label="Close" ng-click="formCtrl.cancel()"><span
+                    aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title"><i class="fa fa-pencil-square-o"></i>{{'enterprise.edit_company_picture' | translate}}</h4>
+        </div>
+        <!-- /.model-header -->
+        <div class="modal-body">
+            <div class="row">
+                <div class="form-group">
+                    <div class="loading text-center" ng-show="formCtrl.loading">
+                        <i class="fa fa-2x fa-spinner fa-spin"></i>
+                    </div>
+                    <div ng-show="!formCtrl.loading">
+                        <div class="col-sm-12 col-xs-12 content">
+                            <div class="col-sm-12 col-xs-12 ">
+                                <div ng-app="fileUpload" class="text-center" >
+                                    <div  ngf-select="formCtrl.uploadFile($files)" ng-model="formCtrl.upload.file" id="file"
+                                          class="ng-file-upload-drop-box"
+                                          ngf-drag-over-class="'ng-file-upload-drag-over'" ngf-multiple="false"
+                                          ngf-allow-dir="true"
+                                          accept="image/*" ngf-max-size="2MB" required  ngf-pattern="'image/*'">
+                                  <span class="text-muted">
+                                    <i class="fa fa-cloud-upload fa-5x" ng-show="formCtrl.company.icon === null && formCtrl.files === undefined"></i>
+                                    <i ng-show="companyEditForm.file.$error.maxSize">{{'file.File_too_large' | translate}}
+                                        {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+                                     <img ng-show="companyEditForm.file.$valid" ngf-thumbnail="formCtrl.upload.file" class="thumb img-responsive" width="200", height="200">
+                                     <img class="thumb" ng-show="(formCtrl.icon !== null) && (formCtrl.files === undefined)" ng-src="{{formCtrl.icon}}" class="img-responsive">
+                                    <br>
+                                    <h4>{{'file.Drop_here_to_upload_(or click)' | translate}}</h4>
+                                  </span>
+                                    </div>
+                                    <div ngf-no-file-drop>{{'file.File_Drag/Drop_is_not_supported_for_this_browser' | translate}}</div>
+                                </div>
+                                <div class="error text-center" ng-show="formCtrl.isIconError">
+                                    <i class="fa fa-times-circle"></i>
+                                    {{formCtrl.iconError}}
+                                </div>
+                                <div class="text-center">
+                                    {{'global.tips' | translate}}: {{'message.company_icon_input_message' | translate}}
+                                </div>
+                            </div>
+                            <!--/.col-->
+                        </div>
+                        <!--/.col-->
+
+                        <div class="col-sm-12 col-xs-12 content">
+                            <div class="col-sm-12 col-xs-12 ">
+                                <div ng-app="fileUpload" class="text-center" >
+                                    <div  ngf-select="formCtrl.uploadCover($files)" ng-model="formCtrl.uploadCovers.file" id="cover"
+                                          class="ng-file-upload-drop-box"
+                                          ngf-drag-over-class="'ng-file-upload-drag-over'" ngf-multiple="false"
+                                          ngf-allow-dir="true"
+                                          accept="image/*" ngf-max-size="2MB" required  ngf-pattern="'image/*'">
+                                  <span class="text-muted">
+                                    <i class="fa fa-cloud-upload fa-5x" ng-show="formCtrl.company.cover === null && formCtrl.covers === undefined"></i>
+                                    <i ng-show="companyEditForm.file.$error.maxSize">{{'file.File_too_large' | translate}}
+                                        {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+                                     <img ng-show="companyEditForm.file.$valid" ngf-thumbnail="formCtrl.uploadCovers.file" class="thumb img-responsive imgCover" >
+                                     <img class="thumb" ng-show="(formCtrl.company.cover !== null) && (formCtrl.covers === undefined)" ng-src="{{formCtrl.cover}}" class="img-responsive imgCover">
+                                    <br>
+                                    <h4>{{'file.Drop_here_to_upload_(or click)' | translate}}</h4>
+                                  </span>
+                                    </div>
+                                    <div ngf-no-file-drop>{{'file.File_Drag/Drop_is_not_supported_for_this_browser' | translate}}</div>
+                                </div>
+                                <div class="error text-center" ng-show="formCtrl.isCoverError">
+                                    <i class="fa fa-times-circle"></i>
+                                    {{formCtrl.coverError}}
+                                </div>
+                                <div class="text-center">
+                                    {{'global.tips' | translate}}: {{'message.company_cover_input_message' | translate}}
+                                </div>
+                            </div>
+                            <!--/.col-->
+                        </div>
+                        <!--/.col-->
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.model-body -->
+
+        <div class="modal-footer">
+            <button type="submit" ng-disabled="formCtrl.saveLoading || salaryForm.$invalid"
+                    class="btn btn-success">
+                <span ng-if="formCtrl.saveLoading"><i class="fa fa-spin fa-spinner"></i></span>
+                <span ng-if="!formCtrl.saveLoading">{{ 'button.save' | translate }}</span>
+            </button>
+            <button type="button" class="btn btn-default" ng-click="formCtrl.cancel()">
+                {{ 'button.close' | translate }}
+            </button>
+        </div>
+        <!-- /.model-footer -->
+    </form>
+</div>

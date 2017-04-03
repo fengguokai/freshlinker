@@ -1,0 +1,32 @@
+<div class="col-sm-3 col-xs-12" ng-controller="AboutUsLeftController as aboutCtrl">
+    <div class="aboutUsLeft">
+        <ul class="List list-unstyled">
+            <li ng-class="{'active': aboutCtrl.about === 'about'}">
+                <a ui-sref="main.aboutUs">
+                    {{'about_us.about' | translate}}
+                </a>
+            </li>
+            <li ng-class="{'active': aboutCtrl.about === 'contact'}">
+                <a ui-sref="main.contact">
+                    {{'contact_us.contact_us' | translate}}
+                </a>
+            </li>
+            <li ng-class="{'active': aboutCtrl.about === 'privacy'}">
+                <a ui-sref="main.privacy">
+                    {{'about_us.privacy' | translate}}
+                </a>
+            </li>
+            <li ng-class="{'active': aboutCtrl.about === 'career'}">
+                <a ui-sref="main.career">
+                    {{'about_us.job' | translate}}
+                </a>
+            </li>
+            <li ng-class="{'active': aboutCtrl.about === 'terms_conditions'}">
+                <a ui-sref="main.terms_conditions">
+                    {{'about_us.terms_conditions' | translate}}
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--/.col-->

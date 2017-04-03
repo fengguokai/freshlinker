@@ -1,0 +1,147 @@
+<hr class="userHr">
+<div class="container">
+    <div ng-include="'app/components/user/template/user_tabs.html'"></div>
+    <form action="">
+    <div class="row articleList">
+        <div class="col-md-3 col-sm-12 col-xs-12 articleListLeft">
+            <div class="content">
+                <div class="button">
+                    <a ui-sref="main-auth.article_create" class="btn btn-success sub">
+                        {{ 'enterprise.article_publish' | translate}}
+                    </a>
+                </div>
+
+                <ul class="editList list-unstyled">
+                    <li class="list" ng-repeat="item in articleListCtrl.articleStatus" ng-class="{'active': item.id === articleListCtrl.articleIndex}">
+                        <a href="" ng-click="articleListCtrl.articleTab(item.id)">{{item.name | translate}}</a>
+                    </li>
+                </ul>
+
+                <div class="searchForm">
+                    <h5>{{'article.article_search_title' | translate}}</h5>
+                        <div class="form-group">
+                            <input type="text" placeholder="{{'article.article_title_input' | translate}}" ng-required="true" ng-model="articleListCtrl.filter.search">
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn" ng-click="articleListCtrl.searchArticle(articleListCtrl.articleIndex)">{{'button.determine' | translate}}</button>
+                        </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-md-9 col-sm-12 col-xs-12 articleListRight">
+            <div ng-if="!articleListCtrl.changeTabLoading">
+                <div class="text-center loading" ng-show="articleListCtrl.tableLoading && articleListCtrl.articleLoading">
+                    <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                </div>
+                <div ng-show="!articleListCtrl.tableLoading">
+                    <div ng-show="articleListCtrl.articles.length === 0 && !articleListCtrl.articleLoading" class="noAppliedArticle row">
+                        <div class="col-md-2 col-sm-3 col-xs-12 col-sm-offset-3">
+                            <img src="../../assets/img/no_position_message.png" alt="" class="img-responsive">
+                        </div>
+                        <!--/.col-->
+                        <div class="col-md-5 col-sm-5 col-xs-12 text">
+                            <p>
+                                {{'message.article_no_publish_message' | translate}}
+                                <br>
+                                {{'message.article_need_to_fill_published' | translate}}!
+                                <br>
+                                <span>{{'global.go_ahead' | translate}}</span>
+                                <a href="" ui-sref="main-auth.article_create">
+                                    {{ 'enterprise.article_publish' | translate }}
+                                </a>
+                            </p>
+                        </div>
+                        <!--/.col-->
+                    </div>
+                    <div class="articleListRightContent" ng-show="articleListCtrl.articles.length > 0 && !articleListCtrl.articleLoading">
+                        <div  st-table="articleListCtrl.articles" st-safe-src="articleListCtrl.articles" st-pipe="articleListCtrl.callServer" ng-show="articleListCtrl.articles.length > 0">
+
+                            <div class="row articleListRightItem" ng-repeat="article in articleListCtrl.articles">
+                                <div class="col-sm-12 col-xs-12 content">
+                                    <p class="articleName clearfix">
+                                        <span class="name pull-left">
+                                            {{article.title}}
+                                        </span>
+
+                                        <span class="text text-center pull-left" ng-show="article.isApproved && article.active" ng-class="{'isApproved': article.isApproved}">
+                                            {{'enterprise.article_isApproved' | translate}}
+                                        </span>
+                                        <span class="text text-center pull-left" ng-show="article.isApproved === false && article.active" ng-class="{'unApproved': article.isApproved === false}">
+                                            {{'enterprise.article_unApproved' | translate}}
+                                        </span>
+                                        <span class="text text-center pull-left" ng-show="!article.active" ng-class="{'offline': !article.active}">
+                                            {{'enterprise.article_offline' | translate}}
+                                        </span>
+                                    </p>
+                                    <p class="writer">
+                                        {{'article.author' | translate}}: {{article.userName}}
+                                    </p>
+                                    <p class="tags">
+                                        <span ng-repeat="tag in article.tags">
+                                            {{tag.name}}
+                                        </span>
+                                    </p>
+                                    <p class="text">
+                                        {{article.content | htmlToPlaintext | limitTo: 100}}<span ng-show="article.content.length > 100">...</span>
+                                    </p>
+                                </div>
+                                <ul class="col-sm-12 col-xs-12 checkList list-inline">
+                                    <li class="list">
+                                        <a ui-sref="main-auth.article-preview({articleId: article.id})">
+                                            {{'global.view' | translate}}
+                                        </a>
+                                    </li>
+                                    <li>|</li>
+                                    <li class="list">
+                                        <a href="" ui-sref="main-auth.article-edit({articleId: article.id})">
+                                            {{'button.modify' | translate}}
+                                        </a>
+                                    </li>
+                                    <li>|</li>
+                                    <li class="list">
+                                        <a href="" ng-click="articleListCtrl.destory(article.id)">
+                                            {{'button.delete' | translate}}
+                                        </a>
+                                    </li>
+                                    <li>|</li>
+                                    <li class="list">
+                                        <a href="" ng-click="articleListCtrl.editArticle(article.id, 'offline')" ng-show="article.active">
+                                            {{'global.offline' | translate}}
+                                        </a>
+
+                                        <a href="" ng-click="articleListCtrl.editArticle(article.id, 're-publish')" ng-show="!article.active">
+                                            {{'global.re-publish' | translate}}
+                                        </a>
+
+                                    </li>
+                                    <li>|</li>
+                                    <li class="time">
+                                        {{article.createdAt | date: 'yyyy-MM-dd'}} {{'button.publish' | translate }}
+                                    </li>
+
+                                </ul>
+                                <!--/.col-->
+                            </div>
+
+                            <!-- page -->
+                            <div class="page text-center" st-current-page="articleListCtrl.filter.page"
+                                 st-template="app/shared/override/smart-table/pagination.html"
+                                 st-next-prev-pagination=""
+                                 st-pagination-action="articleListCtrl.paginationAction"
+                                 st-items-by-page="articleListCtrl.itemsByPage">
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!--/.col-->
+    </div>
+</div>
+</form>

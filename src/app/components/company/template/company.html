@@ -1,0 +1,431 @@
+<div class="container">
+    <!--company-->
+    <section class="companyHeader">
+      <div class="loading text-center" ng-show="companyCtrl.companyLoading">
+        <i class="fa fa-2x fa-spinner fa-spin"></i>
+      </div>
+      <div ng-show="!companyCtrl.companyLoading">
+        <div class="backgroundImg">
+          <img src="http://placehold.it/990x215" alt="" class="img-responsive" ng-show="companyCtrl.company.cover === null">
+          <img ng-src="{{companyCtrl.company.cover.url['1024']}}" alt="" class="img-responsive" ng-show="companyCtrl.company.cover !== null">
+        </div>
+        <div class="row">
+          <div class="col-sm-3 col-xs-4">
+            <fieldset>
+              <a href="">
+                <img src="http://placehold.it/160x160" class="img-responsive" ng-show="companyCtrl.company.icon === null">
+                <img ng-src="{{companyCtrl.company.icon.url['160']}}" alt="" class="img-responsive">
+              </a>
+            </fieldset>
+          </div>
+          <!--/.col-->
+          <div class="col-sm-9 col-xs-12">
+            <div class="row">
+              <h4 class="companyName col-sm-12 col-xs-12">
+                <a ui-sref="main.company({id: companyCtrl.company.id})">
+                  {{companyCtrl.company.name}}
+                </a>
+              </h4>
+              <!--/.col-->
+              <ul class="list-inline companyHeaderList col-xs-12 col-sm-12">
+                <li class="List" ng-class="{'active': item.id === companyCtrl.headIndex}" ng-repeat="item in companyCtrl.headList" ng-click="companyCtrl.changeTab(item.id)">
+                  {{item.name | translate}}
+                </li>
+              </ul>
+              <!--/.col-->
+            </div>
+
+          </div>
+          <!--/.col-->
+
+        </div>
+      </div>
+    </section>
+    <!--/.companyHeader-->
+</div>
+<div class="container companyPageContent">
+      <div class="row companyPage">
+        <div class="col-md-8 col-sm-12 col-xs-12 companyPageLeft">
+          <div ng-show="companyCtrl.changeTabLoading" class="loading text-center">
+            <i class="fa fa-3x fa-spinner fa-spin"></i>
+          </div>
+          <uib-tabset active="companyCtrl.headIndex" ng-if="!companyCtrl.changeTabLoading">
+            <uib-tab index="1"  >
+              <div class="companyAbout">
+                <div class="loading text-center" ng-show="companyCtrl.companyLoading">
+                  <i class="fa fa-2x fa-spinner fa-spin"></i>
+                </div>
+                <div ng-show="!companyCtrl.companyLoading">
+                  <div class="head">
+                    {{'global.base_infomartion' | translate}}
+                  </div>
+                  <div class="row content">
+                    <div class="col-sm-3 col-xs-6 labels" ng-show="companyCtrl.company.url !== 'http://'">
+                      {{'company.url' | translate}}
+                    </div>
+                    <div class="col-sm-3 col-xs-6 text" ng-show="companyCtrl.company.url !== 'http://'">
+                      <a href="#" class="companyAboutLink">
+                        {{companyCtrl.company.url}}
+                      </a>
+                    </div>
+                    <div class="col-sm-3 col-xs-6 labels" ng-show="companyCtrl.company.field !== null">
+                      {{'company.company_stage' | translate}}
+                    </div>
+                    <div class="col-sm-3 col-xs-6 text" ng-show="companyCtrl.company.field !== null">
+                      {{companyCtrl.company.field}}
+                    </div>
+
+                    <div class="col-sm-3 col-xs-6 labels" ng-show="companyCtrl.company.stage !== null">
+                      {{'company.industry' | translate}}
+                    </div>
+                    <div class="col-sm-3 col-xs-6 text" ng-show="companyCtrl.company.stage !== null">
+                      {{companyCtrl.company.stage}}
+                    </div>
+
+                    <div class="col-sm-3 col-xs-6 labels" ng-show="companyCtrl.company.scale !== null">
+                      {{'company.scale' | translate}}
+                    </div>
+                    <div class="col-sm-3 col-xs-6 text" ng-show="companyCtrl.company.scale !== null">
+                      {{companyCtrl.company.scale}}
+                    </div>
+
+
+                    <div class="col-sm-3 col-xs-6 labels">
+                      {{'company.founding_time' | translate}}
+                    </div>
+                    <div class="col-sm-3 col-xs-6 text">
+                      {{companyCtrl.company.foundingTime}} {{'global.year' | translate}}
+                    </div>
+
+                    <div class="col-sm-3 col-xs-6 labels" ng-show="companyCtrl.company.address !== null">
+                      {{'company.address' | translate}}
+                    </div>
+                    <div class="col-sm-3 col-xs-6 text" ng-show="companyCtrl.company.address !== null">
+                      {{companyCtrl.company.address}}
+                    </div>
+
+                  </div>
+                  <div class="subhead" ng-show="companyCtrl.company.description !== null">
+                    {{'company.description' | translate}}
+                  </div>
+                  <p class="description" ng-show="companyCtrl.company.description !== null">
+                    <span>
+                    {{companyCtrl.company.description | escapeHtml | limitTo: 100}}
+                    <span ng-show="!companyCtrl.descriptionShow && companyCtrl.company.description.length > 100">...</span>
+                    <a href="" ng-click="companyCtrl.descriptionShow = !companyCtrl.descriptionShow" ng-show="!companyCtrl.descriptionShow && companyCtrl.company.description.length > 100">{{'global.expand' | translate}}</a>
+                  </span>
+                  <span ng-show="companyCtrl.descriptionShow">
+                    {{companyCtrl.company.description | escapeHtml | limitTo: 255 : 101}}
+                    <a href="" ng-click="companyCtrl.descriptionShow = !companyCtrl.descriptionShow" ng-show="companyCtrl.descriptionShow">{{'global.put_away' | translate}}</a>
+                  </span>
+                  </p>
+                </div>
+              </div>
+              <!--/.companyAbout-->
+              <div class="companyPosition">
+                <div class="head">
+                  {{'enterprise.newest_position' | translate}}
+                </div>
+                <div class="loading text-center" ng-show="companyCtrl.companyLoading">
+                  <i class="fa fa-2x fa-spinner fa-spin"></i>
+                </div>
+                <div ng-show="!companyCtrl.companyLoading">
+                  <div class="noPosition text-center" ng-show="companyCtrl.company.positions.length === 0">
+                    {{'message.company_no_publish_positions' | translate}}
+                  </div>
+                  <div class="row list" ng-repeat="position in companyCtrl.company.positions | orderBy : 'position.id' | limitTo: 5" ng-show="companyCtrl.company.positions.length > 0">
+                    <div class="col-sm-3 col-xs-6 positionName">
+                      <a ui-sref="main.show-position({id: position.id})">{{position.name}}</a>
+                      <div class="time">{{position.createdAt | date: 'yyyy-MM-dd'}}</div>
+                    </div>
+                    <div class="col-sm-7 col-xs-6 salary">
+                      <div class="money" ng-class="{'negotiation': position.minSalary === 0 && position.maxSalary === 0}">
+                    <span ng-show="position.maxSalary > 0">
+                      {{position.minSalary}} - {{position.maxSalary}}{{'global.money' | translate}}
+                    </span>
+                    <span ng-show="position.minSalary === 0 && position.maxSalary === 0">
+                      {{'position.negotiation' | translate}}
+                    </span>
+                      </div>
+                      <div class="salaryType" ng-show="position.minSalary !== 0 && position.maxSalary !== 0">
+                        {{position.salaryType | translate}} ({{'global.money' | translate}})
+                      </div>
+                    </div>
+                    <div class="col-sm-2 hidden-xs view ">
+                      <a ui-sref="main.show-position({id: position.id})">
+                        <p class="bg"></p>
+                        <p class="text">{{'global.check' | translate}}</p>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="list text-right">
+                    <a ng-click="companyCtrl.changeTab(2)" class="more">
+                      {{'company.check_more_position' | translate}}
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <!--/.companyPosition-->
+
+              <div class="companyPicture">
+                <div class="head clearfix">
+                  {{'enterprise.picture' | translate}}
+                  <span class="list pull-right" ng-show="companyCtrl.pictures.length > 0">
+                    <a ng-click="companyCtrl.changeTab(3)" class="more">
+                      {{'company.check_more_picture' | translate}}
+                    </a>
+                  </span>
+                </div>
+                <div class="loading text-center" ng-show="companyCtrl.pictureLoading">
+                  <i class="fa fa-2x fa-spinner fa-spin"></i>
+                </div>
+                <div class="content row" ng-show="!companyCtrl.pictureLoading">
+                  <slick settings="companyCtrl.pictureSlick" ng-if="companyCtrl.pictures.length > 0">
+                    <div class="col-sm-3 col-xs-6 list" ng-repeat="picture in companyCtrl.pictures track by $index">
+                      <a href="" ng-click="companyCtrl.openLightboxModal($index)">
+                        <img ng-src="{{picture.url['160']}}" alt="" class="img-responsive">
+                      </a>
+                    </div>
+                  </slick>
+                  <div class="noPosition text-center" ng-show="companyCtrl.pictures.length === 0">
+                    {{'message.no_publish_company_picture' | translate}}
+                  </div>
+                </div>
+
+              </div>
+              <!--/.companyPicture-->
+
+              <div class="companyChart" ng-show="false" >
+                <div class="head">
+                  {{'company.applicants_analysis' | translate}}
+                </div>
+                <div class="loading text-center" ng-show="companyCtrl.chartLoading">
+                  <i class="fa fa-2x fa-spinner fa-spin"></i>
+                </div>
+                <div ng-if="!companyCtrl.chartLoading">
+                  <slick settings="companyCtrl.chartSlick" ng-if="companyCtrl.experienceChartData.length > 0">
+                    <div class="chart-pie chart">
+                      <div class="subhead">
+                        {{'user.profile.experience' | translate}}
+                      </div>
+                      <canvas id="pie_experience" class="chart chart-pie"
+                              chart-data="companyCtrl.experienceChartData" chart-labels="companyCtrl.experienceChartLabels" chart-legend="true">
+                      </canvas>
+                    </div>
+
+                    <div class="chart-pie chart">
+                      <div class="subhead">
+                        {{'user.profile.education' | translate}}
+                      </div>
+                      <canvas id="pie_education" class="chart chart-pie"
+                              chart-data="companyCtrl.educationChartData" chart-labels="companyCtrl.educationChartLabels" chart-legend="true" >
+
+                      </canvas>
+                    </div>
+
+                    <div class="chart-pie chart">
+                      <div class="subhead">
+                        {{'user.profile.skill' | translate}}
+                      </div>
+                      <div class="noChart text-center" ng-show="!companyCtrl.isSkill">
+                        {{'message.company_no_accept_skill' | translate}}
+                      </div>
+                      <canvas id="pie_skill" class="chart chart-pie"
+                              chart-data="companyCtrl.skillChartData" chart-labels="companyCtrl.skillChartLabels" chart-legend="true" ng-show="companyCtrl.isSkill">
+
+                      </canvas>
+                    </div>
+
+                    <div class="chart-pie chart">
+                      <div class="subhead">
+                        {{'user.profile.school' | translate}}
+                      </div>
+                      <div class="noChart text-center" ng-show="!companyCtrl.isSchool">
+                        {{'message.company_no_accept_school' | translate}}
+                      </div>
+                      <canvas id="pie_school" class="chart chart-pie"
+                              chart-data="companyCtrl.schoolChartData" chart-labels="companyCtrl.schoolChartLabels" chart-legend="true" ng-show="companyCtrl.isSchool">
+
+                      </canvas>
+                    </div>
+
+                    <div class="chart-pie chart">
+                      <div class="subhead">
+                        {{'user.profile.subject' | translate}}
+                      </div>
+                      <div class="noChart text-center" ng-show="!companyCtrl.isSubject">
+                        {{'message.company_no_accept_school' | translate}}
+                      </div>
+                      <canvas id="pie_subject" class="chart chart-pie"
+                              chart-data="companyCtrl.subjectChartData" chart-labels="companyCtrl.subjectChartLabels" chart-legend="true" ng-show="companyCtrl.isSubject">
+
+                      </canvas>
+                    </div>
+
+
+                  </slick>
+                </div>
+
+              </div>
+            </uib-tab>
+            <uib-tab index="2">
+              <div class="companyPagePositions">
+                <div class="head">
+                  <h3>{{'enterprise.offer_job' | translate}}</h3>
+                </div>
+                <div ng-show="companyCtrl.positionLoading" class="loading text-center">
+                  <i class="fa fa-3x fa-spinner fa-spin"></i>
+                </div>
+                <div ng-show="!companyCtrl.positionLoading">
+                  <div class="noPosition text-center" ng-show="companyCtrl.companyPositions.length === 0">
+                    {{'message.company_no_publish_positions' | translate}}
+                  </div>
+                  <div  st-table="companyCtrl.companyPositions" st-safe-src="companyCtrl.companyPositions" st-pipe="companyCtrl.callServer" ng-show="companyCtrl.companyPositions.length > 0">
+                    <div class="item row" ng-repeat="position in companyCtrl.companyPositions">
+                      <div class="img col-md-2 col-sm-3 col-xs-4">
+                        <a href="" ui-sref="main.show-position({id: position.id})">
+                          <img src="http://placehold.it/120x120" alt="" ng-show="position.company.icon === null" class="img-responsive">
+                          <img ng-src="{{position.company.icon.url['100']}}" alt="" ng-show="position.company.icon !== null" class="img-responsive">
+                        </a>
+                      </div>
+                      <!--/.col-->
+                      <div class="col-md-8 col-sm-7 col-xs-8 content">
+                        <p class="name">
+                          <a href="" ui-sref="main.show-position({id: position.id})">{{position.name}}</a>
+                        </p>
+                        <p class="address">
+                          <i class="fa fa-map-marker"></i>
+                          {{position.company.address}}
+                        </p>
+                      </div>
+                      <!--/.col-->
+                      <div class="col-md-2 col-sm-2 hidden-xs other text-center">
+                        <p class="icon">
+                          <i class="fa fa-star"></i>
+                        </p>
+                        <p class="time">
+                          {{position.createdAt | date: 'yyyy-MM-dd'}}
+                        </p>
+                      </div>
+                    </div>
+                    <!-- page -->
+                    <div class="page text-center" st-current-page="companyCtrl.filter.page"
+                         st-template="app/shared/override/smart-table/pagination.html"
+                         st-next-prev-pagination=""
+                         st-pagination-action="companyCtrl.paginationAction"
+                         st-items-by-page="companyCtrl.itemsByPage">
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </uib-tab>
+            <uib-tab index="3">
+              <div class="companyPagePictures">
+                <div class="head">
+                  <h3>{{'enterprise.picture' | translate}}</h3>
+                </div>
+                <div ng-show="companyCtrl.companyPictureLoading" class="loading text-center">
+                  <i class="fa fa-3x fa-spinner fa-spin"></i>
+                </div>
+                <div ng-show="!companyCtrl.companyPictureLoading">
+                  <div class="noPosition text-center" ng-show="companyCtrl.companyPictures.length === 0">
+                    {{'message.no_publish_company_picture' | translate}}
+                  </div>
+                  <div  st-table="companyCtrl.companyPictures" st-safe-src="companyCtrl.companyPictures" st-pipe="companyCtrl.callPictureServer" ng-show="companyCtrl.companyPictures.length > 0">
+                    <div class="item row">
+                      <div class="col-md-4 col-sm-4 col-xs-6 picture" ng-repeat="picture in companyCtrl.companyPictures track by $index">
+                        <a href="" ng-click="companyCtrl.openLightboxModal($index)">
+                          <img ng-src="{{picture.url['160']}}" alt="" class="img-responsive">
+                        </a>
+                      </div>
+                      <!--/.col-->
+                    </div>
+                    <!-- page -->
+                    <div class="page text-center" st-current-page="companyCtrl.filter.page"
+                         st-template="app/shared/override/smart-table/pagination.html"
+                         st-next-prev-pagination=""
+                         st-pagination-action="companyCtrl.paginationAction"
+                         st-items-by-page="companyCtrl.itemsByPage">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </uib-tab>
+          </uib-tabset>
+        </div>
+        <!--/.col-->
+        <div class="col-md-4 col-sm-12 col-xs-12 companyPageRight">
+          <div class="companyArticle">
+            <div class="head">
+              {{'company.article' | translate}}
+            </div>
+            <div class="loading text-center" ng-show="companyCtrl.articleLoading">
+              <i class="fa fa-2x fa-spinner fa-spin"></i>
+            </div>
+            <div ng-show="!companyCtrl.articleLoading">
+              <div class="noPosition text-center" ng-show="companyCtrl.articles.length === 0">
+                {{'message.company_no_publish_articles' | translate}}
+              </div>
+              <ul ng-show="companyCtrl.articles.length > 0" class="list-unstyled">
+                <li class="item" ng-repeat="article in companyCtrl.articles | limitTo: 5">
+                  <div class="title"><a ui-sref="main.articles-show({articleId: article.id})">{{article.title}}</a></div>
+                  <div class="other">
+                    <span class="author">
+                      {{'article.author' | translate}}: {{article.userName}}
+                    </span>
+                    <span class="time">
+                      {{article.createdAt | date: 'yyyy-MM-dd'}} {{'button.publish' | translate}}
+                    </span>
+                  </div>
+                </li>
+              </ul>
+              <div class="more text-right" ng-show="false">
+                <a href="">{{'enterprise.more_article' | translate}}</a>
+              </div>
+            </div>
+          </div>
+          <!--/.companyArticle-->
+          <div class="otherPosition">
+            <div class="head">
+              {{'company.related_position' | translate}}
+            </div>
+            <div class="loading text-center" ng-show="companyCtrl.otherPositionLoading">
+              <i class="fa fa-2x fa-spinner fa-spin"></i>
+            </div>
+            <div ng-show="!companyCtrl.otherPositionLoading">
+              <ul class="list-unstyled" ng-show="companyCtrl.otherPositions.length > 0">
+                <li class="list row" ng-repeat="other in companyCtrl.otherPositions">
+                  <div class="img col-sm-3 col-xs-4">
+                    <a href="" ui-sref="main.show-position({id: other.id})">
+                      <img src="http://placehold.it/100x100" alt="" class="img-responsive" ng-show="other.company.icon === null">
+                      <img ng-src="{{other.company.icon.url['100']}}" alt="" class="img-responsive" ng-show="other.company.icon !== null">
+                    </a>
+                  </div>
+                  <div class="col-sm-9 col-xs-8 content">
+                    <p class="name">
+                      <a href="" ui-sref="main.company({companyId: other.companyId})">{{other.company.name}}</a>
+                    </p>
+                    <p class="other">
+                      <a href="" ui-sref="main.show-position({id: other.id})">
+                        {{other.name}}
+                      </a>
+                      <span class="pull-right hidden-xs">
+                        {{other.createdAt | date: 'yyyy-MM-dd'}} {{'button.publish' | translate}}
+                      </span>
+                    </p>
+                  </div>
+                </li>
+              </ul>
+              <div class="noPosition text-center" ng-show="companyCtrl.otherPositions.length === 0">
+                {{'message.no_related_position_message' | translate}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--/.col-->
+      </div>
+
+
+</div>
+

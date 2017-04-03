@@ -1,0 +1,207 @@
+<hr class="userHr">
+<div class="container">
+    <div ng-include="'app/components/user/template/user_tabs.html'"></div>
+    <!--.postPosition-->
+    <form class="form-horizontal" name="Form" ng-submit="userCtrl.save()">
+        <div class="postUserInformation row">
+            <div class="postUserInformationLeft col-md-3 col-sm-12" ng-show="!userCtrl.tableLoading">
+                <div class="content text-center">
+                    <div class="button">
+                        <button type="submit" class="btn btn-success sub postUserSub">
+                            <span ng-if="userCtrl.saveLoading"><i class="fa fa-spin fa-spinner"></i></span>
+                            <span ng-if="!userCtrl.saveLoading">{{ 'button.add' | translate }}</span>
+                        </button>
+                        <a ui-sref="main-auth.profile" type="button" class="btn btn-default canel" >
+                            {{ 'button.return' | translate }}
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+            <!--/.col-->
+            <div class="postUserInformationRight col-md-9 col-sm-12">
+                <div class="text-center loading" ng-show="userCtrl.loading ">
+                    <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                </div>
+                <div ng-show="!userCtrl.loading">
+                    <div class="form-group baseInformation">
+                        <div class="row">
+                            <div class="title text-left col-xs-12">
+                                {{'user.profile.base_information' | translate}}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 col-xs-12 margin">
+                                <label for="lastName" class=" control-label">*{{'auth.last_name' | translate}}: </label>
+                                <input type="text" id="lastName" name="lastName" ng-required="true" class="form-control"
+                                       ng-model="userCtrl.user.lastName" ng-required="true" placeholder="{{'user.profile.enter_last_name' | translate}}">
+                            </div>
+                            <!--/.col-->
+
+                            <div class="col-sm-6 col-xs-12 margin">
+                                <label for="firstName" class="control-label">*{{'auth.first_name' | translate}}: </label>
+                                <input type="text" class="form-control" ng-required="true"
+                                       name="firstName" id="firstName" ng-model="userCtrl.user.firstName" placeholder="{{'user.profile.enter_first_name' | translate}}">
+                            </div>
+                            <!--/.col-->
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-6 col-xs-12 margin">
+                                <label for="birth" class="control-label">{{'user.profile.birth' | translate}}: </label>
+                                <input type="date" name="birth" class="form-control" id="birth" ng-model="userCtrl.user.birth" ng-required="true" placeholder="{{'user.profile.birth_format' | translate}}"/>
+                                <div class="tips">
+                                    {{'global.tips' | translate}}: {{'position.date' | translate}}
+                                </div>
+                            </div>
+                            <div class="inputRadio col-sm-6 col-xs-12 margin">
+                                <label  class="control-label text col-xs-12">*{{'global.sex' | translate}}: </label>
+
+                                <div class="col-xs-12 content">
+                                    <label>
+                                        <input type="radio" name="sex" id="optionsRadios1" value="M" ng-model="userCtrl.user.gender" ng-checked="userCtrl.user.gender">
+                                        {{'global.male' | translate}}
+                                    </label>
+                                    <label >
+                                        <input type="radio" name="sex" id="optionsRadios2" value="F" ng-model="userCtrl.user.gender" ng-checked="userCtrl.user.gender">
+                                        {{'global.female' | translate}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="country col-sm-6 col-xs-12 margin">
+                                <label for="country" class="control-label">{{'user.profile.country' | translate}}: </label>
+                                <select name="country" id="country" class="form-control" ng-model="userCtrl.user.nationalityId" ng-options="country.id as country.name for country in userCtrl.countries">
+                                    <option value="">{{'message.select_country' | translate}}</option>
+                                </select>
+
+                            </div>
+
+                            <div class="col-sm-6 col-xs-12 margin job">
+
+                                <label for="yearOfExperience" class="control-label">*{{'user.profile.experience' | translate}}: </label>
+
+                                <select class="form-control" ng-options="experience.value as experience.name for experience in userCtrl.yearOfExperience" ng-model="userCtrl.user.yearOfExperience" id="yearOfExperience">
+                                </select>
+                            </div>
+                            <!-- /.form-group job-->
+                        </div>
+
+                    </div>
+                    <!-- /.form-group base -->
+                    <div class="form-group baseInformation">
+                        <div class="row">
+                            <div class="title text-left col-xs-12">
+                                {{'user.profile.tel' | translate}}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 col-xs-12 margin">
+                                <label for="phone" class="control-label">*{{'user.profile.tel' | translate}}: </label>
+                                <!--/.col-->
+                                <input type="tel" class="form-control" name="phone" id="phone" ng-model="userCtrl.user.phone" placeholder="{{'user.profile.phone_input  ' | translate}}" ng-required="true">
+                                <div class="tips">
+                                    {{'global.tips' | translate}}: {{'message.user_information_phone_message' | translate}}
+                                </div>
+                            </div>
+                            <!--/.col-->
+                            <div class="col-sm-6 col-xs-12 margin">
+                                <label for="email" class="control-label">*{{'auth.user_email' | translate}}: </label>
+                                <input type="email" class="form-control" ng-required="true"
+                                       name="email" id="email" ng-model="userCtrl.user.email" placeholder="{{'user.profile.email_input' | translate}}">
+                                <div class="tips">
+                                    {{'global.tips' | translate}}: {{'message.user_information_email_message' | translate}}
+                                </div>
+                            </div>
+                            <!--/.col-->
+                        </div>
+                    </div>
+                    <!--/.form-group-->
+
+                    <div class="form-group baseInformation">
+                        <div class="row">
+                            <div class="title text-left col-xs-12">
+                                {{'user.profile.other_information' | translate}}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 margin file">
+                                <label for="file" class="col-sm-12 col-xs-12 control-label">{{'user.profile.user_icon' | translate}}: </label>
+                                <!--/.col-->
+                                <div class="col-sm-12 col-xs-12">
+                                    <div ng-app="fileUpload" class="text-left file" >
+                                        <div ngf-drop="userCtrl.uploadFile($files)" ngf-select="userCtrl.uploadFile
+                                            ($files)" ng-model="userCtrl.upload.file" id="file"
+                                             class="ng-file-upload-drop-box"
+                                             ngf-drag-over-class="'ng-file-upload-drag-over'" ngf-multiple="false"
+                                             ngf-allow-dir="true"  accept="image/*" ngf-max-size="2MB" required
+                                             ngf-pattern="'image/*'">
+                                      <span class="text-muted">
+                                              <div class="text-left" ng-show="userCtrl.iconLoading">
+                                                  <i class="fa fa-spinner fa-pulse fa-3x" ></i>
+                                              </div>
+                                              <div ng-show="!userCtrl.iconLoading">
+                                                  <i class="fa fa-cloud-upload fa-5x " ng-show="userCtrl.user.icon ===
+                                           null && userCtrl.upload.file === undefined"></i>
+                                                  <i ng-show="Form.file.$error.maxSize">{{'file.File_too_large' | translate}}
+                                                      {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+                                                  <img ng-show="userCtrl.upload.file "  ngf-thumbnail="userCtrl.upload.file"
+                                                       class="thumb" width="200" height="200">
+                                                  <img ng-show="!userCtrl.upload.file "  ng-src="{{userCtrl.user.icon
+                                                .url['200']}}" class="thumb">
+                                                  <br>
+                                                  <h4>{{'file.Drop_here_to_upload_(or click)' | translate}}</h4>
+                                                  <div class="tips">
+                                                      {{'message.user_icon_size_message' | translate}}
+                                                  </div>
+                                                  <div class="error" ng-show="userCtrl.isError">
+                                                      <i class="fa fa-times-circle"></i>
+                                                      {{userCtrl.iconError}}
+                                                  </div>
+                                              </div>
+
+                                        </span>
+                                        </div>
+                                        <div ngf-no-file-drop>{{'file.File_Drag/Drop_is_not_supported_for_this_browser'|
+                                            translate}}</div>
+                                    </div>
+                                </div>
+                                <!--/.col-->
+                            </div>
+                            <!--/.col-->
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 margin file">
+                                <label for="selfDescription" class="col-sm-12 col-xs-12 control-label">{{'user.profile.self_description' |translate}}:</label>
+                                <!--/.col-->
+                                <div class="col-sm-12 col-xs-12">
+    <textarea name="selfDescription" class="form-control" id="selfDescription"
+              cols="15" rows="5" placeholder="{{'message.user_information_selfDescription_message' | translate}}" ng-model="userCtrl.user.selfDescription"
+              ng-required="true" maxlength="200"></textarea>
+                                    <div class="tips text-right">
+                                        {{'message.text_input_255_words_message' | translate}}
+                                    </div>
+                                </div>
+                                <!--/.col-->
+                            </div>
+                            <!--/.col-->
+                        </div>
+
+                    </div>
+                    <!--/.form-group-->
+                </div>
+            </div>
+            <!--/.col-->
+
+        </div>
+        <!--/.postUserInfomation-->
+    </form>
+</div>
+

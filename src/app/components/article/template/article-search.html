@@ -1,0 +1,111 @@
+<div ng-include="'app/components/search/template/search.html'"></div>
+<div class="container">
+  <div ng-include="'app/components/breadcrumb/template/breadcrumb.html'"></div>
+  <!-- .article -->
+  <div class="article">
+    <!-- .articleContentList -->
+    <div class="articleContentList row" style="padding-top: 0">
+      <div class="col-md-8 col-sm-12 col-xs-12 articleContentListLeft">
+        <div class="articleContentListLeftContent">
+          <div class="loading text-center" ng-show="articleCtrl.searchArticleLoading">
+            <div class="row">
+              <div class="col-sm-12">
+                <i class="fa fa-spinner fa-pulse fa-3x"></i>
+              </div>
+              <!--/.col-->
+            </div>
+          </div>
+          <div ng-show="!articleCtrl.searchArticleLoading">
+            <div class="noArticle text-center" ng-show="articleCtrl.searchArticles.length === 0">
+              {{'article.no_search_article' | translate}}
+            </div>
+            <ul class="list list-unstyled" ng-show="articleCtrl.searchArticles.length > 0">
+              <li class="row" ng-repeat="list in articleCtrl.searchArticles">
+                <div class="col-sm-3 col-xs-12 img">
+                  <a href="" ui-sref="main.articles-show({articleId: list.id})">
+                    <img src="http://placehold.it/250x150" class="img-responsive" ng-show="list.cover === null">
+                    <img ng-src="{{list.cover.url['240']}}" class="img-responsive" alt="" ng-show="list.cover !== null">
+                  </a>
+                </div>
+                <!--/.img-->
+                <div class="content col-sm-9 col-xs-12">
+                  <p class="title">
+                    <a href="" ui-sref="main.articles-show({articleId: list.id})">
+                      {{list.title}}
+                    </a>
+                  </p>
+                  <p class="other row">
+                      <span class="time col-md-3 col-sm-4 col-xs-12">
+                        {{list.createdAt | date: 'yyyy-MM-dd'}}{{'button.publish' | translate}}
+                      </span>
+                      <span class="tags col-md-9 col-sm-8 col-xs-12">
+                        <span class="tag" ng-repeat="tag in list.tags | limitTo: 4">{{tag.name}}</span>
+                      </span>
+                  </p>
+                  <p class="text">{{list.content | htmlToPlaintext | limitTo: 100}}</p>
+
+                </div>
+                <!--/.content-->
+              </li>
+            </ul>
+            <p class="showMore text-center" ng-show="articleCtrl.searchArticles.length > 0">
+              <a href="" class="btn btn-success" type="button" ng-click="articleCtrl.articleShowMore()" ng-show="articleCtrl.showMore">
+                {{'article.read_more' | translate}}
+              </a>
+                <span ng-show="!articleCtrl.showMore">
+                  {{'article.article_no_more_articles' | translate}}
+                </span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <!--/.articleContentListLeft-->
+      <div class="col-md-4 col-sm-12 col-xs-12 articleContentListRight">
+        <div class="articleContentListRightArticle">
+          <p class="title">
+            {{'article.newest_article' | translate}}
+          </p>
+          <div class="loading text-center" ng-show="articleCtrl.newLoading">
+            <div class="row">
+              <div class="col-sm-12">
+                <i class="fa fa-spinner fa-pulse fa-3x"></i>
+              </div>
+              <!--/.col-->
+            </div>
+          </div>
+
+          <div class="noArticle text-center" ng-show="!articleCtrl.newLoading && articleCtrl.newArticles.length === 0">
+            {{'message.company_no_publish_articles' | translate}}
+          </div>
+          <ul class="newArticle" ng-show="!articleCtrl.newLoading && articleCtrl.newArticles.length > 0">
+            <li ng-repeat="list in articleCtrl.newArticles | limitTo: 5">
+              <a href="" ui-sref="main.articles-show({articleId: list.id})">
+                {{list.title}}
+              </a>
+              <p class="time">{{list.createdAt | date: 'yyyy-MM-dd'}}</p>
+            </li>
+
+          </ul>
+
+
+        </div>
+        <!--/.articleContentListRight-->
+
+        <div class="articleContentListRightTag" ng-show="false">
+          <p class="tagsTitle">
+            热点标签
+          </p>
+
+          <ul class="tags list-inline">
+            <li><a href="">人物专访</a></li>
+            <li><a href="">职场资讯</a></li>
+          </ul>
+        </div>
+      </div>
+      <!--/.col-->
+    </div>
+    <!-- /.articleContentList -->
+    <!--/.col-->
+  </div>
+  <!--/.article-->
+</div>

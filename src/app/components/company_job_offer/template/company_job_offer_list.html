@@ -1,0 +1,150 @@
+<div class="container">
+    <div ng-include="'app/components/dashboard_tabs/template/dashboard.tabs.html'"></div>
+
+    <form action="">
+        <div class="row jobOfferList" >
+            <div class="col-md-3 col-sm-12 col-xs-12 jobOfferListLeft">
+                    <div class="content">
+                        <div class="button">
+                            <a ui-sref="enterprise-auth.company.job_offer({companyId: jobOfferListCtrl.companyId})" class="btn btn-success sub">
+                                {{ 'enterprise.send_position_offer' | translate}}
+                            </a>
+                        </div>
+
+                        <div class="searchForm">
+                            <h5>{{'search.dashboard_search_position' | translate}}</h5>
+                            <div class="form-group">
+                                <input type="text" placeholder="{{'message.position_name_input' | translate}}" ng-required="true" ng-model="jobOfferListCtrl.filter.search" ng-change="jobOfferListCtrl.changeSearch()">
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn" ng-click="jobOfferListCtrl.searchJobOffer()">{{'button.determine' | translate}}</button>
+                            </div>
+                        </div>
+
+                        <div class="other">
+                            {{'message.job_offer_how_to_do_width_easy_boost' | translate}} ?
+                            <span>
+                                <a href="" ui-sref="enterprise-auth.company.job_offer_introduce({companyId: jobOfferListCtrl.companyId})">
+                                    {{'global.hit' | translate}}
+                                </a>
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+            <div class="col-md-9 col-sm-12 col-xs-12 jobOfferListRight">
+                <div class="jobOfferListRightContent">
+                    <div ng-if="jobOfferListCtrl.changeTabLoading">
+                        <div class="text-center loading">
+                            <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                        </div>
+                    </div>
+                    <div ng-if="!jobOfferListCtrl.changeTabLoading">
+                        <div class="text-center loading" ng-show="jobOfferListCtrl.tableLoading && jobOfferListCtrl.jobOfferLoading">
+                            <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                        </div>
+                        <div ng-show="!jobOfferListCtrl.tableLoading">
+                            <div ng-show="jobOfferListCtrl.jobOffers.length === 0 && !jobOfferListCtrl.jobOfferLoading" class="noPosition row">
+                                <div class="col-md-3 col-sm-3 col-xs-12 col-sm-offset-2">
+                                    <img src="../../assets/img/no_position_message.png" alt="" class="img-responsive">
+                                </div>
+                                <!--/.col-->
+                                <div class="col-md-5 col-sm-5 col-xs-12 text">
+                                    <p>
+                                        {{'message.no_search_job_offer_msg' | translate}}
+                                        <br>
+                                        {{'message.job_offer_publish_tips_message' | translate}}
+                                        <br>
+                                        <span>{{'global.go_ahead' | translate}}</span>
+                                        <a href="" ui-sref="enterprise-auth.company.job_offer({companyId: jobOfferListCtrl.companyId})">
+                                            EasyBoost
+                                        </a>
+                                    </p>
+                                </div>
+                                <!--/.col-->
+                            </div>
+                            <!--/.col-->
+
+                            <div  st-table="jobOfferListCtrl.jobOffers" st-safe-src="jobOfferListCtrl.jobOffers" st-pipe="jobOfferListCtrl.callServer" ng-show="jobOfferListCtrl.jobOffers.length > 0 && !jobOfferListCtrl.jobOfferLoading">
+
+                                <div class="row jobOfferListRightItem" ng-repeat="position in jobOfferListCtrl.jobOffers">
+                                    <div class="col-sm-3 col-xs-6 left">
+                                        <p class="positionName">
+                                            {{position.position.name}}
+                                        </p>
+                                        <time>{{position.position.jobNatures.name}}</time>
+                                    </div>
+
+                                    <div class="col-sm-3 col-xs-6 left">
+                                        <p>
+                                            {{'position.expiredDate' | translate}}{{'global.to' | translate}}{{position.position.expiredDate | date: 'yyyy-MM-dd'}}
+                                        </p>
+                                        <time>{{position.createdAt | date: 'yyyy-MM-dd'}} {{'button.publish' | translate }}</time>
+                                    </div>
+                                    <div class="col-sm-2 col-xs-4 checkList num">
+                                        <strong>{{position.inviteNum}}</strong>
+                                        <p>{{'message.job_offer_have_invited_persons' | translate}}</p>
+                                    </div>
+
+                                    <div class="col-sm-2 col-xs-4 checkList">
+                                        <a ui-sref="main.show-position({id: position.position.id})">
+                                            <p class="icon">
+                                                <span></span>
+                                            </p>
+                                            <p class="text text-center">
+                                                {{'global.check' | translate}}
+                                            </p>
+                                        </a>
+
+                                    </div>
+                                    <!--/.col-->
+                                    <div class="col-sm-2 col-xs-4 checkList btn-user" uib-dropdown>
+                                        <div class="btn-group" uib-dropdown is-open="status.isopen">
+                                            <button id="" type="button" class="btn" uib-dropdown-toggle
+                                                    ng-disabled="disabled">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" uib-dropdown-menu role="menu"
+                                                aria-labelledby="education-button" >
+                                                <li role="menuitem">
+                                                    <a ui-sref="enterprise-auth.company.job_offer_edit({companyId: position.companyId, jobId: position.id})">{{'button.modify' | translate}}</a>
+                                                </li>
+                                                <li class="divider"></li>
+                                                <li role="menuitem">
+                                                    <a ng-really-message="Are you sure?" nodrag ng-click="jobOfferListCtrl.deleteJobOffer($index)"
+                                                       href="">
+                                                        <i class="fa fa-times"></i>
+                                                        {{ 'button.remove' | translate }}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <p class="text text-center">
+                                            {{'button.edit' | translate}}
+                                        </p>
+                                    </div>
+                                    <!--/.col-->
+                                </div>
+
+                                <!-- page -->
+                                <div class="page text-center" st-current-page="jobOfferListCtrl.filter.page"
+                                     st-template="app/shared/override/smart-table/pagination.html"
+                                     st-next-prev-pagination=""
+                                     st-pagination-action="jobOfferListCtrl.paginationAction"
+                                     st-items-by-page="jobOfferListCtrl.itemsByPage">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <!--/.profileRight-->
+
+            </div>
+            <!--/.col-->
+        </div>
+    </form>
+</div>

@@ -1,0 +1,120 @@
+<hr class="userHr">
+<div class="container">
+  <form action="">
+    <div ng-include="'app/components/user/template/user_tabs.html'"></div>
+
+    <div class="row userPositions">
+      <div class="col-md-3 col-sm-12 col-xs-12 userPositionsLeft">
+        <ul class="editList list-unstyled">
+          <li class="list active">
+            <a href="" ui-sref="main-auth.positions">{{'user.profile.applied_position' | translate}}</a>
+          </li>
+          <li class="list">
+            <a href="" ui-sref="main-auth.user-bookmark">{{'user.profile.bookmark' | translate}}</a>
+          </li>
+        </ul>
+        <div class="searchForm">
+          <h5>{{'search.dashboard_search_position' | translate}}</h5>
+            <div class="form-group">
+              <input type="text" placeholder="{{'message.position_name_input' | translate}}" ng-required="true" ng-model="userPositionCtrl.filter.search">
+            </div>
+            <div class="form-group">
+              <button type="button" class="btn" ng-click="userPositionCtrl.searchPosition()">{{'button.determine' | translate}}</button>
+            </div>
+        </div>
+      </div>
+      <!--/.col-->
+      <div class="col-md-9 col-sm-12 col-xs-12 userPositionsRight">
+          <div class="userAppliedPosition" ng-if="!userPositionCtrl.changeLoading">
+              <div class="loading text-center" ng-show="userPositionCtrl.tableLoading && userPositionCtrl.positionLoading">
+                <i class="fa fa-3x fa-spinner fa-spin"></i>
+              </div>
+              <div ng-show="!userPositionCtrl.tableLoading">
+                <div  class="noPosition row" ng-show="userPositionCtrl.positions.length === 0 && !userPositionCtrl.positionLoading">
+                  <div class="col-md-2 col-sm-3 col-xs-12 col-sm-offset-3">
+                    <img src="../../assets/img/no_position_message.png" alt="" class="img-responsive">
+                  </div>
+                  <!--/.col-->
+                  <div class="col-md-5 col-sm-5 col-xs-12 text">
+                    <p>
+                      {{'message.no_user_applied_position' | translate}}
+                      <br>
+                      {{'message.user_applied_position' | translate}}!
+                      <br>
+                      <span>{{'global.go_ahead' | translate}}</span>
+                      <a href="" ui-sref="main.position-list">
+                        {{ 'position.position_list' | translate }}
+                      </a>
+                    </p>
+                  </div>
+                  <!--/.col-->
+                </div>
+                <div st-table="userPositionCtrl.positions"
+                       st-safe-src="userPositionCtrl.positions" st-pipe="userPositionCtrl.callPositionServer" ng-show="userPositionCtrl.positions.length > 0 && !userPositionCtrl.positionLoading" class="content">
+                    <div class="item row" ng-repeat="position in userPositionCtrl.positions" >
+                      <div class="col-md-2 col-sm-2 col-xs-4 img">
+                        <a  ui-sref="main.show-position({id: position.positionId})" class="img">
+                          <img src="http://placehold.it/100x100" alt="" class="img-responsive" ng-show="position.company.icon === null">
+                          <img ng-src="{{position.company.icon.url['100']}}" alt="" class="img-responsive" ng-show="position.company.icon !== null">
+                        </a>
+                      </div>
+                      <!--/.col-->
+
+                      <div class="col-sm-3 col-xs-8 positions">
+                        <a ui-sref="main.show-position({id: position.positionId})" class="positionName">
+                          {{position.position.name}}
+                        </a>
+                        <div class="time">{{'position.position_publish' | translate}} {{position.createdAt | date: 'yyyy-MM-dd'}}</div>
+                      </div>
+                      <!--/.col-->
+
+                      <div class="col-sm-3 col-xs-4 company">
+                        <a ui-sref="main.company({companyId: position.companyId})" class="companyName">
+                          {{position.company.name}}
+                        </a>
+                        <address>{{position.company.address}}</address>
+                      </div>
+                      <!--/.col-->
+
+                      <div class="checkList border col-sm-2 col-xs-4">
+                        <a ui-sref="main.show-position({id: position.id})">
+                          <p class="icon">
+                            <span class="check"></span>
+                          </p>
+                          <p class="text text-center">
+                            {{'global.check' | translate}}
+                          </p>
+                        </a>
+                      </div>
+
+                      <div class="checkList col-sm-2 col-xs-4">
+                        <div class="status">
+                          <p class="icon" >
+                            <span ng-class="{'unprocessed': position.candidateStatus.code === 'unprocessed'}"></span>
+                            <span ng-class="{'shortlist': position.candidateStatus.code === 'shortlist'}"></span>
+                            <span ng-class="{'not-suitable': position.candidateStatus.code === 'not-suitable'}"></span>
+                            <span ng-class="{'complete': position.candidateStatus.code === 'complete'}"></span>
+                            <span ng-class="{'success': position.candidateStatus.code === 'success'}"></span>
+                          </p>
+                          <p class="text text-center">
+                            {{position.candidateStatus.name | translate}}
+                          </p>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="page text-center" st-current-page="userPositionCtrl.filter.page"
+                         st-template="app/shared/override/smart-table/pagination.html"
+                         st-next-prev-pagination=""
+                         st-pagination-action="userPositionCtrl.paginationAction"
+                         st-items-by-page="userPositionCtrl.itemsByPage">
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!--/.col-->
+    </div>
+  </form>
+</div>
+

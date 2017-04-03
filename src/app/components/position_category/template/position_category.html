@@ -1,0 +1,123 @@
+<div ng-include="'app/components/search/template/search.html'"></div>
+<div class="container">
+    <div ng-include="'app/components/breadcrumb/template/breadcrumb.html'"></div>
+    <div class="row positionCategory">
+        <div class="col-xs-12 positionCategoryLeft">
+            <div class="header">
+                <h4>
+                    <i class="fa fa-info"></i>
+                    {{'position.position_category_type' | translate}}
+                </h4>
+
+            </div>
+            <article class="positionCategoryLeftContent">
+                <div class="hotContent text-center" ng-show="categoryCtrl.categoryLoading">
+                    <div class="row loading">
+                        <div class="col-sm-12">
+                            <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                        </div>
+                        <!--/.col-->
+                    </div>
+                </div>
+                <ul class="row categoryUl list-inline" ng-show="!categoryCtrl.categoryLoading">
+                    <li class="categoryList col-md-3 col-sm-4 col-xs-6" ng-repeat="list in categoryCtrl.positionCategories">
+                        <a href="" class="categoryListLink">
+                            <span class="text">{{list.name}}</span>
+                        </a>
+                        <ul class="categoryChildren list-inline row" ng-show="list.children.length > 0">
+                            <li class="list col-xs-12 col-sm-6" ng-repeat="child in list.children">
+                                <a href="" ng-click="categoryCtrl.search(child.id)">
+                                    {{child.name}}
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--/.col-->
+                </ul>
+            </article>
+        </div>
+        <!--/.col-->
+    </div>
+
+    <!--.hotPosition-->
+    <section class="hotPosition">
+        <div class="header">
+            <div class="row">
+                <div class="col-sm-3 col-xs-12">
+                    <h4>
+                        <i class="fa fa-navicon"></i>
+                        {{'article.hot_position' | translate}}
+                    </h4>
+                </div>
+                <!--/.col-->
+                <div class="col-sm-2 col-xs-2 col-sm-offset-7 text-right">
+                    <a ui-sref="main.position-list">{{'article.read_more' | translate}}</a>
+                </div>
+                <!--/.col-->
+            </div>
+        </div>
+        <div class="hotPositionContent">
+            <div class="hotContent text-center" ng-show="categoryCtrl.positionLoading">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <i class="fa fa-spinner fa-pulse fa-3x"></i>
+                    </div>
+                    <!--/.col-->
+                </div>
+            </div>
+            <div class="hotPositionContentList list-inline" ng-show="!categoryCtrl.positionLoading">
+                <slick settings="categoryCtrl.positionSlick" ng-if="categoryCtrl.hotPosition.length > 0">
+                <div class="List" ng-repeat="item in categoryCtrl.hotPosition | orderBy : 'item.id'">
+                    <a ui-sref="main.show-position({id: item.id})">
+                        <div class="top text-center" ng-show="false">
+                            <!--<i class="fa fa-info-circle"></i>-->
+                            <span ng-repeat="category in item.categories | limitTo: 1">{{category.name}}</span>
+                        </div>
+                        <!--/.top-->
+                        <fieldset>
+
+                            <div ng-if="item.company.icon !== null">
+                                <img ng-src="{{item.company.icon.url['160']}}"
+                                     class="img-responsive Img">
+                            </div>
+                            <div ng-if="item.company.icon === null">
+                                <img ng-src="http://placehold.it/160x160" class="img-responsive">
+                            </div>
+                        </fieldset>
+                        <!--/fieldset-->
+                        <h5 class="title text-center">
+                            <a ui-sref="main.company({companyId: item.companyId})">{{item.company.name}}</a>
+                        </h5>
+                        <p class="position text-center">
+                <span>
+                  <a ui-sref="main.show-position({id: item.id})">{{item.name}}</a>
+                </span>
+                        </p>
+                    </a>
+                </div>
+
+                <!--/.col-->
+
+            </slick>
+
+            </div>
+        </div>
+    </section>
+    <!--/.hotPosition-->
+
+    <div class="row" ng-show="false">
+        <div class="col-xs-12 positionCategoryKeywords">
+            <div class="title">
+                热门关键字
+            </div>
+            <ul class="keyList list-inline">
+                <li class="List">
+                    <a href="https://community.freshlinker.com/tags/{{list.value}}">职场观点</a>
+                </li>
+            </ul>
+        </div>
+        <!--/.col-->
+    </div>
+
+
+</div>

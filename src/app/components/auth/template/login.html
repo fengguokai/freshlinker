@@ -1,0 +1,101 @@
+<!--nav-->
+<section class="authNav">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-2">
+        <a class="logo" ui-sref="fullscreen.home">
+          <img src="http://placehold.it/150x65" class="img-responsive">
+        </a>
+      </div>
+      <div class="col-sm-1">
+        <div class="navLanguage">
+          <ul class="nav navbar-nav navbar-right acme-navbar-text">
+            <li class="language">
+              <span uib-dropdown on-toggle="toggled(open)">
+                <a href="#" id="language" uib-dropdown-toggle>
+                  {{'lang.zh_cn' | translate}}
+                </a>
+                <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="language">
+                  <li><a href="#">{{'lang.zh_cn' | translate}}</a></li>
+                  <li><a href="#">{{'lang.zh_hk' | translate}}</a></li>
+                  <li><a href="#">{{'lang.en_us' | translate}}</a></li>
+                </ul>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!--/.col-->
+    </div>
+  </div>
+</section>
+<!--/nav-->
+
+<section class="loginMain container">
+  <div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <article class="loginLeft">
+        <h4>{{'auth.login_title' | translate}}</h4>
+        <form ng-submit="loginCtrl.login()" class="form-horizontal">
+          <div class="form-group input">
+            <label for="email" class="col-sm-2 col-xs-2 control-label">{{'auth.email' | translate}}</label>
+            <!--/.col-->
+            <div class="col-sm-10 col-xs-10">
+              <input type="email" class="form-control" id="email" required ng-model="loginCtrl.form.email">
+            </div>
+            <!--/.col-->
+          </div>
+          <div class="form-group input">
+            <label for="password" class="col-sm-2 col-xs-2 control-label">{{'auth.password' | translate}}</label>
+            <!--/.col-->
+            <div class="col-sm-10 col-xs-10">
+              <input type="password" class="form-control" id="password" required ng-model="loginCtrl.form.password">
+            </div>
+            <!--/.col-->
+            <!--<div class="col-sm-2 col-xs-2 forget">-->
+            <!--<a href="#">忘记密码</a>-->
+            <!--</div>-->
+            <!--/.col-->
+          </div>
+          <div class="form-group">
+            <div class="col-sm-12 col-xs-12">
+              <button type="submit" class="btn submit loginBtn" ng-disabled="loginCtrl.loading">
+                <span ng-hide="loginCtrl.loading">
+                  {{'auth.login_btn' | translate }}
+                </span>
+                <span ng-show="loginCtrl.loading">
+                    <i class="fa fa-spinner fa-spin"></i>
+                </span>
+              </button>
+            </div>
+            <!--/.col-->
+          </div>
+        </form>
+        <p class="text-center">
+          <a href="#">{{'auth.login_read' | translate }}</a>
+        </p>
+      </article>
+    </div>
+    <!--/.col-->
+    <div class="col-md-6 col-sm-6 col-xs-12">
+
+      <article class="loginRight">
+        <div class="line yoov">
+          <span>{{'auth.login_text' | translate}}</span>
+          <fieldset>
+            <a href="" ng-click="loginCtrl.auth.signin()">
+              <img src="http://placehold.it/150x65" class="img-responsive">
+            </a>
+          </fieldset>
+        </div>
+
+
+      </article>
+
+
+    </div>
+    <!--/.col-->
+  </div>
+</section>
+
+<div ng-include="'app/main/auth_footer.html'"></div>

@@ -1,0 +1,41 @@
+<div class="dialog">
+    <form class="form-horizontal education" name="Form" ng-submit="postCtrl.postUser()">
+        <div class="modal-header">
+            <h4 class="modal-title"><i class="fa fa-pencil-square-o"></i>完成注册</h4>
+        </div>
+        <!-- /.model-header -->
+        <div class="modal-body postUser">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group input text-center">
+                        <label for="firstName" class="col-sm-3 col-xs-12">
+                            {{'auth.first_name' | translate}}
+                        </label>
+                        <input type="text" class="col-sm-9 col-xs-12" id="firstName"  ng-required="true" ng-model="postCtrl.post.firstName" placeholder="{{'user.profile.enter_first_name' | translate}}">
+                    </div>
+                    <!-- /.form-group -->
+                    <div class="form-group input text-center">
+                        <label for="lastName" class="col-sm-3 col-xs-12">
+                            {{'auth.last_name' | translate}}
+                        </label>
+                        <input type="text" class="col-sm-9 col-xs-12" id="lastName"  ng-required="true" ng-model="postCtrl.post.lastName" placeholder="{{'user.profile.enter_last_name' | translate}}">
+                    </div>
+                    <!-- /.form-group -->
+                    <div class="form-group input text-center">
+                        <label for="email" class="col-sm-3 col-xs-12">
+                            {{'auth.email' | translate}}
+                        </label>
+                        <input type="email" class="col-sm-9 col-xs-12" id="email"  ng-required="true" ng-model="postCtrl.post.email" placeholder="{{'user.profile.enter_email_input' | translate}}">
+                    </div>
+                    <!-- /.form-group -->
+                    <button type="submit" ng-click="postCtrl.postUser()"
+                            class="btn btn-success col-xs-8 col-xs-offset-2">
+                        <span><i class="fa fa-check"></i> {{ 'button.submit' | translate }}</span>
+                    </button>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.model-body -->
+    </form>
+</div>

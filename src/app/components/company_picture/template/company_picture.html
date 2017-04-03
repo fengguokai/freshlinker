@@ -1,0 +1,44 @@
+<div class="container">
+    <div ng-include="'app/components/dashboard_tabs/template/dashboard.tabs.html'"></div>
+    <div class="row companyPicture">
+        <div class="col-md-3 col-sm-12 col-xs-12 companyPictureLeft">
+            <div class="content">
+                <div class="button">
+                    <a ui-sref="enterprise-auth.company.company-dashboard({companyId: companyCtrl.companyId})" type="button" class="btn btn-success canel" >
+                        {{'enterprise.dashboard' | translate}}
+                    </a>
+
+                </div>
+            </div>
+        </div>
+        <!--/.col-->
+        <div class="col-md-9 col-sm-12 col-xs-12 companyPictureRight">
+            <div class="loading text-center" ng-show="companyCtrl.pictureLoading">
+                <i class="fa fa-3x fa-spinner fa-spin"></i>
+            </div>
+            <div ng-show="!companyCtrl.pictureLoading">
+                <div class="col-sm-3 col-xs-6 list" ng-repeat="picture in companyCtrl.pictures track by $index">
+                    <div class="listBg">
+                        <a href="" ng-click="companyCtrl.openLightboxModal($index)">
+                            <img ng-src="{{picture.url['200']}}" alt="" class="img-responsive">
+                        </a>
+                        <span class="remove" ng-click="companyCtrl.destory(picture.id)">
+                          <i class="fa fa-close"></i>
+                        </span>
+                    </div>
+                </div>
+                <!--/.col-->
+                <div class="col-sm-3 col-xs-6 upload">
+                    <div ng-app="fileUpload" class="text-left">
+                        <button ngf-select="companyCtrl.uploadFiles($files)" multiple
+                                accept="image/*" ngf-max-height="1000" class="text-center" ng-model="companyCtrl.files" ngf-multiple="true" ngf-allow-dir="true" accept="image/*" ngf-max-size="2MB" required  ngf-pattern="'image/*'"><i class="fa fa-plus fa-3x"></i>
+                            {{'enterprise.upload_picture' | translate}}
+                        </button>
+                    </div>
+                </div>
+                <!--/.col-->
+            </div>
+        </div>
+        <!--/.col-->
+    </div>
+</div>

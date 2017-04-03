@@ -1,0 +1,106 @@
+<div ng-controller="DashboardLeftController as dashboardLeftCtrl">
+    <div class="col-md-3 col-sm-12 col-xs-12 dashboardLeft">
+        <div ng-show="!dashboardLeftCtrl.dashboardLoading">
+            <div class="personInformation text-center">
+                <div class="text-left dashboardEdit">
+                    <a ui-sref="enterprise-auth.company.company_companies_edit({companyId: dashboardLeftCtrl.companyId})">
+                        <i class="fa fa-edit"></i>
+                        {{'button.edit' | translate}}
+                    </a>
+                </div>
+                <fieldset class="img">
+                    <a href="" ui-sref="enterprise-auth.company.company_companies_edit({id: dashboardLeftCtrl.companyId})">
+                        <div ng-if="dashboardLeftCtrl.company.icon.url !== undefined">
+                            <img ng-src="{{dashboardLeftCtrl.company.icon.url['200']}}" class="img-responsive img-circle">
+                        </div>
+                        <div ng-if="dashboardLeftCtrl.company.icon.url === undefined">
+                            <img ng-src="http://placehold.it/200x200" class="img-responsive img-circle">
+                        </div>
+                    </a>
+                </fieldset>
+                <!--/.img-->
+                <h4 class="name">
+                    {{dashboardLeftCtrl.company.name}}
+                </h4>
+                <p class="text">
+                    <span>
+                    {{dashboardLeftCtrl.company.description | escapeHtml | limitTo: 100}}
+                    <span ng-show="!dashboardLeftCtrl.descriptionShow && dashboardLeftCtrl.company.description.length > 100">...</span>
+                    <a href="" ng-click="dashboardLeftCtrl.descriptionShow = !dashboardLeftCtrl.descriptionShow" ng-show="!dashboardLeftCtrl.descriptionShow && dashboardLeftCtrl.company.description.length > 100">{{'global.expand' | translate}}</a>
+                  </span>
+                  <span ng-show="dashboardLeftCtrl.descriptionShow">
+                    {{dashboardLeftCtrl.company.description | escapeHtml | limitTo: 255 : 101}}
+                    <a href="" ng-click="dashboardLeftCtrl.descriptionShow = !dashboardLeftCtrl.descriptionShow" ng-show="dashboardLeftCtrl.descriptionShow">{{'global.put_away' | translate}}</a>
+                  </span>
+                </p>
+            </div>
+            <!--/.information-->
+            <div class="baseInformation">
+                <p class="head">
+                    基本信息
+                </p>
+                <ul class="careerList list-unstyled">
+                    <li class="list row">
+                        <div class="col-xs-3 col-md-5">
+                            <span>{{'company.scale' | translate}}</span>
+                        </div>
+                        <!--/.col-->
+                        <div class="col-xs-9 col-md-7">
+                            {{dashboardLeftCtrl.company.scale}}
+                        </div>
+                        <!--/.col-->
+                    </li>
+                    <li class="list row">
+                        <div class="col-xs-3 col-md-5">
+                            <span>{{'company.field' | translate}}</span>
+                        </div>
+                        <!--/.col-->
+                        <div class="col-xs-9 col-md-7">
+                            {{dashboardLeftCtrl.company.field}}
+                        </div>
+                        <!--/.col-->
+                    </li>
+                    <li class="list row">
+                        <div class="col-xs-3 col-md-5">
+                            <span>{{'company.stage' | translate}}</span>
+                        </div>
+                        <!--/.col-->
+                        <div class="col-xs-9 col-md-7">
+                            {{dashboardLeftCtrl.company.stage}}
+                        </div>
+                        <!--/.col-->
+                    </li>
+                    <li class="list row">
+                        <div class="col-xs-3 col-md-5">
+                            <span>{{'company.url' | translate}}</span>
+                        </div>
+                        <!--/.col-->
+                        <div class="col-xs-9 col-md-7">
+                            <a href="{{dashboardLeftCtrl.company.url}}" target="_blank">{{dashboardLeftCtrl.company.url}}</a>
+                        </div>
+                        <!--/.col-->
+                    </li>
+
+                    <li class="list row">
+                        <div class="col-xs-3 col-md-5">
+                            <span>{{'company.address' | translate}}</span>
+                        </div>
+                        <!--/.col-->
+                        <div class="col-xs-9 col-md-7">
+                            {{dashboardLeftCtrl.company.address}}
+                        </div>
+                        <!--/.col-->
+                    </li>
+                </ul>
+                <!--/.careerList-->
+
+            </div>
+            <!--profileInformation-->
+        </div>
+        <div ng-show="dashboardLeftCtrl.dashboardLoading" class="text-center tableLoading">
+            <i class="fa fa-2x fa-spinner fa-spin"></i>
+        </div>
+
+    </div>
+    <!--/.col-->
+</div>

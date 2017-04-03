@@ -1,0 +1,418 @@
+html {
+  overflow-x: hidden;
+}
+
+body {
+  word-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a {
+  color: @brand-info;
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+i, em {
+  font-style: normal;
+}
+
+ul {
+  margin: 0;
+}
+
+*:focus {
+  outline: none;
+}
+
+.ui-select-multiple.ui-select-bootstrap .ui-select-match .close {
+  font-size: 1.4em;
+  line-height: 1.0;
+}
+.form-control:focus {
+  border-color: #66afe9;
+  outline: 0;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+ol.breadcrumb {
+  padding-left: 20px;
+}
+
+
+
+// error
+
+div.file {
+  h4 {
+    margin-bottom: 0;
+    font-weight: normal;
+    color: @gray;
+    font-size: @font-size-large;
+  }
+}
+div.error {
+  color: #f00;
+  i {
+    color: #f00;
+    margin-right: 10px;
+  }
+}
+
+
+// header
+.header {
+  padding: 10px 20px;
+  border-bottom: 4px solid @brand-primary;
+  div.headerLeft {
+    padding-left: 0;
+  }
+  div.headerRight {
+    padding-right: 0;
+    padding-left: 0;
+  }
+  @media (max-width: @screen-xs-max) {
+    .col-xs- * {
+      padding-left: 0;
+    }
+    h4 {
+      padding-bottom: 10px;
+    }
+
+  }
+  @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+    ul {
+      float: right;
+    }
+  }
+  @media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+    ul {
+      float: right;
+    }
+
+  }
+  @media (min-width: @screen-lg-min) {
+    ul {
+      float: right;
+    }
+  }
+
+  h4 {
+    margin: 0;
+    color: @brand-info;
+    font-size: @font-size-large;
+    i {
+      width: 20px;
+      height: 20px;
+      text-align: center;
+      color: @body-bg;
+      line-height: 20px;
+      background-color: @brand-success;
+      border-radius: 50%;
+      font-size: @font-size-base;
+    }
+  }
+  ul {
+    li {
+      color: @brand-danger;
+      text-align: center;
+      padding-left: 10px;
+      margin-bottom: 3px;
+    }
+    li.active, li:hover {
+      position: relative;
+      color: @brand-success;
+      cursor: pointer;
+    }
+    li.active:after, li:hover:after {
+      width: 0;
+      height: 0;
+      content: '';
+      position: absolute;
+      border: 5px solid transparent;
+      border-bottom-color: @brand-success;
+      color: @brand-success;
+      left: 50%;
+      bottom: -5px;
+      margin-left: -2px;
+    }
+  }
+}
+
+// breadcrumb
+.breadcrumb {
+  background-color: @body-bg;
+  margin-bottom: 0;
+  font-size: 16px;
+  color: @brand-danger;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  li {
+    a {
+      color: @brand-danger;
+    }
+  }
+}
+
+.newPosition,
+.keywords,
+.editCompany,
+.profileRightLoading,
+.postUserInfomationRight,
+div.noApplied,
+div.positionManage,
+section.loginMain,
+section.registerMain,
+div.myResume,
+.showPosition,
+section.positionCategoryRight,
+div.aboutUsLeft,
+div.aboutUsContent,
+div.positionShowRight,
+article.bookmark,
+section.jobInvite,
+div.companyActive,
+div.companyArticle,
+div.similarPosition {
+  border: 1px solid @gray-light-2x;
+}
+
+.postPosition,
+.editCompany,
+.profileRightLoading,
+article.positionStatus,
+section.jobOffer,
+div.postUserInfomation,
+article.bookmark {
+  margin-bottom: 20px;
+}
+
+// btn
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+
+.btn-circle.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 24px;
+  line-height: 1.33;
+  border-radius: 25px;
+}
+
+.btn-circle.btn-xl {
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  font-size: 36px;
+  line-height: 1.33;
+  border-radius: 35px;
+}
+
+.btn-group.open .dropdown-toggle, .btn:active {
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0);
+}
+
+.profileBtn {
+  .submit {
+    padding: 0 20px;
+    color: @gray-light-2x;
+    background-color: transparent;
+    padding: 0;
+  }
+}
+
+.btn {
+  padding: 5px 20px;
+}
+
+.submit {
+  border: 0;
+  color: @body-bg;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+}
+
+.submit:hover, .submit:active, .submit:focus {
+  //background-color:  darken(@brand-success, 4.5%);
+  //color: @body-bg;
+  //outline: none;
+}
+
+
+// profile article
+article.experience,
+article.special,
+article.education,
+article.language,
+article.expectJobs,
+div.noApplied,
+div.positionManage {
+  padding: 20px 40px;
+  margin-bottom: 20px;
+}
+
+// ui-tab .nav-tabs
+.hotActive .nav-tabs,
+.hotDiscuss .nav-tabs,
+.article .nav-tabs,
+.position-list .nav-tabs {
+  display: none;
+}
+
+// .keyList
+.keyWords {
+  padding-bottom: 30px;
+  .loading {
+    color: @brand-danger;
+  }
+}
+.keyList {
+  li.List {
+    margin: 10px 0;
+    > a {
+      background-color: @gray-light-2x;
+      border-radius: 4px;
+      padding: 3px 12px;
+      color: @gray-light;
+      font-size: 13px;
+    }
+  }
+
+}
+
+// /.keyList
+
+// .hr
+
+hr.hr {
+  height: 2px;
+  background-color: @gray-lighter;
+  margin: 40px 0;
+}
+
+.breadList {
+  padding: 10px 0;
+  ul.breadLeft {
+    li.breadlist {
+      a {
+        color: @brand-danger;
+        i {
+          color: @brand-success;
+        }
+      }
+    }
+  }
+  ul.breadRight {
+    text-align: right;
+    li {
+      color: @brand-danger;
+    }
+  }
+}
+
+.resumeWidth {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.showPositionWidth {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+
+// user noApplied position
+div.noApplied {
+  padding: 100px 0;
+  color: @brand-danger;
+  font-size: @font-size-h2;
+  p {
+    i {
+      color: @gray-light-2x;
+      padding-right: 30px;
+      line-height: 60px;
+      font-size: 40px;
+    }
+  }
+}
+
+// page
+.page {
+  padding: 20px 0;
+}
+
+.tableLoading {
+  padding: 30px;
+  color: @brand-danger;
+}
+
+// noPosition
+div.noPosition {
+  padding: 20px 0;
+  text-align: center;
+  margin: 0;
+  background-color: @body-bg;
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+  div.text {
+    padding-left: 20px;
+    padding-top: 20px;
+    line-height: 2.0;
+    font-size: @font-size-h4;
+    font-weight: normal;
+    color: @gray;
+    text-align: left;
+    span {
+      font-size: @font-size-h4;
+      color: @brand-danger;
+    }
+    a {
+      font-size: @font-size-h4;
+    }
+  }
+}
+
+@media (max-width: @screen-xs-max) {
+  .breadList ul.breadRight {
+    text-align: left;
+    padding-top: 10px;
+  }
+
+  div.noPosition {
+    div.text {
+      text-align: center;
+    }
+  }
+
+}
+
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+  .breadList ul.breadRight {
+    text-align: left;
+    padding-top: 10px;
+  }
+}
+
+@media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+
+}
+
+@media (min-width: @screen-lg-min) {
+}
+

@@ -1,0 +1,242 @@
+<div class="dialog">
+  <form class="form-horizontal expect" name="Form" ng-submit="expectCtrl.save()">
+    <div class="modal-header">
+      <button type="button" class="close" aria-label="Close" ng-click="expectCtrl.cancel()"><span
+        aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="modal-title"><i class="fa fa-pencil-square-o"></i>{{'user.profile.expectPosition' | translate}}</h4>
+    </div>
+    <!-- /.model-header -->
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12">
+            <div class="form-group expectJobsCategory" ng-click="expectCtrl.categoryShow = !expectCtrl.categoryShow">
+              <label class="col-sm-2 col-xs-12 control-label">
+                *{{ 'user.profile.expectPosition' | translate }}
+              </label>
+              <!--/.col-->
+
+
+              <div class="col-sm-10 col-xs-12 locationContent clearfix">
+                <div class="locationSelected pull-left">
+                  <p ng-show="expectCtrl.selectedPositionCategory  === undefined" class="message">{{'user.profile.expect_job_input' | translate}}</p>
+                  <ul class="list-inline" ng-show="expectCtrl.selectedPositionCategory !== undefined">
+                    <li class="selectList">
+                      <a href="">{{expectCtrl.selectedPositionCategory.name}}</a>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="pull-right">
+                  <i class="add fa fa-plus"></i>
+                </div>
+
+
+              </div>
+              <!--/.col-->
+
+            </div>
+            <!-- /.form-group -->
+
+            <!-- position category-->
+            <div class="postExpectJobsCategory clearfix" ng-show="expectCtrl.categoryShow">
+              <div class="postPositionCategoryLeft">
+                <ul class="postPositionCategoryList list-unstyled">
+                  <li ng-repeat="list in expectCtrl.positionCategory" ng-click="expectCtrl.togglePositionCategory(list)" ng-class="{'active': list.selected}" class="expectList">
+                    <a href="#">{{list.name}}</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="postPositionCategoryChildren" ng-if="expectCtrl.positionCategoryChildren.length > 0">
+                <ul class="postPositionCategoryList list-unstyled">
+                  <li ng-repeat="item in expectCtrl.positionCategoryChildren" class="expectList">
+                    <label for="category{{item.id}}" ng-click="expectCtrl.addSelectedPositionCategory(item)">
+                      <input type="radio" name="category" id="category{{item.id}}" value="{{item.id}}" ng-model="expectCtrl.expect.expectPositionId">
+                      {{item.name}}
+                    </label>
+
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- /.position category -->
+
+          <div class="form-group">
+            <label  for="full-time" class="col-sm-2 col-xs-12 control-label">*{{'position.employment_type' | translate}}:</label>
+            <!--/.col-->
+            <div class="col-md-3 col-sm-3 col-xs-4">
+              <label for="full-time">
+                <input type="radio" id="full-time" name="type" value="full-time" ng-model="expectCtrl.expect.type" ng-checked="true">
+                full-time
+              </label>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-4">
+              <label for="part-time">
+                <input type="radio" name="type" id="part-time" value="part-time" ng-model="expectCtrl.expect.type">
+                part-time
+              </label>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-4">
+              <label for="internship">
+                <input type="radio" name="type" id="internship" value="internship" ng-model="expectCtrl.expect.type">
+                internship
+              </label>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-4">
+              <label for="freelance">
+                <input type="radio" name="type" id="freelance" value="freelance" ng-model="expectCtrl.expect.type">
+                freelance
+              </label>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-4">
+              <label for="other">
+                <input type="radio" name="type" id="other" value="other" ng-model="expectCtrl.expect.type">
+                other
+              </label>
+            </div>
+
+            <!--/.col-->
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label for="salary_type" class="col-sm-2 col-xs-12 control-label">*{{'position.salary_type' | translate}}:</label>
+            <!--/.col-->
+            <div class="col-sm-2 col-xs-4">
+              <label>
+                <input type="radio" name="salary_type" id="salary_type" value="yearly" ng-model="expectCtrl.expect.salaryType">
+                {{'position.yearly' | translate}}
+              </label>
+            </div>
+            <div class="col-sm-2 col-xs-4">
+              <label>
+                <input type="radio" name="salary_type" value="monthly" ng-model="expectCtrl.expect.salaryType" ng-checked="true">
+                {{'position.monthly' | translate}}
+              </label>
+            </div>
+            <div class="col-sm-2 col-xs-4">
+              <label>
+                <input type="radio" name="salary_type" value="hourly" ng-model="expectCtrl.expect.salaryType">
+                {{'position.hourly' | translate}}
+              </label>
+            </div>
+
+            <!--/.col-->
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="col-sm-2 col-xs-12 control-label">*{{'user.profile.expect_salary' | translate}}:</label>
+            <!--/.col-->
+            <div class="col-sm-10 col-xs-12">
+              <input type="number" class="form-control salary"
+                     name="expect_job_minSalary"  ng-model="expectCtrl.expect.minSalary" ng-required="!expectCtrl.negotiation" placeholder="{{'message.position_minSalary_input' | translate}}" min=0>
+              <span class="line"></span>
+              <input type="number" class="form-control salary"
+                     name="expect_job_maxSalary"  ng-model="expectCtrl.expect.maxSalary" ng-required="!expectCtrl.negotiation" placeholder="{{'message.position_maxSalary_input' | translate}}" min=0 max=1000000>
+              {{'global.money' | translate}}
+              <div class="negotiation">
+                <label for="negotiation">
+                  <input type="checkbox" ng-model="expectCtrl.negotiation" id="negotiation"> {{'position.negotiation' | translate}}
+                </label>
+              </div>
+            </div>
+            <!--/.col-->
+            <div class="col-sm-10 col-xs-12 col-sm-offset-2 tips">
+              {{'global.tips' | translate}}: {{'message.position_salary_tips_message' | translate}}
+            </div>
+          </div>
+
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label class="col-sm-2 col-xs-12 control-label">
+              {{'position.jobNature' | translate}}
+            </label>
+            <div class="col-sm-10 col-xs-12">
+              <select class="form-control" ng-options="jobNature.id as jobNature.name for jobNature in expectCtrl.jobNatures" ng-model="expectCtrl.expect.jobNatureId" ng-required="true">
+                <option value="">{{'message.select_position_jobNature' | translate}}</option>
+              </select>
+            </div>
+          </div>
+          <!--/.form-group-->
+
+          <div class="form-group expectJobsLocation" ng-click="expectCtrl.locationShow = !expectCtrl.locationShow">
+              <label class="col-sm-2 col-xs-12 control-label">
+                *{{ 'global.position_area' | translate }}
+              </label>
+              <!--/.col-->
+              <div class="col-sm-10 col-xs-12 locationContent clearfix">
+                <div class="locationSelected pull-left">
+                  <p ng-show="expectCtrl.selectedPositionLocation  === undefined" class="message">{{'user.profile.expect_location_input' | translate}}</p>
+                  <ul class="list-inline" ng-show="expectCtrl.selectedPositionLocation !== undefined">
+                    <li class="selectList">
+                      <a href="">{{expectCtrl.selectedPositionLocation.name}}</a>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="pull-right">
+                  <i class="add fa fa-plus"></i>
+                </div>
+              </div>
+              <!--/.col-->
+
+            </div>
+            <!-- /.form-group -->
+
+            <!-- position location-->
+            <div class="postExpectJobsLocation clearfix" ng-show="expectCtrl.locationShow">
+              <div class="postPositionLocationLeft">
+                <ul class="postPositionLocationList list-unstyled">
+                  <li ng-repeat="list in expectCtrl.locations" ng-click="expectCtrl.togglePositionLocation(list)" ng-class="{'active': list.selected}" class="expectList">
+                    <a href="#">{{list.name}}</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="postPositionLocationChildren" ng-if="expectCtrl.positionLocationChildren.length > 0">
+                <ul class="postPositionLocationList list-unstyled">
+                  <li ng-repeat="item in expectCtrl.positionLocationChildren" class="expectList">
+                    <label for="location{{item.id}}" ng-click="expectCtrl.addSelectedPositionLocation(item)">
+                      <input type="radio" name="location" id="location{{item.id}}" value="{{item.id}}" ng-model="expectCtrl.expect.locationId">
+                      {{item.name}}
+                    </label>
+
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- /.position location -->
+
+          <div class="form-group">
+            <label for="expect_job_decription" class="col-sm-2 col-xs-12 control-label">*{{'user.profile.expect_job_decription' | translate}}:</label>
+            <!--/.col-->
+            <div class="col-sm-10 col-xs-12">
+              <input type="text" class="form-control" ng-required="true"
+                     name="expect_job_decription" id="expect_job_decription" ng-model="expectCtrl.expect.content" placeholder="{{'user.profile.expect_job_decription_input' | translate}}">
+            </div>
+            <!--/.col-->
+          </div>
+
+          <!-- /.form-group -->
+
+
+
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.model-body -->
+    </div>
+    <div class="modal-footer">
+      <button type="submit" ng-disabled="expectCtrl.saveLoading || salaryForm.$invalid"
+              class="btn btn-success">
+        <span ng-if="expectCtrl.saveLoading"><i class="fa fa-spin fa-spinner"></i></span>
+        <span ng-if="!expectCtrl.saveLoading">{{ 'button.save' | translate }}</span>
+      </button>
+      <button type="button" class="btn btn-default" ng-click="expectCtrl.cancel()">
+        {{ 'button.close' | translate }}
+      </button>
+    </div>
+    <!-- /.model-footer -->
+  </form>
+</div>

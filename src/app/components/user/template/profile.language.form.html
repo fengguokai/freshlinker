@@ -1,0 +1,54 @@
+<div class="dialog">
+  <form class="form-horizontal language" name="Form" ng-submit="languageCtrl.save()">
+    <div class="modal-header">
+      <button type="button" class="close" aria-label="Close" ng-click="languageCtrl.cancel()"><span
+        aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="modal-title"><i class="fa fa-pencil-square-o"></i>{{'user.profile.language' | translate}}</h4>
+    </div>
+    <!-- /.model-header -->
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="language" class="col-sm-3 col-xs-12 control-label">*{{'user.profile.language_name' | translate}}: </label>
+            <div class="col-sm-9 col-xs-12">
+              <select class="form-control" ng-model="languageCtrl.language.languageId"
+                      ng-required="true" name="language" id="language"
+                      ng-options="item.id as item.name for item in languageCtrl.Language">
+                <option value="">{{'message.user_language_select_msg' | translate}}</option>
+              </select>
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.form-group -->
+          <div class="form-group">
+            <label class="col-sm-3 col-xs-12 control-label">*{{'user.profile.language_level' | translate}}: </label>
+            <div class="col-sm-9 col-xs-12 languageSlider">
+              <rzslider rz-slider-model="languageCtrl.level"
+                        rz-slider-options="languageCtrl.filter.options"></rzslider>
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.form-group -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.model-body -->
+    <div class="modal-footer">
+      <button type="submit" ng-disabled="languageCtrl.saveLoading || salaryForm.$invalid"
+              class="btn btn-success">
+        <span ng-if="languageCtrl.saveLoading"><i class="fa fa-spin fa-spinner"></i></span>
+        <span ng-if="!languageCtrl.saveLoading">{{ 'button.save' | translate }}</span>
+      </button>
+      <button type="button" class="btn btn-default" ng-click="languageCtrl.cancel()">
+        {{ 'button.close' | translate }}
+      </button>
+    </div>
+    <!-- /.model-footer -->
+  </form>
+</div>
+
+

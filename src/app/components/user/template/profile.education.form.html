@@ -1,0 +1,128 @@
+<div class="dialog">
+  <form class="form-horizontal education" name="Form" ng-submit="educationCtrl.save()">
+    <div class="modal-header">
+      <button type="button" class="close" aria-label="Close" ng-click="educationCtrl.cancel()"><span
+        aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="modal-title"><i class="fa fa-pencil-square-o"></i>{{ 'user.profile.education' | translate }}</h4>
+    </div>
+    <!-- /.model-header -->
+    <div class="modal-body">
+      <div class="loading text-center" ng-show="educationCtrl.schoolLoading">
+        <i class="fa fa-3x fa-spinner fa-spin"></i>
+      </div>
+      <div class="row" ng-show="!educationCtrl.schoolLoading">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="col-sm-2 col-xs-12 control-label">*{{ 'user.profile.education_school_name'
+              | translate }}</label>
+            <div class="col-sm-10 col-xs-12">
+              <ui-select tagging tagging-label ng-model="educationCtrl.school" theme="bootstrap"  ng-change="educationCtrl.schoolSelect()">
+                <ui-select-match placeholder="{{'message.select_school' | translate}}">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices repeat="item in educationCtrl.schools | filter: $select.search"
+                                   refresh="educationCtrl.refreshSchools($select.search)"
+                                   refresh-delay="0">
+                  <div ng-bind-html="item.name | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
+              <div class="tips">{{'global.tips' | translate}}: {{'user.profile.education_name_tips' | translate}}</div>
+            </div>
+            <!-- /.col -->
+            <div class="error col-xs-12" ng-show="educationCtrl.schoolErrorShow">
+              <i class="fa fa-times-circle"></i>
+              {{'message.user_school_name_error_message' | translate}}
+            </div>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label for="companyName" class="col-sm-2 col-xs-12 control-label">*{{ 'user.profile.education_subject' |
+              translate }}</label>
+
+            <div class="col-sm-10 col-xs-12">
+              <input type="text" class="form-control" ng-required="true"
+                     name="companyName" id="companyName" ng-model="educationCtrl.education.subject"
+                     placeholder="{{'user.profile.education_subject_input' | translate }}" ng-required="true">
+            </div>
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label for="education_level" class="col-sm-2 col-xs-12 control-label">*{{
+              'user.profile.education_education_level' | translate }}: </label>
+            <div class="col-sm-10 col-xs-12">
+              <select class="form-control" ng-model="educationCtrl.education.educationLevelId"
+                      ng-required="true" name="education_level" id="education_level"
+                      ng-options="item.id as item.name for item in educationCtrl.educationLevel">
+                <option value="">{{'message.select_position_education' | translate}}</option>
+              </select>
+
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.form-group -->
+
+
+          <div class="form-group">
+            <label for="education_level" class="col-sm-2 col-xs-12 control-label">*GPA: </label>
+            <div class="col-sm-10 col-xs-12">
+              <input type="text" class="form-control" name="gpa" id="gpa" ng-model="educationCtrl.education.gpa" placeholder="{{'user.profile.education_gpa_input' | translate }}" ng-required="true" min="0" max="5" ng-change="educationCtrl.gpaInput()">
+              <div class="tips">{{'global.tips' | translate}}: {{'message.position_gpa_tips' | translate}}</div>
+              <div class="error" ng-show="educationCtrl.gpaError">
+                <i class="fa fa-times-circle"></i>
+                {{'message.gpa_input_message' | translate}}
+              </div>
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.form-group -->
+
+          <div class="form-group">
+            <label for="graduationYear" class="col-sm-2 col-xs-12 control-label">*{{
+              'user.profile.education_graduation_year' | translate }}:</label>
+            <div class="col-sm-10 col-xs-12">
+              <select name="graduationYear" id="graduationYear" class="form-control"
+                      ng-model="educationCtrl.education.graduationYear" ng-options="graduationYear as graduationYear for graduationYear in educationCtrl.graduationYears">
+                <option value="">{{'message.select_graduation' | translate}}</option>
+
+              </select>
+            </div>
+
+          </div>
+
+          <!-- /.form-group -->
+          <div class="form-group">
+            <label for="remark" class="col-sm-2 col-xs-12 control-label">{{ 'user.profile.education_remark' | translate
+              }}:</label>
+            <div class="col-sm-10 col-xs-12">
+            <textarea name="remark" class="form-control" id="remark"
+                      cols="15" rows="5" ng-model="educationCtrl.education.remark" maxlength="255"></textarea>
+            </div>
+            <div class="tips col-xs-12 text-right">
+                {{'message.text_input_255_words_message' | translate}}
+            </div>
+          </div>
+
+          <!-- /.form-group -->
+
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.model-body -->
+    <div class="modal-footer">
+      <button type="submit" ng-disabled="educationCtrl.saveLoading || salaryForm.$invalid"
+              class="btn btn-success">
+        <span ng-if="educationCtrl.saveLoading"><i class="fa fa-spin fa-spinner"></i></span>
+        <span ng-if="!educationCtrl.saveLoading">{{ 'button.save' | translate }}</span>
+      </button>
+      <button type="button" class="btn btn-default" ng-click="educationCtrl.cancel()">
+        {{ 'button.close' | translate }}
+      </button>
+    </div>
+    <!-- /.model-footer -->
+  </form>
+</div>
+
+

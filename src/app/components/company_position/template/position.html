@@ -1,0 +1,725 @@
+<div class="container">
+  <div ng-include="'app/components/dashboard_tabs/template/dashboard.tabs.html'"></div>
+  <!--.postPosition-->
+  <form class="form-horizontal" name="Form" ng-submit="formCtrl.save()">
+    <div class="postPosition position row">
+        <div class="col-md-3 col-sm-12 col-xs-12 postPositionLeft">
+          <div class="content">
+            <div class="button">
+              <button type="submit" class="btn btn-success sub positionSub" ng-show="!formCtrl.isPreview" >
+                <span ng-if="formCtrl.saveLoading"><i class="fa fa-spin fa-spinner"></i></span>
+                <span ng-if="!formCtrl.saveLoading">{{ 'button.publish' | translate }}</span>
+              </button>
+              <button type="button" class="btn btn-success sub previewSub" ng-show="!formCtrl.isPreview " ng-click="formCtrl.preview()">
+                {{'global.view' | translate}}
+              </button>
+              <a ui-sref="enterprise-auth.company.company_positions({companyId: formCtrl.companyId})" type="button" class="btn btn-default canel" ng-show="!formCtrl.isPreview">
+                {{ 'button.cancel' | translate }}
+              </a>
+              <a  type="button" class="btn btn-default canel" ng-show="formCtrl.isPreview" ng-click="formCtrl.isPreview =!formCtrl.isPreview ">
+                {{ 'button.return' | translate }}
+              </a>
+            </div>
+          </div>
+        </div>
+        <!--/.col-->
+        <div class="col-md-9 col-sm-12 col-xs-12 postPositionRight" ng-show="!formCtrl.isPreview">
+          <div class="text-center loading" ng-show="formCtrl.tableLoading ">
+            <i class="fa fa-spinner fa-pulse fa-3x"></i>
+          </div>
+
+          <div class="postPositionContent" ng-show="!formCtrl.tableLoading">
+
+            <h2 class="title text-center">
+              {{'message.postPosition_title_message' | translate}}
+            </h2>
+            <h4 class="subTitle text-center">
+              {{'message.postPosition_subTitle_message' | translate}}
+            </h4>
+
+            <div class="form-group item">
+                <div class="content col-xs-12 noMargin">
+                  <label class="col-sm-12 col-xs-12 control-label positionCategoryLabel">{{'position.position_category_type' | translate}}</label>
+                  <!--/.col-->
+                  <div class="col-sm-12 col-xs-12 categoryContent clearfix">
+                    <div class="categorySelected pull-left">
+                      <p ng-show="formCtrl.selectedPositionCategory.length === 0" class="message" ng-click="formCtrl.categoryShow = !formCtrl.categoryShow">{{'message.position_category_select' | translate}}</p>
+                      <ul class="list-inline" ng-show="formCtrl.selectedPositionCategory.length > 0">
+                        <li ng-repeat="select in formCtrl.selectedPositionCategory" class="selectList" ng-click="formCtrl.addSelectedPositionCategory(select)">
+                          <a href="">{{select.name}}</a>
+                          <i class="fa fa-close"></i>
+                        </li>
+                        <li ng-show="formCtrl.selectedPositionCategory.length === 5" class="limitShow">
+                                {{'search.up_to_five' | translate}}
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="pull-left categoryAdd" ng-click="formCtrl.categoryShow = !formCtrl.categoryShow">
+                      <i class="add fa fa-plus"></i>
+                    </div>
+                  </div>
+                  <!--/.col-->
+                  <!-- position category-->
+                  <div class="postPositionCategory clearfix" ng-show="formCtrl.categoryShow">
+                    <div class="postPositionCategoryLeft">
+                      <ul class="postPositionCategoryList list-unstyled">
+                        <li ng-repeat="list in formCtrl.positionCategories" ng-click="formCtrl.togglePositionCategory(list)" ng-class="{'active': list.selected}">
+                          <a href="#">{{list.name}}</a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="postPositionCategoryChildren" ng-if="formCtrl.positionCategoryChildren.length > 0">
+                      <ul class="postPositionCategoryList list-unstyled">
+                        <li ng-repeat="item in formCtrl.positionCategoryChildren" ng-click="formCtrl.addSelectedPositionCategory(item)">
+                          <input type="checkbox" ng-model="item.selected" ng-disabled="formCtrl.selectedPositionCategory.length === 5 && !item.selected" ng-checked="item.selected">
+                          {{item.name}}
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <!-- /.position category -->
+                </div>
+                <!--/.col-->
+                <div class="content col-sm-6 col-xs-12 positionName">
+                  <label for="name" class="col-xs-12 control-label">
+                    {{ 'position.name' |translate}}
+                  </label>
+                  <!--/.col-->
+                  <div class="col-xs-12">
+                    <input type="text" class="form-control" id="name" name="name" ng-required="true"
+                           ng-model="formCtrl.position.name" placeholder="{{'position.name_input_examplae' | translate}}" minlength=2>
+                  </div>
+                  <!--/.col-->
+                </div>
+                <!--/.col-->
+
+                <div class="content col-sm-6 col-xs-12 jobReferenceNumber">
+                  <label for="jobReferenceNumber" class="col-xs-12 control-label">{{ 'position.jobReferenceNumber' | translate}}</label>
+                  <!--/.col-->
+                  <div class="col-xs-12">
+                    <input type="number" class="form-control" id="jobReferenceNumber" name="jobReferenceNumber" ng-required="false"
+                           ng-model="formCtrl.position.jobReferenceNumber" placeholder="{{'message.position_num_input' | translate}}" min="1">
+                    <div class="tips">
+                      {{'global.tips' | translate}}: {{'message.position_jobReferenceNumber_input' | translate}}
+                    </div>
+                  </div>
+                  <!--/.col-->
+                </div>
+                <!--/.col-->
+                <div class="content col-sm-6 col-xs-12">
+                  <label class="col-xs-12 control-label">
+                    {{ 'position.active' | translate }}
+                  </label>
+                  <!--/.col-->
+                  <div class="col-xs-12 inputRadio">
+                    <label for="active_true" class="noPadding">
+                      <input type="radio" name="status"  value="true" id="active_true"
+                             ng-model="formCtrl.position.active" ng-checked="formCtrl.position.active === true"> {{ 'position.active_true' | translate }}
+                    </label>
+
+                    <label for="active_false">
+                      <input type="radio" name="status"
+                             ng-model="formCtrl.position.active" value="false" id="active_false" ng-ckecked="formCtrl.position.active === false"> {{ 'position.active_false' | translate }}
+                    </label>
+                    <div class="tips">
+                      {{'global.tips' | translate}}:  {{'message.position_active_true_select' | translate}}
+                    </div>
+                  </div>
+                  <!--/.col-->
+                </div>
+              </div>
+            <!--/.item-->
+
+            <div class="form-group item">
+              <div class="col-sm-6 col-xs-12 content">
+                <label class="col-xs-12 control-label">
+                  {{ 'position.type' | translate }}
+                </label>
+                <div class="col-xs-12 inputRadio">
+                  <label class="noPadding">
+                    <input type="radio" name="type" value="full-time" ng-model="formCtrl.position.type"> {{'position.full-time' | translate }}
+                  </label>
+                  <label>
+                    <input type="radio" name="type" value="part-time" ng-model="formCtrl.position.type"> {{'position.part-time' | translate }}
+                  </label>
+                  <label>
+                    <input type="radio" name="type" value="internship" ng-model="formCtrl.position.type"> {{ 'position.internship'| translate }}
+                  </label>
+                  <label>
+                    <input type="radio" name="type" value="freelance" ng-model="formCtrl.position.type"> {{ 'position.freelance'| translate }}
+                  </label>
+                  <label>
+                    <input type="radio" name="type" value="other" ng-model="formCtrl.position.type"> {{ 'position.other'| translate }}
+                  </label>
+                </div>
+              </div>
+              <!--/.col-->
+
+              <div class="col-sm-6 col-xs-12 content">
+                <label class="col-xs-12 control-label">
+                  {{'position.jobNature' | translate}}
+                </label>
+                <div class="col-xs-12">
+                  <select class="form-control" ng-options="jobNature.id as jobNature.name for jobNature in formCtrl.jobNatures" ng-model="formCtrl.position.jobNatureId">
+                    <option value="">{{'message.select_position_jobNature' | translate}}</option>
+                  </select>
+                </div>
+              </div>
+              <!--/.col-->
+              <div class="col-xs-12 content">
+                <div class="" ng-click="formCtrl.locationShow = !formCtrl.locationShow">
+                  <label class="col-sm-12 col-xs-12 control-label positionLocationLabel">
+                    {{ 'global.position_area' | translate }}
+                  </label>
+                  <!--/.col-->
+
+                  <div class="col-sm-12 col-xs-12 locationContent clearfix">
+                    <div class="locationSelected pull-left">
+                      <p ng-show="formCtrl.selectedPositionLocation === undefined" class="message">{{'message.select_position_location' | translate}}</p>
+                      <ul class="list-inline" ng-show="formCtrl.selectedPositionLocation !== undefined">
+                        <li class="selectList">
+                          <a href="">{{formCtrl.selectedPositionLocation.name}}</a>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div class="pull-left locationAdd" ng-click="formCtrl.locationShow = !formCtrl.locationShow">
+                      <i class="add fa fa-plus"></i>
+                    </div>
+
+
+                  </div>
+                  <!--/.col-->
+                </div>
+
+                <!-- position location-->
+                <div class="postPositionLocation clearfix" ng-show="formCtrl.locationShow">
+                  <div class="postPositionLocationLeft">
+                    <ul class="postPositionLocationList list-unstyled">
+                      <li ng-repeat="list in formCtrl.locations" ng-click="formCtrl.togglePositionLocation(list)" ng-class="{'active': list.selected}">
+                        <a href="#">{{list.name}}</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="postPositionLocationChildren" ng-if="formCtrl.positionLocationChildren.length > 0">
+                    <ul class="postPositionLocationList list-unstyled">
+                      <li ng-repeat="item in formCtrl.positionLocationChildren" >
+                        <label for="{{item.id}}" ng-click="formCtrl.addSelectedPositionLocation(item)">
+                          <input type="radio" name="location" value="{{item.id}}" id="{{item.id}}" ng-model="formCtrl.position.locationId">
+                          {{item.name}}
+                        </label>
+
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- /.position location -->
+              </div>
+              <!--./col-->
+              <div class="col-sm-6 col-xs-12 content">
+                <label for="address" class="col-xs-12 control-label">{{ 'position.address' | translate
+                  }}</label>
+                <!--/.col-->
+                <div class="col-xs-12">
+                  <input id="address" name="address" type="text" class="form-control"
+                         ng-model="formCtrl.position.address" placeholder="{{'message.position_address_input' | translate}}">
+                </div>
+                <!--/.col-->
+              </div>
+              <!--./col-->
+            </div>
+            <!--/.item-->
+
+            <div class="form-group item">
+              <div class="col-sm-6 col-xs-12 content">
+                <label class="col-xs-12 control-label">
+                  {{ 'position.experience' | translate }}
+                </label>
+                <!--/.col-->
+
+                <div class="col-xs-12 clearfix">
+                  <select class="form-control" ng-options="experience.value as experience.name for experience in formCtrl.experience" ng-model="formCtrl.position.experience">
+                    <option value="">{{'message.select_position_experience' | translate}}</option>
+                  </select>
+
+                </div>
+                <!--/.col-->
+              </div>
+              <!--/.col-->
+              <div class="col-sm-6 col-xs-12 content">
+                <label class="col-xs-12 control-label">
+                  {{ 'user.profile.education' | translate }}
+                </label>
+                <!--/.col-->
+                <div class="col-xs-12 educationContent clearfix">
+                  <select class="form-control" ng-options="item.id as item.name for item in formCtrl.educations" ng-model="formCtrl.position.educationLevelId">
+                    <option value="">{{'message.select_position_education' | translate}}</option>
+                  </select>
+
+                </div>
+                <!--/.col-->
+              </div>
+              <!--/.col-->
+
+              <div class="col-sm-6 col-xs-12 content">
+                <label for="skill" class="col-xs-12 control-label">
+                  {{ 'position.skill' | translate}}
+                </label>
+                <!--/.col-->
+                <div class="col-xs-12">
+                  <ui-select multiple tagging tagging-label  ng-model="formCtrl.position.skills" theme="bootstrap" title="{{'user.profile.skill_name' | translate}}" >
+                    <ui-select-match placeholder="{{'user.profile.skill_name_input' | translate}}"  id="skill">{{$item}}</ui-select-match>
+                    <ui-select-choices repeat="skill in formCtrl.defaultSkills  | filter:$select.search track by $index">{{skill}}
+                    </ui-select-choices>
+                  </ui-select>
+                  <div class="tips">
+                    {{'global.tips' | translate}}: {{'message.position_skills_input' | translate}}
+                  </div>
+
+                </div>
+                <!--/.col-->
+              </div>
+              <!--/.col-->
+
+              <div class="col-sm-6 col-xs-12 content">
+                <label for="tags" class="col-xs-12 control-label">
+                  {{ 'position.keywords' | translate}}
+                </label>
+                <!--/.col-->
+                <div class="col-xs-12">
+                  <ui-select multiple tagging tagging-label ng-model="formCtrl.position.tags" theme="bootstrap" title="{{'user.profile.skill_name' | translate}}" >
+                    <ui-select-match placeholder="{{'message.position_tags_input' | translate}}"  id="tags">{{$item}}</ui-select-match>
+                    <ui-select-choices repeat="tag in formCtrl.defaultTags  | filter:$select.search track by $index">{{tag}}
+                    </ui-select-choices>
+                  </ui-select>
+                  <div class="tips">
+                    {{'global.tips' | translate}}:{{'message.position_keyord_input' | translate}}
+                  </div>
+                </div>
+                <!--/.col-->
+              </div>
+              <!--/.col-->
+
+              <div class="col-sm-12 col-xs-12 content">
+                <label class="col-xs-12 control-label">
+                  {{'position.salary_type' | translate}}
+                </label>
+                <div class="col-xs-12">
+                  <label class="noPadding" ng-show="!formCtrl.negotiable">
+                    <input type="radio" name="salary" value="hourly" ng-model="formCtrl.position.salaryType">
+                    {{'position.hourly' | translate }}
+                  </label>
+                  <label ng-show="!formCtrl.negotiable">
+                    <input type="radio" name="salary" value="monthly" ng-model="formCtrl.position.salaryType">
+                    {{'position.monthly' | translate }}
+                  </label>
+                  <label ng-show="!formCtrl.negotiable">
+                    <input type="radio" name="salary" value="yearly" ng-model="formCtrl.position.salaryType">
+                    {{'position.yearly' | translate }}
+                  </label>
+                  <label for="negotiable" class="salaryTips" ng-class="{'noPadding': formCtrl.negotiable}">
+                    <input type="checkbox" ng-model="formCtrl.negotiable" value="" id="negotiable" name="negotiable" ng-checked="formCtrl.negotiable" ng-change="formCtrl.isNegotiable(formCtrl.negotiable)">
+                    {{'message.negotiation_or_not' | translate}}
+                  </label>
+                </div>
+
+                <div class="col-md-8 col-sm-10 col-xs-12" ng-show="!formCtrl.negotiable">
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6 salaryBottom">
+                      <div class="col-xs-12 salary">
+                        <label for="minSalary" class="control-label">
+                          {{'position.minSalary' | translate}}
+                        </label>
+                      </div>
+                      <!--/.col-->
+
+                      <div class="col-xs-12 salary">
+                        <input id="minSalary" name="minSalary" ng-required="true" type="number" class="form-control" ng-model="formCtrl.position.minSalary" min="0">
+                      </div>
+                      <!--/.col-->
+                    </div>
+                    <!--/.col-->
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                      <div class="col-xs-12 salary">
+                        <label for="maxSalary" class="control-label">
+                          {{'position.maxSalary' | translate}}
+                        </label>
+                      </div>
+                      <!--/.col-->
+
+                      <div class="col-xs-12 salary">
+                        <input id="maxSalary" name="maxSalary" ng-required="true" type="number" class="form-control" ng-model="formCtrl.position.maxSalary" max="10000000">
+                      </div>
+                      <!--/.col-->
+                    </div>
+                    <!--/.col-->
+                  </div>
+
+                </div>
+                <!--/.col-->
+
+              </div>
+              <!--/.col-->
+
+            </div>
+            <!--/.item-->
+
+            <div class="form-group item">
+              <div class="col-xs-12 content">
+                <label for="temptation" class="col-xs-12 control-label">{{ 'position.welfare' | translate
+                  }}</label>
+                <!--/.col-->
+                <div class="col-xs-12">
+                  <input id="temptation" name="temptation" type="text" class="form-control"
+                         ng-model="formCtrl.position.temptation" placeholder="{{'message.position_temptation_example' | translate}}">
+                </div>
+                <!--/.col-->
+
+              </div>
+              <!--/.col-->
+
+              <div class="col-sm-12 col-xs-12 content">
+                <label class="col-xs-12 control-label">{{ 'position.description' |
+                  translate }}</label>
+
+                <div class="col-xs-12">
+                  <textarea name="" id="" cols="30" rows="10" id="description" name="description" ng-required="true"
+                            ng-model="formCtrl.position.description" class="form-control">
+
+                  </textarea>
+                  <div class="tips">
+                    {{'global.tips' | translate}}: {{'message.position_description_tips' | translate}}
+                  </div>
+                </div>
+                <!--/.col-->
+              </div>
+              <!--/.col-->
+            </div>
+            <!--/.item-->
+
+            <div class="form-group item">
+              <h2 class="title text-center">
+                {{'message.position_question_title' | translate}}
+              </h2>
+              <h4 class="subTitle text-center">
+                {{'message.position_question_subtitle' | translate}}
+              </h4>
+              <div class="col-xs-12 content">
+                <label class="col-xs-12 control-label postPositionQuestionLabel">{{'position.position_question' | translate}}</label>
+                <!--/.col-->
+                <div class="col-xs-12 categoryContent clearfix">
+                  <div class="pull-left">
+                    {{'message.position_add_jobs_problem' | translate}}
+                  </div>
+                  <div class="pull-left questionAdd" ng-click="formCtrl.addQuestion()">
+                    <i class="add fa fa-plus"></i>
+                  </div>
+                </div>
+                <!--/.col-->
+              </div>
+
+
+              <!-- position question-->
+              <div class="postPositionQuestion clearfix" ng-show="formCtrl.positionQuestionShow">
+                <div class="postPositionQuestionMain">
+                  <div class="postPositionCategoryList ">
+                    <div ng-repeat="list in formCtrl.positionQuestion track by $index" class="col-xs-12 content" ng-show="list.deleted === false">
+                      <div class="col-xs-6">
+                        <input type="text" ng-model="list.question" class="form-control" ng-required="true" placeholder="{{'message.position_question_example' | translate}}">
+                      </div>
+
+                      <div class="col-xs-2 checkbox">
+                        <label for="question_check{{$index}}">
+                          <input type="checkbox" ng-model="list.isRequired" id="question_check{{$index}}">
+                          {{'message.answer_or_not' | translate}}
+                        </label>
+
+                      </div>
+                      <div class="col-xs-2 minus" ng-click="formCtrl.deleteQuestion($index)">
+                        <i class="fa fa-minus "></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <!-- /.position question -->
+            </div>
+            <!--/.item-->
+
+          </div>
+        </div>
+        <!--/.col-->
+      <!--/.postPositionRight-->
+
+        <div class="col-md-9 col-sm-12 col-xs-12 positionRight" ng-show="formCtrl.isPreview">
+          <div class="backgroundImg">
+            <img src="http://placehold.it/990x215" alt="" class="img-responsive" ng-show="formCtrl.company.cover === null">
+            <img ng-src="{{formCtrl.company.cover.url['1024']}}" alt="" class="img-responsive" ng-show="formCtrl.company.cover !== null">
+          </div>
+          <div class="positionTitle row">
+            <div class="col-md-3 col-sm-3 col-xs-5">
+              <fieldset class="positionTitleImg">
+                <a ui-sref="main.company({id: formCtrl.firstPosition.company.id})">
+                  <img ng-src="{{formCtrl.company.icon.url['160']}}" class="img-responsive" ng-show="formCtrl.company.icon !== null">
+                  <img ng-src="http://placehold.it/200x200" class="img-responsive" ng-show="formCtrl.company.icon === null">
+                </a>
+              </fieldset>
+            </div>
+            <!--/.col-->
+            <div class="col-md-6 col-sm-4 col-xs-6">
+              <ul class="positionTitleList list-inline">
+                <li class="active">
+                  <a href="">{{'position.introduction' | translate}}</a>
+                </li>
+              </ul>
+            </div>
+            <!--/.col-->
+          </div>
+          <!--/.positionTitle-->
+          <div class="row positionContent">
+            <div class="col-xs-12">
+              <h5 class="companyName clearfix">
+                <span class="name pull-left">
+                  <a ui-sref="main.company({companyId: formCtrl.company.id})">
+                    {{formCtrl.company.name}}
+                  </a>
+                </span>
+              </h5>
+              <article class="positionKeyList" ng-show="formCtrl.position.tags.length > 0">
+                <p>{{'position.tags' | translate}}:</p>
+                <ul CLASS="list-inline keyList">
+                  <li class="List" ng-repeat="tag in formCtrl.position.tags">
+                    {{tag}}
+                  </li>
+                </ul>
+              </article>
+              <!--/.positionKeyList-->
+              <h4 class="positionName">
+                {{formCtrl.position.name}}
+              </h4>
+              <article class="positionAbout">
+                <h4>{{'position.job_requirements' | translate}}</h4>
+                <p class="content" ta-bind ng-model="formCtrl.position.description"></p>
+              </article>
+
+              <article class="positionSkills" ng-show="false">
+                <h4>Skills</h4>
+                <p class="content">
+                  AVA后台系统的框架、公共组件、公共模块的实现；
+                  2、对新技术、新方案进行预演和评估；
+                  3、负责JAVA后台系统的问题定位和排查；
+                  4、进行技术难点的攻关；
+                </p>
+              </article>
+
+              <article class="positionDetail">
+                <ul class="positionDetailOne list-inline">
+                  <div class="row">
+
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <li class="list">
+                        <dl class="category">
+                          <div class="row">
+                            <div class="col-sm-4 col-xs-12">
+                              <dt>
+                                {{'position.category' | translate}}
+                              </dt>
+                            </div>
+                            <!--/.col-->
+                            <div class="col-sm-8 col-xs-12">
+                              <dd ng-repeat="category in formCtrl.selectedPositionCategory">
+                                <a>{{category.name}}</a>
+                              </dd>
+                            </div>
+                            <!--/.col-->
+                          </div>
+                        </dl>
+
+                        <dl class="experience">
+                          <div class="row">
+                            <div class="col-sm-4 col-xs-12">
+                              <dt>
+                                {{'user.profile.experience' | translate}}
+                              </dt>
+                            </div>
+                            <!--/.col-->
+                            <div class="col-sm-8 col-xs-12">
+                              <dd>{{formCtrl.position.experience}}{{'global.year' | translate}}</dd>
+                            </div>
+                            <!--/.col-->
+                          </div>
+                        </dl>
+
+
+                        <dl class="pay">
+                          <div class="row">
+                            <div class="col-sm-4 col-xs-12">
+                              <dt>
+                                {{'user.profile.education' | translate}}
+                              </dt>
+                            </div>
+                            <!--/.col-->
+                            <div class="col-sm-8 col-xs-12">
+                              <dd>{{formCtrl.educationLevelName | translate}}</dd>
+                            </div>
+                            <!--/.col-->
+                          </div>
+                        </dl>
+
+
+                        <dl class="money">
+                          <div class="row">
+                            <div class="col-sm-4 col-s-12">
+                              <dt>
+                                {{'position.jobNature' | translate}}
+                              </dt>
+                            </div>
+                            <!--/.col-->
+                            <div class="col-sm-8 col-xs-12">
+                              <dd>
+                                {{formCtrl.jobNatureName}}
+                              </dd>
+                            </div>
+                            <!--/.col-->
+                          </div>
+                        </dl>
+
+                      </li>
+                    </div>
+                    <!--/.col-->
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                      <li class="list">
+                        <dl class="address" ng-show="formCtrl.position.address !== null">
+                          <div class="row">
+                            <div class="col-sm-4 col-xs-12">
+                              <dt>
+                                {{'position.workplace' | translate}}
+                              </dt>
+                            </div>
+                            <!--/.col-->
+                            <div class="col-sm-8 col-xs-12">
+                              <dd>{{formCtrl.position.address}}</dd>
+                            </div>
+                            <!--/.col-->
+                          </div>
+                        </dl>
+                        <dl class="pay">
+                          <div class="row">
+                            <div class="col-sm-4 col-xs-12">
+                              <dt>
+                                {{'position.pay_type' | translate}}
+                              </dt>
+                            </div>
+                            <!--/.col-->
+                            <div class="col-sm-8 col-xs-12">
+                              <dd ng-if="formCtrl.position.type === 'full-time'">{{'position.full-time' |
+                                translate}}
+                              </dd>
+                              <dd ng-if="formCtrl.position.type === 'part-time'">{{'position.part-time' |
+                                translate}}
+                              </dd>
+                              <dd ng-if="formCtrl.position.type === 'other'">{{'position.other' |
+                                translate}}
+                              </dd>
+                              <dd ng-if="formCtrl.position.type === 'internship'">{{'position.internship' |
+                                translate}}
+                              </dd>
+                              <dd ng-if="formCtrl.position.type === 'freelance'">{{'position.freelance' |
+                                translate}}
+                              </dd>
+                            </div>
+                            <!--/.col-->
+                          </div>
+                        </dl>
+                        <dl class="money">
+                          <div class="row">
+                            <div class="col-sm-4 col-s-12">
+                              <dt>
+                                {{'position.salary' | translate}}
+                              </dt>
+                            </div>
+                            <!--/.col-->
+                            <div class="col-sm-8 col-xs-12">
+                              <dd
+                                      ng-if="formCtrl.position.minSalary === 0 && formCtrl.position.maxSalary === 0">
+                                {{'position.negotiation' | translate}}
+                              </dd>
+                              <dd
+                                      ng-if="formCtrl.position.minSalary !== 0 && formCtrl.position.maxSalary !== 0">
+                                {{formCtrl.position.minSalary}}-{{formCtrl.position.maxSalary}}{{'global.money'
+                                |
+                                translate}}/{{formCtrl.position.salaryType | translate}}
+                              </dd>
+
+                            </div>
+                            <!--/.col-->
+                          </div>
+                        </dl>
+
+                        <dl class="other" ng-show="false">
+                          <div class="row">
+                            <div class="col-sm-4 col-xs-12">
+                              <dt>
+                                {{'position.treatment' | translate}}
+                              </dt>
+                            </div>
+                            <!--/.col-->
+                            <div class="col-sm-8 col-xs-12">
+                              <dd>
+                                <i>5</i>5天工作日
+                              </dd>
+                              <dd>
+                                <i>13</i>十三个月薪酬
+                              </dd>
+                              <dd>
+                                <i>$</i>弹性花红
+                              </dd>
+                              <dd>
+                                <i>+</i>医疗计划
+                              </dd>
+                            </div>
+                            <!--/.col-->
+                          </div>
+                        </dl>
+                      </li>
+                    </div>
+                    <!--/.col-->
+                  </div>
+
+                </ul>
+              </article>
+
+              <article class="skills" ng-show="formCtrl.firstPosition.skills.length > 0">
+                <p class="title">
+                  {{'position.skillCompare' | translate}} <span>{{'position.skillMatch' | translate}}:</span>
+                </p>
+
+                <ul class="keyList list-inline">
+                  <li class="list" ng-repeat="skill in formCtrl.position.skills" ng-class="active">
+                    {{skill}}
+                  </li>
+                </ul>
+              </article>
+
+
+            </div>
+            <!--/.col-->
+          </div>
+
+
+        </div>
+        <!--/.col-->
+    </div>
+  </form>
+<!--/.postPosition-->
+</div>
+<div class="popBox" ng-show="formCtrl.isShow">
+</div>
+<div class="alert alert-warning alert-dismissible popBoxContent text-center" role="alert"  ng-show="formCtrl.isShow">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="formCtrl.isShow = !formCtrl.isShow"><span aria-hidden="true">&times;</span></button>
+  <p>
+    {{formCtrl.message}}
+  </p>
+  <a ui-sref="enterprise-auth.company.upgrade({companyId: formCtrl.companyId})" class="btn btn-success">{{'role.upgrade' | translate}}</a>
+</div>
